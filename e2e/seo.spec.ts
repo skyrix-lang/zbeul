@@ -13,7 +13,7 @@ test.describe("home page", () => {
     expect(html).toContain("<title>Zbeul</title>");
     expect(html).toContain(`<link rel="canonical" href="${baseURL}/" />`);
     expect(html).toMatch(
-      /<meta\s+name="description"\s+content="[^"]*manage your bookings/,
+      /<meta\s+name="description"\s+content="[^"]*The game for afterparties/,
     );
     expect(html).toContain('<meta property="og:title" content="Zbeul" />');
     expect(html).toContain(`<meta property="og:url" content="${baseURL}/" />`);

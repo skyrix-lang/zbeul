@@ -3,7 +3,7 @@
 export const site = {
   name: "Zbeul",
   description:
-    "The simplest way to manage your bookings. Schedule, track, and organize all your appointments in one place.",
+    "The game for afterparties: party games for friends on one phone you pass around, from chill to borderline. Free, no account, plays offline. 18+ only.",
 };
 
 /** Pages that should rank: listed in the sitemap. App pages aren't. */

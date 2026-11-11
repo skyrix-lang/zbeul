@@ -1,7 +1,7 @@
 {
   "name": "zbeul",
   "version": "1.0.0",
-  "description": "Booking platform starter: React SPA + Hono BFF",
+  "description": "Zbeul, the game for afterparties: party games on one shared phone. React SPA + Hono BFF",
   "private": true,
   "packageManager": "yarn@4.18.1",
   "devDependencies": {
