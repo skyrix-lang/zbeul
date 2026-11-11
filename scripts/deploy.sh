@@ -13,7 +13,6 @@ set -eu
 : "${DEPLOY_SSH:?Set DEPLOY_SSH to user@host}"
 port=${DEPLOY_PORT:-22}
 dir=${DEPLOY_DIR:-apps/zbeul}
-compose="docker/compose.production.yaml"
 
 # Only what is committed is deployed: say so rather than surprise.
 if ! git diff --quiet HEAD; then
@@ -35,12 +34,6 @@ remote "test -f '$dir/.env.production'" || {
 git archive --format=tar HEAD |
   remote "set -e; cd '$dir'; rm -rf src.new; mkdir src.new; tar -x -C src.new; ln -s ../.env.production src.new/.env.production; rm -rf src.old; if [ -d src ]; then mv src src.old; fi; mv src.new src"
 
-remote "set -e; cd '$dir/src'
-  if docker compose version >/dev/null 2>&1; then dc='docker compose'; else dc='docker-compose'; fi
-  \$dc -f $compose build
-  \$dc -f $compose run --rm migrate
-  \$dc -f $compose up -d app
-  docker image prune -f >/dev/null
-  \$dc -f $compose ps"
+remote "cd '$dir/src' && sh scripts/deploy-remote.sh"
 
 echo "Deployed $commit."
