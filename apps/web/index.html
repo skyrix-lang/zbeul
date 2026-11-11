@@ -1,8 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport-fit=cover: the app draws under the notch, and pads itself. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <!--
       What crawlers and link previews read before JavaScript runs. %PUBLIC_URL%
       is replaced with the site's address when the BFF serves this file.
@@ -11,18 +15,27 @@
     <title>Zbeul</title>
     <meta
       name="description"
-      content="The game for afterparties: party games for friends on one phone you pass around, from chill to borderline. Free, no account, plays offline. 18+ only."
+      content="Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes."
     />
     <link rel="canonical" href="%PUBLIC_URL%/" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0b0b12" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Zbeul" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Zbeul" />
     <meta property="og:title" content="Zbeul" />
     <meta
       property="og:description"
-      content="The game for afterparties, on one phone you pass around."
+      content="The game for afterparties : un téléphone, des potes, et la soirée part en vrille."
     />
     <meta property="og:url" content="%PUBLIC_URL%/" />
+    <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary" />
     <script type="application/ld+json">
       {
@@ -30,9 +43,12 @@
         "@type": "WebSite",
         "name": "Zbeul",
         "url": "%PUBLIC_URL%",
-        "description": "The game for afterparties: party games for friends on one phone you pass around, from chill to borderline. Free, no account, plays offline. 18+ only."
+        "inLanguage": "fr",
+        "description": "Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes."
       }
     </script>
+    <!-- Before anything is drawn: the saved theme (public/theme.js). -->
+    <script src="/theme.js"></script>
   </head>
   <body>
     <div id="root"></div>

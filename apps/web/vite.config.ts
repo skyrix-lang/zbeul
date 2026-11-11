@@ -2,6 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 import { bffDevPort, devPort } from "../../scripts/checkout.ts";
 
 // In development, Vite serves the app and forwards the BFF's paths to it, so
@@ -20,6 +21,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       devPublicUrl(publicUrl),
+      pwa(),
     ],
     server: {
       port,
@@ -42,4 +44,63 @@ function devPublicUrl(url: string): Plugin {
     apply: "serve",
     transformIndexHtml: (html) => html.replaceAll("%PUBLIC_URL%", url),
   };
+}
+
+/**
+ * Makes the app installable and playable offline: a web manifest, and a
+ * service worker (Workbox) that keeps the whole build on the phone.
+ */
+function pwa() {
+  return VitePWA({
+    // A new version waits until the app applies it, on the home screen
+    // (src/pwa.ts): never in the middle of a game.
+    registerType: "prompt",
+    // Registered from src/pwa.ts: no inline script, which the CSP refuses.
+    injectRegister: null,
+    manifest: {
+      name: "Zbeul",
+      short_name: "Zbeul",
+      description:
+        "Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone.",
+      lang: "fr",
+      start_url: "/",
+      scope: "/",
+      display: "standalone",
+      // The game screen is made for landscape, the others for portrait.
+      orientation: "any",
+      background_color: "#0b0b12",
+      theme_color: "#0b0b12",
+      categories: ["games", "entertainment"],
+      icons: [
+        { src: "/pwa-192.png", sizes: "192x192", type: "image/png" },
+        { src: "/pwa-512.png", sizes: "512x512", type: "image/png" },
+        {
+          src: "/pwa-maskable-512.png",
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "maskable",
+        },
+      ],
+    },
+    workbox: {
+      // Everything the game needs, cards and font included. Not index.html:
+      // the BFF serves the page at "/", with the site's address filled in.
+      globPatterns: ["**/*.{js,css,svg,png,woff2,webmanifest}"],
+      // French needs the Latin subsets of the font only.
+      globIgnores: ["**/*vietnamese*"],
+      additionalManifestEntries: [{ url: "/", revision: String(Date.now()) }],
+      navigateFallback: "/",
+      // Never from the cache: the API, sign-in, and the pages behind it. The
+      // admin must not be available offline.
+      navigateFallbackDenylist: [
+        /^\/api\//,
+        /^\/auth\//,
+        /^\/admin/,
+        /^\/bookings/,
+        /^\/sign-in/,
+        /\.[a-z0-9]+$/,
+      ],
+      cleanupOutdatedCaches: true,
+    },
+  });
 }

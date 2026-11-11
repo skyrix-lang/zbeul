@@ -7,5 +7,21 @@
 @source "../../../packages";
 
 html {
-  scroll-behavior: smooth;
+  /* The theme's background reaches under the notch and the home bar. */
+  background: var(--background);
+  /* No blue flash on a tap, no accidental text zoom when the phone turns. */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  /* No pull-to-refresh in the middle of a game. */
+  overscroll-behavior-y: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
