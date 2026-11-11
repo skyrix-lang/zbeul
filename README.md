@@ -1,8 +1,21 @@
-# zbeul
+# Zbeul
 
-A full-stack starter for new projects, organized as **versioned packages plus a
-thin app per customer** and shipped as one Docker image. A small bookings
-feature shows every layer; copy its patterns, then replace it with your own.
+**Zbeul, the game for afterparties**: party games for friends on one phone you
+pass around, from a quiet aperitif to very borderline. In French, free, without
+an account, and installable on the phone's home screen, where it plays without
+a connection. For adults only.
+
+- **The game** (`packages/feature-game`): 15 mini-games mixed in one game,
+  five levels, sips or points, teams or every player for themselves. What it
+  does is specified in `specs/specs.md`; the 870 cards are in
+  `specs/cartes-mvp.md` and bundled with the app (`yarn cards:generate`).
+  Everything about the players stays on the phone.
+- **The hidden admin** (`packages/feature-admin`, at `/admin`): one account
+  with a password, to read what players report.
+
+It is built from a full-stack starter, organized as **versioned packages plus
+a thin app** and shipped as one Docker image. The starter's bookings feature
+is still there, out of sight, as the reference for a full-stack feature.
 
 - **Web:** React 19 single-page app with strict TypeScript and Vite. TanStack
   Router for typed routes and TanStack Query for server data. shadcn/ui-style
@@ -110,12 +123,38 @@ customer and any domain.
 | `PUBLIC_URL`                                          | the address people use; used for the OIDC callback, the CSRF check, the canonical URL and the sitemap |
 | `DATABASE_URL`                                        | Postgres                                                                                              |
 | `SESSION_SECRET`                                      | signs the short-lived sign-in cookie (32+ random characters in production)                            |
-| `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET` | the identity provider and its confidential client                                                     |
+| `ADMIN_EMAIL`                                         | the admin's account; unset, there is no admin                                                         |
+| `ADMIN_SETUP_CODE`                                    | lets the admin choose their password, the first time only (16+ characters)                            |
+| `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET` | an identity provider and its confidential client; optional, all three or none                         |
 | `PORT`, `HOST`                                        | where the BFF listens (3000 and 0.0.0.0 in the image)                                                 |
 | `LOG_LEVEL`                                           | `debug`, `info` (default), `warn`, `error` or `silent`                                                |
 | `STATIC_DIR`                                          | the built SPA (set in the image)                                                                      |
 
 ## Authentication
+
+Players never sign in: the game has no accounts.
+
+**The admin** is one account, named by `ADMIN_EMAIL`, that signs in at `/admin`
+with a password. There is no email to send and no provider to configure:
+
+1. Set `ADMIN_EMAIL` and a random `ADMIN_SETUP_CODE` (`openssl rand -hex 24`)
+   in the server's environment.
+2. Open `/admin#code=<the code>`. The first time, the page asks for the
+   account's email and a new password: at least 12 characters, with a
+   lowercase letter, an uppercase letter, a digit and a symbol.
+3. From then on `/admin` is an ordinary sign-in, and the code does nothing. To
+   choose another password, clear `password_hash` for that user in the
+   database and use the code again.
+
+The password is stored as a scrypt hash (`apps/bff/src/password.ts`), attempts
+are limited per client address, and every admin route of the API answers 404
+to anyone who isn't the admin, signed in or not. Nothing on the public site
+links to `/admin`, it is never indexed, and the service worker never serves it
+offline.
+
+**An identity provider is optional**, and production runs without one. The
+starter's signed-in pages (the bookings) use it, as do the e2e tests, with the
+local Keycloak.
 
 Any OpenID Connect provider works: Keycloak, Entra ID, Auth0, Google and
 others. Create a **confidential** client with:
@@ -180,9 +219,9 @@ yarn docker:build
 # Apply migrations (a deploy step, never at startup), then start the app
 docker build --target migrate -t zbeul-migrate -f docker/Dockerfile .
 docker run --rm -e DATABASE_URL=... zbeul-migrate
-docker run -p 3000:3000 -e PUBLIC_URL=https://bookings.example.com \
+docker run -p 3000:3000 -e PUBLIC_URL=https://zbeul.example.com \
   -e DATABASE_URL=... -e SESSION_SECRET=... \
-  -e OIDC_ISSUER=... -e OIDC_CLIENT_ID=... -e OIDC_CLIENT_SECRET=... \
+  -e ADMIN_EMAIL=... -e ADMIN_SETUP_CODE=... \
   zbeul:1.0.0
 ```
 
@@ -197,6 +236,43 @@ To try the image with everything around it, `yarn docker:up` runs
 the app at http://localhost:8080 (ada / ada). It's for local use only, and
 needs a browser that treats `keycloak.localhost` as this machine (Chrome and
 Firefox do; Safari needs a line in `/etc/hosts`).
+
+### Deploying
+
+`docker/compose.production.yaml` runs the image behind an
+[nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) with its Let's
+Encrypt companion, which route by `VIRTUAL_HOST` and renew the certificate
+themselves. The app must be served over https: a service worker, and so the
+install and the offline play, need it.
+
+One-time setup on the server, in the directory `yarn deploy` uses
+(`~/apps/zbeul` by default):
+
+1. Create a database and its user in Postgres.
+2. Write `.env.production` there, readable by its owner only:
+
+   ```bash
+   VIRTUAL_HOST=zbeul.example.com
+   VIRTUAL_PORT=3000
+   LETSENCRYPT_HOST=zbeul.example.com
+   LETSENCRYPT_EMAIL=you@example.com
+   PUBLIC_URL=https://zbeul.example.com
+   DATABASE_URL=postgres://zbeul_user:<password>@postgres:5432/zbeul_db
+   SESSION_SECRET=<openssl rand -base64 33>
+   ADMIN_EMAIL=you@example.com
+   ADMIN_SETUP_CODE=<openssl rand -hex 24>
+   ```
+
+Then, for each release, from a checkout of the commit to ship:
+
+```bash
+DEPLOY_SSH=user@host DEPLOY_PORT=22 yarn deploy
+```
+
+It copies the commit to the server (no git access is needed there), builds the
+image, applies the migrations, restarts the app and prunes old images. The
+proxy sets `x-forwarded-for`, which the rate limits read. The app sets its own
+cache headers: the proxy needs no rule for the service worker.
 
 ### Logs
 
