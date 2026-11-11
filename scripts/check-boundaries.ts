@@ -87,6 +87,9 @@ for (const workspace of workspaces) {
       }
       if (specifier.startsWith("node:") || builtinModules.includes(specifier))
         continue;
+      // A module a Vite plugin provides (virtual:pwa-register), not a package:
+      // the plugin itself is a devDependency of the app that uses it.
+      if (specifier.startsWith("virtual:")) continue;
       const dependency = packageName(specifier);
       if (dependency.startsWith("@zbeul/") && dependency !== name) {
         if (!rule[1].some((pattern) => matches(pattern, dependency))) {
