@@ -1,0 +1,1025 @@
+# Cartes (FR)
+ 
+> Toutes les cartes du jeu, classées par mini-jeu puis par niveau.
+> Les règles des mini-jeux, les niveaux et la ligne éditoriale sont décrits dans les specs (§4 à §6).
+ 
+---
+ 
+## 1. Conventions d'écriture
+ 
+- **[J1]**, **[J2]**… : prénom du 1er, 2e… joueur désigné par la carte.
+- **[accusé/accusée/accusé·e]** : mot accordé selon le genre du joueur cité (gars / fille / autre).
+- **[durée]** : nombre de cartes pendant lesquelles la règle inventée reste valable (10 par défaut).
+- « bois », « boit », « boivent » : deviennent « perds / perd / perdent des points » quand les gorgées sont désactivées.
+- **Enjeu** : aucune carte ne porte de nombre de gorgées. Le jeu calcule l'enjeu X selon l'intensité choisie et l'avancement de la partie (specs §3 et §4).
+- **Double palier** : « Enjeu doublé pour le second groupe » en remarque. Le second groupe boit 2 × X.
+- **Témoin** : « Peut faire parler ou boire un témoin » en remarque. Le témoin se désigne à voix haute et boit X.
+- **Thèmes** (specs §6) : contact physique, sexualité, ex, couple et jalousie, argent, avis sur le groupe, secrets, transgressions passées. Abrégés en : contact, sexe, ex, couple, argent, avis, secrets, transgressions.
+- **Source** (culture G) : « Organisme, année de publication, titre de l'étude », affichée dans une bulle d'info sur la carte. Une précision utile (chiffre réel, année des données) peut suivre entre parenthèses.
+- **Réf.** : référence de la carte, pour en parler ou la retrouver.
+---
+ 
+## 2. Cartes
+ 
+### Tu préfères
+ 
+La minorité boit. En cas d'égalité, tout le monde boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| TP-001 | 1 | Tu préfères ne plus jamais manger de fromage ou ne plus jamais manger de chocolat ? | | |
+| TP-002 | 1 | Tu préfères pouvoir voler ou être invisible ? | | |
+| TP-003 | 1 | Tu préfères vivre sans musique ou sans séries ? | | |
+| TP-004 | 1 | Tu préfères avoir toujours 5 minutes de retard ou toujours 20 minutes d'avance ? | | |
+| TP-005 | 1 | Tu préfères connaître la date de ta mort ou la cause de ta mort ? | | |
+| TP-019 | 1 | Tu préfères avoir un chat qui parle ou un chien qui vole ? | | |
+| TP-020 | 1 | Tu préfères vivre toute ta vie à la mer ou toute ta vie à la montagne ? | | |
+| TP-021 | 1 | Tu préfères ne plus jamais avoir chaud ou ne plus jamais avoir froid ? | | |
+| TP-022 | 1 | Tu préfères manger des pâtes tous les jours ou ne plus jamais en manger ? | | |
+| TP-023 | 1 | Tu préfères voyager dans le passé ou dans le futur ? | | |
+| TP-024 | 1 | Tu préfères parler toutes les langues ou jouer de tous les instruments ? | | |
+| TP-006 | 2 | Tu préfères éternuer chaque fois que tu mens ou roter chaque fois que tu dis la vérité ? | | |
+| TP-007 | 2 | Tu préfères parler en rimes pendant une semaine ou chanter tout ce que tu dis pendant une journée ? | | |
+| TP-008 | 2 | Tu préfères être suivi·e en permanence par un mariachi ou par un narrateur qui commente ta vie ? | | |
+| TP-009 | 2 | Tu préfères avoir des mains à la place des pieds ou des pieds à la place des mains ? | | |
+| TP-025 | 2 | Tu préfères que ton historique YouTube soit projeté à ton mariage ou ta playlist diffusée au boulot ? | | |
+| TP-026 | 2 | Tu préfères avoir le hoquet dès que tu stresses ou rougir dès qu'on dit ton prénom ? | | |
+| TP-027 | 2 | Tu préfères sentir l'oignon toute ta vie ou entendre en permanence une musique d'attente de service client ? | | |
+| TP-028 | 2 | Tu préfères ne plus pouvoir dire « non » pendant un mois ou ne plus pouvoir dire « oui » ? | | |
+| TP-029 | 2 | Tu préfères faire un karaoké seul·e devant 500 personnes ou un discours improvisé au mariage d'un inconnu ? | | |
+| TP-030 | 2 | Tu préfères que tes parents lisent tes conversations de groupe ou que ton patron voie toutes tes stories ? | | |
+| TP-010 | 3 | Tu préfères que ton ex devienne ton voisin de palier ou ton collègue de bureau ? | ex | |
+| TP-011 | 3 | Tu préfères un premier date parfait sans lendemain ou un premier date catastrophique qui devient une vraie histoire ? | couple | |
+| TP-012 | 3 | Tu préfères que ton/ta partenaire lise tous tes anciens messages ou lire tous les siens ? | couple, secrets | |
+| TP-031 | 3 | Tu préfères que ton crush te voie en pyjama troué ou t'entende chanter sous la douche ? | couple | |
+| TP-032 | 3 | Tu préfères un date au fast-food où tout se passe super bien ou un restaurant étoilé dans un silence gênant ? | couple | |
+| TP-033 | 3 | Tu préfères que ton ex soit invité·e à ton mariage ou être invité·e au sien ? | ex | |
+| TP-034 | 3 | Tu préfères recevoir une déclaration d'amour en public ou ne jamais en recevoir ? | couple | |
+| TP-035 | 3 | Tu préfères oublier toute la soirée d'hier ou te souvenir de chaque détail ? | | |
+| TP-036 | 3 | Tu préfères que ton/ta partenaire soit jaloux·se de tout ou de rien du tout ? | couple | |
+| TP-037 | 3 | Tu préfères te réveiller dans une baignoire ou sur un paillasson ? | | |
+| TP-013 | 4 | Tu préfères que le groupe connaisse ton salaire exact ou ton plus gros mensonge ? | argent, secrets | |
+| TP-014 | 4 | Tu préfères perdre tous tes potes ici ou tout ton argent ? | argent, avis | |
+| TP-015 | 4 | Tu préfères entendre ce que le groupe dit vraiment de toi ou ne jamais le savoir ? | avis | |
+| TP-038 | 4 | Tu préfères que le groupe lise ton journal intime d'ado ou entende ce que tu penses vraiment de chacun ? | avis, secrets | |
+| TP-039 | 4 | Tu préfères être la personne la plus drôle du groupe ou la plus aimée ? | avis | |
+| TP-040 | 4 | Tu préfères que le groupe choisisse ta photo de profil pendant un an ou qu'il écrive ta bio sur une appli de rencontre ? | avis, couple | |
+| TP-041 | 4 | Tu préfères qu'on te dise toujours la vérité, même blessante, ou qu'on te ménage toute ta vie ? | | |
+| TP-042 | 4 | Tu préfères gagner 100 000 euros ou que la personne que tu détestes le plus en perde un million ? | argent | |
+| TP-043 | 4 | Tu préfères te faire virer devant tout le monde ou démissionner en pleurant ? | | |
+| TP-044 | 4 | Tu préfères que le groupe vote chaque année pour savoir qui reste, ou ne jamais savoir qui te supporte à peine ? | avis | |
+| TP-016 | 5 | Tu préfères ne plus jamais faire l'amour ou ne plus jamais aller au restaurant ? | sexe | |
+| TP-017 | 5 | Tu préfères sortir avec l'ex de ton meilleur pote ou que ton meilleur pote sorte avec ton ex ? | ex | |
+| TP-018 | 5 | Tu préfères que tes parents tombent sur ton historique de recherche ou sur ton dernier message à un·e ex ? | ex, secrets, sexe | |
+| TP-045 | 5 | Tu préfères que le groupe connaisse ton bodycount exact ou ton pire moment au lit, sans détails ? | sexe | |
+| TP-046 | 5 | Tu préfères coucher une dernière fois avec ton ex ou ne plus jamais lui reparler ? | ex, sexe | |
+| TP-047 | 5 | Tu préfères découvrir que ton/ta partenaire te trompe ou découvrir que tout le groupe le savait ? | couple, avis | |
+| TP-048 | 5 | Tu préfères avouer ton plus gros secret ou laisser le groupe en inventer un pire, et que tout le monde le croie ? | secrets | |
+| TP-049 | 5 | Tu préfères annoncer ton salaire exact ou ton bodycount exact ? | argent, sexe | |
+| TP-050 | 5 | Tu préfères que ton historique de recherche soit lu à voix haute ici ou à ton prochain repas de famille ? | secrets, sexe | |
+| TP-051 | 5 | Tu préfères sortir un mois avec quelqu'un ici ou ne sortir avec personne pendant un an ? | couple, avis | |
+ 
+### J'ai déjà ou je n'ai jamais
+ 
+Une phrase « J'ai déjà… » ou « Je n'ai jamais… » est lue à voix haute : écrite sur la carte, ou inventée par le joueur désigné. Ceux qui l'ont fait boivent.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| JOJ-101 | 1 | Je n'ai jamais fait semblant de connaître une chanson en soirée. | | |
+| JOJ-102 | 1 | Je n'ai jamais raté un train ou un avion. | | |
+| JOJ-103 | 1 | Je n'ai jamais oublié l'anniversaire d'un proche. | | |
+| JOJ-104 | 1 | Je n'ai jamais chanté à fond sous la douche. | | |
+| JOJ-105 | 1 | Je n'ai jamais ri à une blague que je n'avais pas comprise. | | |
+| JOJ-121 | 1 | Je n'ai jamais fait de camping. | | |
+| JOJ-122 | 1 | Je n'ai jamais fini un plat entier en disant que je voulais juste goûter. | | |
+| JOJ-123 | 1 | Je n'ai jamais perdu mes clés deux fois dans la même semaine. | | |
+| JOJ-124 | 1 | Je n'ai jamais fait semblant de dormir pour éviter une conversation. | | |
+| JOJ-125 | 1 | Je n'ai jamais pris l'avion. | | |
+| JOJ-126 | 1 | Je n'ai jamais regardé un film d'horreur jusqu'au bout. | | |
+| JOJ-001 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un voyage. | | |
+| JOJ-002 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur la nourriture. | | |
+| JOJ-011 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur le sport. | | |
+| JOJ-012 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur ton enfance. | | |
+| JOJ-013 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un concert ou un festival. | | |
+| JOJ-014 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur les transports. | | |
+| JOJ-015 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur les animaux. | | |
+| JOJ-016 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un job ou un stage. | | |
+| JOJ-017 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur les vacances en famille. | | |
+| JOJ-018 | 1 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une fête d'anniversaire. | | |
+| JOJ-106 | 2 | Je n'ai jamais envoyé un message à la mauvaise personne. | | |
+| JOJ-107 | 2 | Je n'ai jamais fait semblant d'être malade pour éviter une soirée. | | |
+| JOJ-108 | 2 | Je n'ai jamais pleuré devant un dessin animé. | | |
+| JOJ-109 | 2 | Je n'ai jamais passé plus d'une heure à stalker quelqu'un sur les réseaux. | | |
+| JOJ-127 | 2 | Je n'ai jamais fait semblant de téléphoner pour éviter quelqu'un. | | |
+| JOJ-128 | 2 | Je n'ai jamais liké une vieille photo par accident en stalkant quelqu'un. | | |
+| JOJ-129 | 2 | Je n'ai jamais répondu « vous aussi » à un serveur qui me souhaitait bon appétit. | | |
+| JOJ-130 | 2 | Je n'ai jamais menti sur un livre ou un film pour avoir l'air cultivé·e. | | |
+| JOJ-131 | 2 | Je n'ai jamais pleuré pour éviter une amende ou une punition. | | |
+| JOJ-132 | 2 | Je n'ai jamais fait semblant de reconnaître quelqu'un qui me disait bonjour. | | |
+| JOJ-003 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un truc honteux du lycée. | | |
+| JOJ-004 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une soirée qui a mal tourné. | | |
+| JOJ-019 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un moment gênant au boulot ou en cours. | | |
+| JOJ-020 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un message que tu regrettes d'avoir envoyé. | | |
+| JOJ-021 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une chute ou une glissade en public. | | |
+| JOJ-022 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un mensonge à tes parents. | | |
+| JOJ-023 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur les réseaux sociaux. | | |
+| JOJ-024 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un lendemain de soirée. | | |
+| JOJ-025 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une catastrophe en cuisine. | | |
+| JOJ-026 | 2 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une excuse bidon que tu as déjà utilisée. | | |
+| JOJ-153 | 2 | J'ai déjà dit « je rentre » à 2 h du matin et je suis rentré·e à 10 h. | | |
+| JOJ-154 | 2 | Je n'ai jamais perdu mon ticket de vestiaire. | | |
+| JOJ-110 | 3 | Je n'ai jamais eu de crush sur quelqu'un de cette pièce. | couple | |
+| JOJ-111 | 3 | Je n'ai jamais écrit à un·e ex après minuit. | ex | |
+| JOJ-112 | 3 | Je n'ai jamais ghosté quelqu'un. | couple | |
+| JOJ-113 | 3 | Je n'ai jamais embrassé quelqu'un dont j'avais oublié le prénom. | sexe | |
+| JOJ-133 | 3 | Je n'ai jamais dragué quelqu'un pour avoir un verre offert. | couple | |
+| JOJ-134 | 3 | Je n'ai jamais menti sur mon âge pour plaire. | couple | |
+| JOJ-135 | 3 | Je n'ai jamais recontacté un·e ex juste par ennui. | ex | |
+| JOJ-136 | 3 | Je n'ai jamais été jaloux·se d'un·e pote de mon/ma partenaire. | couple | |
+| JOJ-137 | 3 | Je n'ai jamais oublié comment j'étais rentré·e chez moi. | | |
+| JOJ-138 | 3 | Je n'ai jamais pris un râteau devant témoins. | couple | |
+| JOJ-005 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur ta vie amoureuse. | couple | |
+| JOJ-006 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » qui te fera boire à coup sûr. | | |
+| JOJ-027 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un premier date. | couple | |
+| JOJ-028 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un ex. | ex | |
+| JOJ-029 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur la jalousie. | couple | |
+| JOJ-030 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur les applis de rencontre. | couple | |
+| JOJ-031 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un réveil après une grosse soirée. | | |
+| JOJ-032 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un râteau. | couple | |
+| JOJ-033 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un premier baiser. | couple | |
+| JOJ-034 | 3 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un truc que tu as caché à tes parents. | secrets | |
+| JOJ-114 | 4 | Je n'ai jamais dit du mal de quelqu'un présent ce soir. | avis, secrets | |
+| JOJ-115 | 4 | J'ai déjà fait semblant de rire à une blague de quelqu'un ici, et elle n'était pas drôle. | avis | |
+| JOJ-116 | 4 | Je n'ai jamais inventé une excuse pour ne pas voir quelqu'un d'ici. | avis | |
+| JOJ-139 | 4 | Je n'ai jamais fait semblant d'aimer le cadeau de quelqu'un ici. | avis | |
+| JOJ-140 | 4 | Je n'ai jamais emprunté de l'argent sans le rendre. | argent | |
+| JOJ-141 | 4 | Je n'ai jamais menti en entretien d'embauche. | | |
+| JOJ-142 | 4 | Je n'ai jamais été jaloux·se de la réussite d'un·e pote. | avis | |
+| JOJ-143 | 4 | Je n'ai jamais lu les messages de quelqu'un par-dessus son épaule. | secrets | |
+| JOJ-144 | 4 | Je n'ai jamais répété un secret qu'on m'avait confié. | secrets | |
+| JOJ-145 | 4 | Je n'ai jamais fraudé dans les transports. | transgressions | |
+| JOJ-007 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » qui vise une personne précise ici, sans la nommer. | avis | |
+| JOJ-008 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur l'argent. | argent | |
+| JOJ-035 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un mensonge que tu as dit à quelqu'un ici. | avis, secrets | |
+| JOJ-036 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur la jalousie entre potes. | avis | |
+| JOJ-037 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une dette ou un prêt. | argent | |
+| JOJ-038 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un truc que tu as fait en cachette au boulot. | secrets | |
+| JOJ-039 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une soirée de ce groupe qui a mal fini. | avis | |
+| JOJ-040 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une trahison. | secrets | |
+| JOJ-041 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une règle que tu as enfreinte. | transgressions | |
+| JOJ-042 | 4 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un truc dont tu n'es pas fier·e. | secrets | |
+| JOJ-117 | 5 | Je n'ai jamais trompé quelqu'un. | couple | |
+| JOJ-118 | 5 | Je n'ai jamais fouillé le téléphone d'un·e partenaire. | couple, secrets | |
+| JOJ-119 | 5 | Je n'ai jamais volé dans un magasin. | transgressions | |
+| JOJ-120 | 5 | Je n'ai jamais eu d'aventure d'un soir. | sexe | |
+| JOJ-146 | 5 | Je n'ai jamais couché avec quelqu'un le premier soir. | sexe | |
+| JOJ-147 | 5 | Je n'ai jamais eu d'aventure avec quelqu'un qui était en couple. | couple, sexe | |
+| JOJ-148 | 5 | Je n'ai jamais simulé. | sexe | |
+| JOJ-149 | 5 | Je n'ai jamais recouché avec un·e ex après la rupture. | ex, sexe | |
+| JOJ-150 | 5 | Je n'ai jamais fait quelque chose d'illégal en soirée. | transgressions | |
+| JOJ-151 | 5 | Je n'ai jamais été attiré·e par le/la partenaire d'un·e pote. | couple, avis | |
+| JOJ-152 | 5 | Je n'ai jamais couché avec deux personnes de la même famille. | sexe | |
+| JOJ-009 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur ta vie intime, sans détails. | sexe | |
+| JOJ-010 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un secret que personne ici ne connaît. | secrets | |
+| JOJ-043 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un endroit insolite, sans détails. | sexe | |
+| JOJ-044 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur une infidélité. | couple | |
+| JOJ-045 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un ex que quelqu'un ici connaît. | ex, avis | |
+| JOJ-046 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur la police ou la loi. | transgressions | |
+| JOJ-047 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur l'argent que tu as claqué et que tu n'oses pas avouer. | argent | |
+| JOJ-048 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur quelqu'un ici que tu as déjà trouvé attirant. | couple, avis | |
+| JOJ-049 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur un truc que tu regrettes d'avoir fait à quelqu'un ici. | avis, secrets | |
+| JOJ-050 | 5 | [J1], invente une phrase « J'ai déjà… » ou « Je n'ai jamais… » sur la pire chose que tu as faite par jalousie. | couple | |
+ 
+### Action ou vérité
+ 
+Le joueur choisit. Refuser, c'est perdre.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| AV-001 | 1 | [J1], action : raconte ta pire galère de vacances. Si quelqu'un ici était du voyage, il ou elle raconte sa version. Vérité : t'es-tu déjà endormi·e dans les transports au point de rater ton arrêt ? Si quelqu'un ici était avec toi et ne t'a pas réveillé·e, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-002 | 1 | [J1], action : raconte la soirée où tu as rencontré quelqu'un ici. La personne concernée raconte son premier souvenir de toi. Vérité : as-tu déjà oublié le prénom de quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-003 | 1 | [J1], action : raconte la fois où tu as cuisiné pour le groupe et que ça a mal tourné. Si quelqu'un ici a goûté, il ou elle donne une note. Vérité : as-tu déjà fait semblant d'aimer un plat chez quelqu'un ici ? Si le cuisinier est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-016 | 1 | [J1], action : raconte ton pire anniversaire. Si quelqu'un ici y était, il ou elle ajoute ce que tu as oublié. Vérité : as-tu déjà oublié l'anniversaire de quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-017 | 1 | [J1], action : raconte la fois où tu t'es perdu·e en voyage. Si quelqu'un ici était avec toi, il ou elle dit à qui la faute. Vérité : as-tu déjà dormi dans une voiture ? Si quelqu'un ici dormait à côté, il ou elle raconte la nuit. | | Peut faire parler ou boire un témoin |
+| AV-018 | 1 | [J1], action : raconte le pire week-end en groupe que tu as vécu. Si quelqu'un ici en était, il ou elle balance qui était le pire. Vérité : as-tu déjà emprunté un vêtement à quelqu'un ici sans le rendre ? Si le propriétaire est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-019 | 1 | [J1], action : raconte le pire jeu de soirée auquel tu as joué. Si quelqu'un ici y a joué avec toi, il ou elle dit qui a triché. Vérité : as-tu déjà triché à un jeu contre quelqu'un ici ? Si ta victime est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-020 | 1 | [J1], action : raconte ton pire fou rire au mauvais moment. Si quelqu'un ici l'a déclenché, vous buvez tous les deux. Vérité : t'es-tu déjà fait engueuler par un voisin pour le bruit ? Si c'était pendant une soirée avec quelqu'un ici, il ou elle raconte la scène. | | Peut faire parler ou boire un témoin |
+| AV-021 | 1 | [J1], action : raconte la fois où tu as pris le mauvais train, bus ou métro. Si quelqu'un ici était avec toi, il ou elle dit jusqu'où vous êtes allés. Vérité : as-tu déjà fini les restes de quelqu'un ici sans demander ? Si la personne est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-022 | 1 | [J1], action : raconte ta pire gaffe devant les parents de quelqu'un. Si c'étaient les parents de quelqu'un ici, il ou elle raconte la tête qu'ils ont faite. Vérité : as-tu déjà menti sur ton heure d'arrivée à quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-004 | 2 | [J1], action : raconte ta pire chute en soirée. Si quelqu'un ici t'a relevé·e, vous buvez tous les deux. Vérité : as-tu déjà fini une soirée sans savoir où tu étais ? Si quelqu'un ici y était, c'est lui ou elle qui raconte à ta place. | | Peut faire parler ou boire un témoin |
+| AV-005 | 2 | [J1], action : raconte la fois où tu as perdu tes clés en soirée. Si quelqu'un ici t'a hébergé·e ou aidé·e à rentrer, vous buvez tous les deux. Vérité : combien de fois as-tu dit « je bois plus jamais » ? Si quelqu'un ici t'a vu·e recommencer le soir même, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-006 | 2 | [J1], action : raconte la fois où tu t'es fait sortir d'un bar ou d'une boîte. Si quelqu'un ici s'est fait sortir avec toi, vous buvez tous les deux. Vérité : as-tu déjà dû payer un truc que tu avais cassé en soirée ? Si quelqu'un ici a payé à ta place, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-023 | 2 | [J1], action : raconte la fois où tu as perdu tes potes en soirée. Si l'un d'eux est ici, il ou elle raconte où on t'a retrouvé·e. Vérité : t'es-tu déjà endormi·e en pleine soirée ? Si quelqu'un ici t'a vu·e, il ou elle décrit la position. | | Peut faire parler ou boire un témoin |
+| AV-024 | 2 | [J1], action : raconte la fois où tu as dormi chez quelqu'un du groupe après une soirée. Ton hôte raconte dans quel état tu es arrivé·e. Vérité : as-tu déjà vomi en soirée ? Si quelqu'un ici t'a tenu les cheveux, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-025 | 2 | [J1], action : raconte la fois où tu as appelé quelqu'un à l'aide à 5 h du matin. Si c'était quelqu'un ici, il ou elle raconte l'appel. Vérité : as-tu déjà menti à tes parents sur l'endroit où tu dormais ? Si quelqu'un ici t'a servi d'alibi, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-026 | 2 | [J1], action : raconte ton pire réveil après une soirée. Si quelqu'un ici était à côté de toi, il ou elle raconte ce qu'il a vu en premier. Vérité : es-tu déjà rentré·e d'une soirée au lever du soleil ? Si quelqu'un ici était avec toi, il ou elle raconte la fin de la nuit. | | Peut faire parler ou boire un témoin |
+| AV-027 | 2 | [J1], action : raconte la fois où tu as ramené quelqu'un du groupe complètement bourré. Si la personne est ici, elle boit avec toi. Vérité : t'a-t-on déjà ramené·e chez toi en soirée ? Si c'était quelqu'un ici, il ou elle raconte comment ça s'est passé. | | Peut faire parler ou boire un témoin |
+| AV-028 | 2 | [J1], action : raconte une bêtise de soirée qu'un pote a dû couvrir. Si c'était quelqu'un ici, vous buvez tous les deux. Vérité : as-tu déjà vidé le frigo de quelqu'un en rentrant de soirée ? Si c'était chez quelqu'un ici, il ou elle dit ce qui manquait le lendemain. | | Peut faire parler ou boire un témoin |
+| AV-029 | 2 | [J1], action : raconte la fois où tu as raté un train, un avion ou un rendez-vous à cause d'une soirée. Si quelqu'un ici en est responsable, vous buvez tous les deux. Vérité : as-tu déjà dormi ailleurs que dans un lit après une soirée ? Si quelqu'un ici t'a retrouvé·e, il ou elle raconte où. | | Peut faire parler ou boire un témoin |
+| AV-007 | 3 | [J1], action : raconte ton pire premier date. Si quelqu'un ici t'a servi d'excuse pour t'enfuir, vous buvez tous les deux. Vérité : as-tu déjà eu un crush sur quelqu'un ici ? Si la personne le savait, vous buvez tous les deux. | couple | Peut faire parler ou boire un témoin |
+| AV-008 | 3 | [J1], action : raconte ta rupture la plus pathétique. Si quelqu'un ici t'a consolé·e, il ou elle raconte dans quel état tu étais. Vérité : as-tu déjà écrit à un·e ex en soirée ? Si quelqu'un ici t'a vu·e faire sans t'arrêter, vous buvez tous les deux. | ex | Peut faire parler ou boire un témoin |
+| AV-009 | 3 | [J1], action : raconte ton pire râteau. Si quelqu'un ici était témoin, il ou elle raconte la réaction de l'autre. Vérité : as-tu déjà dragué quelqu'un sur qui un pote d'ici avait des vues ? Si ce pote est là, vous buvez tous les deux. | couple, avis | Peut faire parler ou boire un témoin |
+| AV-030 | 3 | [J1], action : raconte la fois où tu as joué les entremetteurs pour quelqu'un ici. La personne concernée dit si tu l'as aidée ou sabotée. Vérité : as-tu déjà embrassé quelqu'un en soirée parce que tes potes te poussaient ? Si l'un d'eux est ici, vous buvez tous les deux. | couple | Peut faire parler ou boire un témoin |
+| AV-031 | 3 | [J1], action : raconte ton date le plus gênant. Si quelqu'un ici t'a appelé·e pour te sortir de là, vous buvez tous les deux. Vérité : as-tu déjà menti à un date sur ce que tu faisais dans la vie ? Si quelqu'un ici a couvert ton mensonge, vous buvez tous les deux. | couple | Peut faire parler ou boire un témoin |
+| AV-032 | 3 | [J1], action : raconte la fois où tu as recroisé un·e ex en soirée. Si quelqu'un ici y était, il ou elle raconte comment tu as réagi. Vérité : es-tu déjà retourné·e avec un·e ex après avoir juré que c'était fini ? Si quelqu'un ici t'avait prévenu·e, vous buvez tous les deux. | ex | Peut faire parler ou boire un témoin |
+| AV-033 | 3 | [J1], action : raconte la fois où tu as dû expliquer à tes colocs ou à ta famille qui sortait de ta chambre le matin. Si quelqu'un ici était ce coloc, il ou elle raconte sa version. Vérité : as-tu déjà été jaloux·se du/de la partenaire de quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | couple, avis | Peut faire parler ou boire un témoin |
+| AV-034 | 3 | [J1], action : raconte le pire endroit où tu as embrassé quelqu'un. Si quelqu'un ici était à côté, il ou elle raconte la scène. Vérité : as-tu déjà demandé à quelqu'un ici de t'arranger le coup avec un crush ? Si cette personne est là, elle dit si ça a marché. | couple | Peut faire parler ou boire un témoin |
+| AV-035 | 3 | [J1], action : raconte la fois où tu as fini la soirée avec quelqu'un que tu ne supportais pas en début de soirée. Si quelqu'un ici a vu le retournement, il ou elle raconte. Vérité : as-tu déjà fait semblant de ne pas voir un·e ex en soirée ? Si quelqu'un ici t'a grillé·e, vous buvez tous les deux. | couple, ex | Peut faire parler ou boire un témoin |
+| AV-036 | 3 | [J1], action : raconte ton pire réveil à côté de quelqu'un. Si quelqu'un ici t'a vu·e partir avec cette personne, il ou elle raconte la soirée. Vérité : as-tu déjà eu une histoire avec quelqu'un rencontré grâce à un pote d'ici ? Si l'entremetteur est là, vous buvez tous les deux. | couple | Peut faire parler ou boire un témoin |
+| AV-010 | 4 | [J1], action : raconte la pire soirée que quelqu'un ici a organisée. L'organisateur ou l'organisatrice a 10 secondes pour se défendre. Vérité : as-tu déjà dit du mal de quelqu'un ici à quelqu'un d'autre ici ? Si ton confident est là, vous buvez tous les deux. | avis, secrets | Peut faire parler ou boire un témoin |
+| AV-011 | 4 | [J1], action : raconte un secret qu'on t'a confié en soirée, sans dire de qui. Si la personne est ici et se reconnaît, elle boit. Vérité : as-tu déjà eu honte de quelqu'un ici en soirée ? Si la personne est là, vous buvez tous les deux. | avis, secrets | Peut faire parler ou boire un témoin |
+| AV-012 | 4 | [J1], action : raconte la fois où quelqu'un ici t'a lâché·e en pleine soirée. La personne concernée a 10 secondes pour se défendre. Vérité : as-tu déjà fait semblant d'être malade pour éviter la soirée de quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | avis | Peut faire parler ou boire un témoin |
+| AV-037 | 4 | [J1], action : raconte la fois où tu as payé pour tout le monde sans jamais être remboursé·e. Si le mauvais payeur est ici, il ou elle boit double. Vérité : dois-tu encore de l'argent à quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | argent, avis | Peut faire parler ou boire un témoin |
+| AV-038 | 4 | [J1], action : raconte le pire comportement de quelqu'un ici en soirée, sans le nommer. Si la personne se reconnaît, elle boit. Vérité : as-tu déjà été jaloux·se d'une amitié dans ce groupe ? Si les deux amis sont là, vous buvez tous les trois. | avis | Peut faire parler ou boire un témoin |
+| AV-039 | 4 | [J1], action : raconte la fois où tu as balancé quelqu'un ici sans le vouloir. La victime raconte les conséquences. Vérité : as-tu déjà raconté une soirée de ce groupe à quelqu'un qui n'aurait pas dû savoir ? Si quelqu'un ici en a fait les frais, vous buvez tous les deux. | avis, secrets | Peut faire parler ou boire un témoin |
+| AV-040 | 4 | [J1], action : laisse le groupe te trouver un surnom, que tout le monde utilisera jusqu'à la fin de la partie. Chaque fois que quelqu'un se trompe de surnom, il boit 1 gorgée. Vérité : le truc le plus gênant que tu as fait pour impressionner quelqu'un ici ? | avis | |
+| AV-041 | 4 | [J1], action : raconte la fois où tu as couvert quelqu'un ici auprès de son ou sa partenaire. La personne couverte boit avec toi. Vérité : as-tu déjà menti à quelqu'un ici pour échapper à une soirée ? Si la personne a fini par le savoir, vous buvez tous les deux. | couple, secrets, avis | Peut faire parler ou boire un témoin |
+| AV-042 | 4 | [J1], action : raconte ta pire dispute avec quelqu'un ici. La personne concernée donne sa version en 10 secondes. Vérité : as-tu déjà lu un message par-dessus l'épaule de quelqu'un ici ? Si la personne est là, vous buvez tous les deux. | avis, secrets | Peut faire parler ou boire un témoin |
+| AV-043 | 4 | [J1], action : raconte la fois où tu es allé·e au boulot directement depuis une soirée. Si quelqu'un ici y était, il ou elle raconte dans quel état tu es parti·e. Vérité : as-tu déjà menti sur ton CV ? Si quelqu'un ici t'a servi de fausse référence, vous buvez tous les deux. | | Peut faire parler ou boire un témoin |
+| AV-013 | 5 | [J1], action : raconte ton pire coup d'un soir, sans détails. Si quelqu'un ici t'a vu·e partir avec la personne, il ou elle raconte le départ. Vérité : donne ton bodycount. Si quelqu'un ici en fait partie, vous buvez tous les deux. | sexe, avis | Peut faire parler ou boire un témoin |
+| AV-014 | 5 | [J1], action : avoue le dernier truc que tu as dit dans le dos de quelqu'un ici. Si la personne est là, vous buvez tous les deux. Vérité : ton pire moment gênant au lit, sans détails ? Si quelqu'un ici était concerné, il ou elle confirme ou dément. | secrets, avis, sexe | Peut faire parler ou boire un témoin |
+| AV-015 | 5 | [J1], action : donne trois raisons catastrophiques de quitter son/sa copine. Vérité : la chose la plus illégale que tu as faite sans te faire prendre ? Si quelqu'un ici était ton complice, vous buvez tous les deux. | couple, transgressions | Peut faire parler ou boire un témoin |
+| AV-044 | 5 | [J1], action : désigne la personne ici avec qui tu sortirais si tu devais choisir. Si c'est réciproque, vous buvez tous les deux. Vérité : ton plus gros fantasme, sans détails ? Si quelqu'un ici le connaissait déjà, il ou elle boit. | couple, sexe, avis | Peut faire parler ou boire un témoin |
+| AV-045 | 5 | [J1], action : raconte la fois où tu as couché avec quelqu'un que tu n'aurais pas dû, sans dire qui. Si la personne est ici, elle boit avec toi. Vérité : as-tu déjà eu un crush sur le/la partenaire de quelqu'un ici ? Si la personne concernée est là, vous buvez tous les deux. | couple, sexe, avis | Peut faire parler ou boire un témoin |
+| AV-046 | 5 | [J1], action : raconte ta nuit la plus folle, sans détails. Si quelqu'un ici y a participé, il ou elle boit double. Vérité : combien de personnes ici as-tu déjà embrassées ? Chacune d'elles boit avec toi. | sexe, avis | Peut faire parler ou boire un témoin |
+| AV-047 | 5 | [J1], action : raconte la fois où tu as frôlé l'infidélité. Si quelqu'un ici t'a retenu·e, vous buvez tous les deux. Vérité : as-tu déjà trompé quelqu'un ? Si quelqu'un ici était au courant, vous buvez tous les deux. | couple | Peut faire parler ou boire un témoin |
+| AV-048 | 5 | [J1], action : désigne la personne la plus surcotée du groupe. Elle a 10 secondes pour se défendre. Vérité : qui ici tu n'inviterais pas à ton mariage ? Cette personne boit avec toi. | avis | Peut faire parler ou boire un témoin |
+| AV-049 | 5 | [J1], action : avoue la pire chose que tu as faite à un·e ex. Si quelqu'un ici connaît cet ex, il ou elle confirme ou dément. Vérité : as-tu déjà couché avec quelqu'un dans un lieu public ? Si quelqu'un ici faisait le guet, vous buvez tous les deux. | ex, sexe | Peut faire parler ou boire un témoin |
+| AV-050 | 5 | [J1], action : raconte la fois où tu as frôlé les ennuis avec la police. Si quelqu'un ici était dans le coup, vous buvez tous les deux. Vérité : as-tu déjà pris de la drogue en soirée ? Si quelqu'un ici t'en a proposé, vous buvez tous les deux. | transgressions | Peut faire parler ou boire un témoin |
+ 
+### Qui pourrait… ?
+ 
+Tout le monde pointe du doigt en même temps. Le plus désigné boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| QP-001 | 1 | Qui pourrait survivre le plus longtemps sur une île déserte ? | | |
+| QP-002 | 1 | Qui pourrait devenir célèbre par accident ? | | |
+| QP-003 | 1 | Qui pourrait se perdre dans son propre quartier ? | | |
+| QP-004 | 1 | Qui pourrait adopter dix chats sur un coup de tête ? | | |
+| QP-018 | 1 | Qui pourrait gagner un jeu télé ? | | |
+| QP-019 | 1 | Qui pourrait parler pendant des heures à un parfait inconnu ? | | |
+| QP-020 | 1 | Qui pourrait oublier son propre anniversaire ? | | |
+| QP-021 | 1 | Qui pourrait partir vivre à l'autre bout du monde du jour au lendemain ? | | |
+| QP-022 | 1 | Qui pourrait s'endormir en premier ce soir ? | | |
+| QP-023 | 1 | Qui pourrait manger n'importe quoi pour un pari ? | | |
+| QP-005 | 2 | Qui pourrait finir au poste pour un truc complètement débile ? | | |
+| QP-006 | 2 | Qui pourrait pleurer devant une pub ? | | |
+| QP-007 | 2 | Qui pourrait arriver en retard à son propre mariage ? | | |
+| QP-008 | 2 | Qui pourrait répondre « vu » à un message de rupture ? | | |
+| QP-024 | 2 | Qui pourrait envoyer un vocal de 10 minutes sans s'en rendre compte ? | | |
+| QP-025 | 2 | Qui pourrait se faire avoir par un vendeur de rue ? | | |
+| QP-026 | 2 | Qui pourrait chanter faux au karaoké sans aucune honte ? | | |
+| QP-027 | 2 | Qui pourrait se tromper de soirée et y rester quand même ? | | |
+| QP-028 | 2 | Qui pourrait finir la soirée endormi·e dans la baignoire ? | | |
+| QP-029 | 2 | Qui pourrait devenir l'égérie d'une marque de chips ? | | |
+| QP-051 | 2 | Qui pourrait se faire refouler du club ce soir ? | | |
+| QP-009 | 3 | Qui pourrait se remettre avec son ex ce soir ? | ex | |
+| QP-010 | 3 | Qui pourrait avoir un crush secret dans le groupe ? | couple | |
+| QP-011 | 3 | Qui pourrait se marier en premier ? | couple | |
+| QP-030 | 3 | Qui pourrait tomber amoureux·se en vacances et tout plaquer ? | couple | |
+| QP-031 | 3 | Qui pourrait se faire ghoster après un premier date ? | couple | |
+| QP-032 | 3 | Qui pourrait encore garder un objet de son ex ? | ex | |
+| QP-033 | 3 | Qui pourrait finir la soirée sans chaussures ? | | |
+| QP-034 | 3 | Qui pourrait avoir le plus de matchs sur une appli de rencontre ? | couple | |
+| QP-035 | 3 | Qui pourrait demander quelqu'un en mariage au bout d'un mois ? | couple | |
+| QP-036 | 3 | Qui pourrait se réveiller demain sans aucun souvenir de ce soir ? | | |
+| QP-052 | 3 | Qui pourrait finir dans un after avec des inconnus ce soir ? | | |
+| QP-053 | 3 | Qui pourrait disparaître sans prévenir et réapparaître demain midi ? | | |
+| QP-012 | 4 | Qui pourrait dire du mal de nous dès qu'on a le dos tourné ? | avis | |
+| QP-013 | 4 | Qui pourrait mentir sur son CV sans aucune honte ? | | |
+| QP-014 | 4 | Qui pourrait oublier ce groupe en premier s'il devenait riche ? | avis, argent | |
+| QP-037 | 4 | Qui pourrait trahir un secret après deux verres ? | avis, secrets | |
+| QP-038 | 4 | Qui pourrait se faire virer pour un truc stupide ? | avis | |
+| QP-039 | 4 | Qui pourrait partir sans payer sa part de l'addition ? | argent, avis | |
+| QP-040 | 4 | Qui pourrait balancer un pote pour sauver sa peau ? | avis | |
+| QP-041 | 4 | Qui pourrait faire semblant d'être malade pour se faire arrêter une semaine ? | transgressions | |
+| QP-042 | 4 | Qui pourrait devenir insupportable avec un peu de pouvoir ? | avis | |
+| QP-043 | 4 | Qui pourrait nous mentir à tous sans que personne ne s'en rende compte ? | avis | |
+| QP-015 | 5 | Qui pourrait tromper sans le moindre remords ? | couple | |
+| QP-016 | 5 | Qui pourrait vendre le groupe pour 10 000 euros ? | avis, argent | |
+| QP-017 | 5 | Qui pourrait avoir le bodycount le plus élevé ? | sexe | |
+| QP-044 | 5 | Qui pourrait coucher avec l'ex de quelqu'un ici ? | ex, sexe, avis | |
+| QP-045 | 5 | Qui pourrait avoir une double vie sans qu'on le sache ? | secrets | |
+| QP-046 | 5 | Qui pourrait finir en garde à vue avant ses 40 ans ? | transgressions, avis | |
+| QP-047 | 5 | Qui pourrait coucher avec quelqu'un pour une promotion ? | sexe, argent | |
+| QP-048 | 5 | Qui pourrait détenir le plus de secrets sur les gens ici ? | secrets, avis | |
+| QP-049 | 5 | Qui pourrait tenter un plan à trois ? | sexe | |
+| QP-050 | 5 | Qui pourrait briser une amitié pour une histoire d'un soir ? | couple, sexe, avis | |
+ 
+### Tribunal
+ 
+Le groupe vote coupable ou non coupable. Coupable, c'est perdre.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| TRI-001 | 1 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà mangé le dernier morceau sans demander. Coupable ou non coupable ? | | |
+| TRI-002 | 1 | [J1] est [accusé/accusée/accusé·e] de toujours dire « je fais court » avant de faire long. Coupable ou non coupable ? | | |
+| TRI-012 | 1 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà dit « je pars dans 5 minutes » avant de rester une heure. Coupable ou non coupable ? | | |
+| TRI-013 | 1 | [J1] est [accusé/accusée/accusé·e] de finir les frites des autres sans demander. Coupable ou non coupable ? | | |
+| TRI-014 | 1 | [J1] est [accusé/accusée/accusé·e] de mettre trois réveils et d'être quand même en retard. Coupable ou non coupable ? | | |
+| TRI-015 | 1 | [J1] est [accusé/accusée/accusé·e] de dire « c'est la dernière » avant d'en reprendre une. Coupable ou non coupable ? | | |
+| TRI-016 | 1 | [J1] est [accusé/accusée/accusé·e] de répondre aux messages trois jours plus tard. Coupable ou non coupable ? | | |
+| TRI-017 | 1 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà regardé la suite d'une série sans attendre les autres. Coupable ou non coupable ? | | |
+| TRI-018 | 1 | [J1] est [accusé/accusée/accusé·e] de dire « je connais un raccourci » et de rallonger le trajet. Coupable ou non coupable ? | | |
+| TRI-019 | 1 | [J1] est [accusé/accusée/accusé·e] d'avoir toujours faim une heure après le repas. Coupable ou non coupable ? | | |
+| TRI-003 | 2 | [J1] est [accusé/accusée/accusé·e] d'être toujours en retard, toujours avec une excuse. Coupable ou non coupable ? | | |
+| TRI-004 | 2 | [J1] est [accusé/accusée/accusé·e] de chanter faux, mais fort. Coupable ou non coupable ? | | |
+| TRI-020 | 2 | [J1] est [accusé/accusée/accusé·e] d'envoyer des vocaux plutôt que d'écrire. Coupable ou non coupable ? | | |
+| TRI-021 | 2 | [J1] est [accusé/accusée/accusé·e] de raconter la même anecdote à chaque soirée. Coupable ou non coupable ? | | |
+| TRI-022 | 2 | [J1] est [accusé/accusée/accusé·e] de lire les messages et de ne jamais répondre. Coupable ou non coupable ? | | |
+| TRI-023 | 2 | [J1] est [accusé/accusée/accusé·e] de prendre 50 photos avant d'en poster une seule. Coupable ou non coupable ? | | |
+| TRI-024 | 2 | [J1] est [accusé/accusée/accusé·e] de danser alors que personne ne danse. Coupable ou non coupable ? | | |
+| TRI-025 | 2 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà revendu un cadeau qu'on lui avait offert. Coupable ou non coupable ? | | |
+| TRI-026 | 2 | [J1] est [accusé/accusée/accusé·e] de commenter le film pendant tout le film. Coupable ou non coupable ? | | |
+| TRI-027 | 2 | [J1] est [accusé/accusée/accusé·e] de sortir son téléphone dès qu'il y a un silence. Coupable ou non coupable ? | | |
+| TRI-051 | 2 | [J1] est [accusé/accusée/accusé·e] de toujours disparaître en soirée sans prévenir personne. Coupable ou non coupable ? | | |
+| TRI-052 | 2 | [J1] est [accusé/accusée/accusé·e] de passer la moitié de la soirée à discuter aux toilettes du club. Coupable ou non coupable ? | | |
+| TRI-005 | 3 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà flirté pour obtenir quelque chose. Coupable ou non coupable ? | couple | |
+| TRI-006 | 3 | [J1] est [accusé/accusée/accusé·e] de ne jamais vraiment avoir tourné la page avec son ex. Coupable ou non coupable ? | ex | |
+| TRI-028 | 3 | [J1] est [accusé/accusée/accusé·e] de tomber sous le charme de quelqu'un tous les deux mois. Coupable ou non coupable ? | couple | |
+| TRI-029 | 3 | [J1] est [accusé/accusée/accusé·e] de surveiller ses ex sur les réseaux. Coupable ou non coupable ? | ex | |
+| TRI-030 | 3 | [J1] est [accusé/accusée/accusé·e] de faire des crises de jalousie pour un rien. Coupable ou non coupable ? | couple | |
+| TRI-031 | 3 | [J1] est [accusé/accusée/accusé·e] de raconter tous ses dates en détail. Coupable ou non coupable ? | couple | |
+| TRI-032 | 3 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà dragué quelqu'un qui était en couple. Coupable ou non coupable ? | couple | |
+| TRI-033 | 3 | [J1] est [accusé/accusée/accusé·e] de devenir quelqu'un d'autre après trois verres. Coupable ou non coupable ? | | |
+| TRI-034 | 3 | [J1] est [accusé/accusée/accusé·e] de toujours finir la soirée à refaire le monde dans la cuisine. Coupable ou non coupable ? | | |
+| TRI-035 | 3 | [J1] est [accusé/accusée/accusé·e] de garder les cadeaux de ses ex. Coupable ou non coupable ? | ex | |
+| TRI-007 | 4 | [J1] est [accusé/accusée/accusé·e] d'être la personne la plus radine du groupe. Coupable ou non coupable ? | argent, avis | |
+| TRI-008 | 4 | [J1] est [accusé/accusée/accusé·e] de se croire bien plus drôle qu'[il/elle/iel] ne l'est. Coupable ou non coupable ? | avis | |
+| TRI-009 | 4 | [J1] est [accusé/accusée/accusé·e] de répéter tout ce qu'on lui confie. Coupable ou non coupable ? | avis, secrets | |
+| TRI-036 | 4 | [J1] est [accusé/accusée/accusé·e] de ramener toutes les conversations à sa propre vie. Coupable ou non coupable ? | avis | |
+| TRI-037 | 4 | [J1] est [accusé/accusée/accusé·e] de ne jamais payer sa tournée. Coupable ou non coupable ? | argent, avis | |
+| TRI-038 | 4 | [J1] est [accusé/accusée/accusé·e] d'être d'accord avec tout le monde pour éviter les conflits. Coupable ou non coupable ? | avis | |
+| TRI-039 | 4 | [J1] est [accusé/accusée/accusé·e] de donner des conseils qu'[il/elle/iel] n'applique jamais. Coupable ou non coupable ? | avis | |
+| TRI-040 | 4 | [J1] est [accusé/accusée/accusé·e] de n'être là que quand ça l'arrange. Coupable ou non coupable ? | avis | |
+| TRI-041 | 4 | [J1] est [accusé/accusée/accusé·e] d'avoir menti à quelqu'un ici ce mois-ci. Coupable ou non coupable ? | avis, secrets | |
+| TRI-042 | 4 | [J1] est [accusé/accusée/accusé·e] de juger tout le monde en silence. Coupable ou non coupable ? | avis | |
+| TRI-010 | 5 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà été infidèle, ou d'y avoir pensé très fort. Coupable ou non coupable ? | couple | |
+| TRI-011 | 5 | [J1] est [accusé/accusée/accusé·e] d'être la dernière personne qu'on inviterait à notre mariage. Coupable ou non coupable ? | avis | |
+| TRI-043 | 5 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà couché avec quelqu'un juste pour rendre un·e ex jaloux·se. Coupable ou non coupable ? | ex, sexe | |
+| TRI-044 | 5 | [J1] est [accusé/accusée/accusé·e] d'avoir déjà dragué le/la partenaire d'un·e pote. Coupable ou non coupable ? | couple, avis | |
+| TRI-045 | 5 | [J1] est [accusé/accusée/accusé·e] de mentir sur son bodycount. Coupable ou non coupable ? | sexe | |
+| TRI-046 | 5 | [J1] est [accusé/accusée/accusé·e] d'avoir un dossier sur chaque personne ici. Coupable ou non coupable ? | secrets, avis | |
+| TRI-047 | 5 | [J1] est [accusé/accusée/accusé·e] d'être le maillon faible du groupe. Coupable ou non coupable ? | avis | |
+| TRI-048 | 5 | [J1] est [accusé/accusée/accusé·e] de ne rester ami·e avec certains ici que par habitude. Coupable ou non coupable ? | avis | |
+| TRI-049 | 5 | [J1] est [accusé/accusée/accusé·e] d'avoir fait quelque chose d'illégal ce mois-ci. Coupable ou non coupable ? | transgressions | |
+| TRI-050 | 5 | [J1] est [accusé/accusée/accusé·e] de se vanter de ses performances au lit bien plus que nécessaire. Coupable ou non coupable ? | sexe | |
+ 
+### Duel
+ 
+Le groupe arbitre et désigne le perdant à voix haute. Le perdant boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| DUE-001 | 1 | [J1] contre [J2] : concours de regard. Le premier qui cligne des yeux ou qui rit a perdu. | | |
+| DUE-002 | 1 | [J1] contre [J2] : pierre-feuille-ciseaux en trois manches gagnantes. | | |
+| DUE-003 | 1 | [J1] contre [J2] : citez à tour de rôle des fruits et légumes. Le premier qui sèche a perdu. | | |
+| DUE-011 | 1 | [J1] contre [J2] : bataille de pouces, en deux manches gagnantes. | contact | |
+| DUE-012 | 1 | [J1] contre [J2] : racontez votre journée. Le premier qui dit « euh » a perdu. | | |
+| DUE-013 | 1 | [J1] contre [J2] : le groupe essaie de vous faire rire. Le premier qui craque a perdu. | | |
+| DUE-014 | 1 | [J1] contre [J2] : mimez un métier. Le mime deviné le plus vite gagne. | | |
+| DUE-015 | 1 | [J1] contre [J2] : à tour de rôle, trouvez un mot qui rime avec « soirée ». Le premier qui sèche a perdu. | | |
+| DUE-016 | 1 | [J1] contre [J2] : comptez à tour de rôle jusqu'à 30 en disant « bip » à la place des multiples de 3. Le premier qui se trompe a perdu. | | |
+| DUE-017 | 1 | [J1] contre [J2] : tenez sur un pied. Le premier qui pose l'autre pied a perdu. | | |
+| DUE-004 | 2 | [J1] contre [J2] : meilleure imitation d'une célébrité au choix. Le groupe vote. | | |
+| DUE-005 | 2 | [J1] contre [J2] : [J1] essaie de faire rire [J2] en 20 secondes, puis on inverse. Celui qui rit le plus vite a perdu. | | |
+| DUE-006 | 2 | [J1] contre [J2] : le pire jeu de mots possible. Le groupe vote pour le plus nul. | | |
+| DUE-018 | 2 | [J1] contre [J2] : concours de grimaces. Le groupe vote pour la moins réussie. | | |
+| DUE-019 | 2 | [J1] contre [J2] : chantez le même refrain le plus faux possible. Celui qui chante le plus juste a perdu. | | |
+| DUE-020 | 2 | [J1] contre [J2] : racontez une histoire en disant un mot chacun votre tour. Le premier qui hésite plus de 3 secondes a perdu. | | |
+| DUE-021 | 2 | [J1] contre [J2] : imitez un animal choisi par le groupe. Le moins convaincant a perdu. | | |
+| DUE-022 | 2 | [J1] contre [J2] : défendez chacun le pire plat que vous connaissez pendant 20 secondes. Le groupe vote pour le moins convaincant. | | |
+| DUE-023 | 2 | [J1] contre [J2] : faites votre meilleure voix de dessin animé. Le groupe vote. | | |
+| DUE-024 | 2 | [J1] contre [J2] : citez à tour de rôle des mots qui finissent par « -tion ». Le premier qui sèche a perdu. | | |
+| DUE-007 | 3 | [J1] contre [J2] : la meilleure phrase de drague pourrie. Le groupe vote. | couple | |
+| DUE-008 | 3 | [J1] contre [J2] : bras de fer. | contact | |
+| DUE-025 | 3 | [J1] contre [J2] : la plus belle déclaration d'amour à un objet de la pièce. Le groupe vote. | couple | |
+| DUE-026 | 3 | [J1] contre [J2] : le slow le plus ridicule, chacun avec un coussin. Le groupe vote. | | |
+| DUE-027 | 3 | [J1] contre [J2] : racontez le pire date imaginable en 20 secondes. Le groupe vote pour le pire. | couple | |
+| DUE-028 | 3 | [J1] contre [J2] : dites-vous « je t'aime » à tour de rôle, les yeux dans les yeux. Le premier qui rit a perdu. | couple | |
+| DUE-029 | 3 | [J1] contre [J2] : imitez quelqu'un de bourré qui essaie d'avoir l'air sobre. Le groupe vote pour le meilleur. | | |
+| DUE-030 | 3 | [J1] contre [J2] : citez à tour de rôle des films romantiques. Le premier qui sèche a perdu. | |  |
+| DUE-031 | 3 | [J1] contre [J2] : proposez le surnom amoureux le plus ringard. Le groupe vote. | couple | |
+| DUE-032 | 3 | [J1] contre [J2] : récitez l'alphabet le plus vite possible. Le plus lent a perdu. | |  |
+| DUE-009 | 4 | [J1] contre [J2] : chacun dit un défaut de l'autre. Le plus cash gagne, le groupe arbitre. | avis | |
+| DUE-033 | 4 | [J1] contre [J2] : faites-vous chacun un compliment empoisonné. Le groupe vote pour le plus vicieux, l'autre a perdu. | avis | |
+| DUE-034 | 4 | [J1] contre [J2] : imitez chacun quelqu'un du groupe, sans dire qui. Celui qu'on devine le moins vite a perdu. | avis | |
+| DUE-035 | 4 | [J1] contre [J2] : défendez-vous en 20 secondes d'une accusation choisie par le groupe. Le moins convaincant a perdu. | | |
+| DUE-036 | 4 | [J1] contre [J2] : racontez chacun votre plus gros mensonge. Le groupe vote pour le moins impressionnant. | secrets | |
+| DUE-037 | 4 | [J1] contre [J2] : [J1] vend un objet de la pièce, [J2] négocie. Le groupe désigne qui s'est fait avoir. | | |
+| DUE-038 | 4 | [J1] contre [J2] : citez à tour de rôle des excuses pour ne pas rembourser un pote. Le premier qui sèche a perdu. | argent | |
+| DUE-039 | 4 | [J1] contre [J2] : improvisez le discours de mariage le plus gênant pour quelqu'un du groupe. Le groupe vote. | avis | |
+| DUE-040 | 4 | [J1] contre [J2] : jouez une dispute de 20 secondes sur un sujet idiot choisi par le groupe. Le moins convaincant a perdu. | | |
+| DUE-041 | 4 | [J1] contre [J2] : faites chacun un roast de 15 secondes de l'autre, sans parler du physique. Le groupe vote. | avis | |
+| DUE-010 | 5 | [J1] contre [J2] : chacun avoue le truc le plus honteux qu'il est prêt à dire. Le groupe vote pour le pire. | secrets | |
+| DUE-042 | 5 | [J1] contre [J2] : avouez chacun un truc que vous n'avez jamais dit à l'autre. Le groupe vote pour l'aveu le plus faible. | avis, secrets | |
+| DUE-043 | 5 | [J1] contre [J2] : racontez votre pire expérience au lit en 15 secondes, sans détails. Le groupe vote pour la moins pire. | sexe | |
+| DUE-044 | 5 | [J1] contre [J2] : trouvez la meilleure excuse pour justifier une infidélité. Le groupe désigne la moins crédible. | couple | |
+| DUE-045 | 5 | [J1] contre [J2] : jouez quelqu'un qui découvre que son/sa partenaire le trompe. Le moins convaincant a perdu. | couple | |
+| DUE-046 | 5 | [J1] contre [J2] : racontez le truc le plus illégal que vous avez fait. Le groupe vote pour le moins impressionnant. | transgressions | |
+| DUE-047 | 5 | [J1] contre [J2] : dites chacun ce que le groupe pense de l'autre sans oser le dire. Le groupe vote pour le plus juste, l'autre a perdu. | avis | |
+| DUE-048 | 5 | [J1] contre [J2] : devinez le bodycount de l'autre. Le plus loin de la vérité a perdu. | sexe | |
+| DUE-049 | 5 | [J1] contre [J2] : devinez le salaire de l'autre. Le plus loin de la vérité a perdu. | argent | |
+| DUE-050 | 5 | [J1] contre [J2] : racontez votre pire rupture en 20 secondes. Le groupe vote pour la moins pitoyable. | ex | |
+ 
+### Culture G : le plus proche
+ 
+Les 4 joueurs désignés annoncent un nombre à voix haute. La réponse s'affiche en haut de la carte suivante. Le plus proche distribue, le plus éloigné boit.
+Chaque réponse est à revérifier auprès de sa source avant publication. Au niveau Border, quelques questions opposent les idées reçues aux chiffres officiels (immigration, inégalités et droits des femmes, droits LGBT+, cerveau).
+ 
+| Réf. | Niv. | Question | Thèmes | Réponse | Unité | Source |
+|---|---|---|---|---|---|---|
+| CG-001 | 1 | [J1], [J2], [J3] et [J4] : combien mesure la tour Eiffel, antennes comprises ? | | 330 | mètres | Société d'exploitation de la tour Eiffel |
+| CG-008 | 1 | [J1], [J2], [J3] et [J4] : combien d'étoiles compte la Voie lactée ? | | 200 milliards (estimations entre 100 et 400) | étoiles | ESA |
+| CG-009 | 1 | [J1], [J2], [J3] et [J4] : à partir de quelle taille adulte parle-t-on de nanisme ? | | 147 | cm | Little People of America |
+| CG-013 | 1 | [J1], [J2], [J3] et [J4] : à quel âge est morte Jeanne Calment, doyenne de l'humanité ? | | 122 | ans | Gerontology Research Group |
+| CG-015 | 1 | [J1], [J2], [J3] et [J4] : combien d'années a régné Louis XIV ? | | 72 | ans | Manuels d'histoire |
+| CG-137 | 1 | [J1], [J2], [J3] et [J4] : combien de temps a duré le record du monde de jonglage avec un ballon de foot sans le faire tomber ? | | 28 | heures (28 h 21 min, par le Suédois Daniel Yaakob en 2025) | Guinness World Records, 2026, The new King of Kick-Ups |
+| CG-139 | 1 | [J1], [J2], [J3] et [J4] : combien de minutes a duré la guerre la plus courte de l'histoire, entre le Royaume-Uni et Zanzibar en 1896 ? | | 40 | minutes environ (45 au maximum) | Encyclopædia Britannica, Anglo-Zanzibar War |
+| CG-140 | 1 | [J1], [J2], [J3] et [J4] : combien d'années a duré la guerre de Cent Ans ? | | 116 | ans (de 1337 à 1453) | World History Encyclopedia, La guerre de Cent Ans |
+| CG-141 | 1 | [J1], [J2], [J3] et [J4] : combien de minutes a régné Louis XIX, roi de France en 1830 ? | | 20 | minutes | Encyclopædia Britannica, Who were the shortest-serving world leaders? |
+| CG-142 | 1 | [J1], [J2], [J3] et [J4] : combien mesure la plus longue frontière terrestre de la France, celle avec le Brésil ? | | 730 | km (devant l'Espagne, 623 km) | Wikipédia, Brazil–France border |
+| CG-143 | 1 | [J1], [J2], [J3] et [J4] : combien de fuseaux horaires compte la France, record du monde ? | | 12 | fuseaux (13 selon certains décomptes, contre 11 pour la Russie) | Le Tribunal du Net, La France, record du monde des fuseaux horaires |
+| CG-144 | 1 | [J1], [J2], [J3] et [J4] : combien de cœurs a une pieuvre ? | | 3 | cœurs | Futura Sciences, La pieuvre a-t-elle trois cœurs et neuf cerveaux ? |
+| CG-145 | 1 | [J1], [J2], [J3] et [J4] : combien de « cerveaux » a une pieuvre, en comptant ceux de ses bras ? | | 9 | (un central et un dans chacun des 8 bras) | Futura Sciences, La pieuvre a-t-elle trois cœurs et neuf cerveaux ? |
+| CG-146 | 1 | [J1], [J2], [J3] et [J4] : combien mesure la Joconde en hauteur ? | | 77 | cm (53 cm de large) | Vikidia, La Joconde |
+| CG-147 | 1 | [J1], [J2], [J3] et [J4] : pendant combien de mois la Joconde a-t-elle disparu du Louvre après son vol en 1911 ? | | 28 | mois | Hérodote, 21 août 1911, la Joconde est volée |
+| CG-148 | 1 | [J1], [J2], [J3] et [J4] : quelle est la superficie du Vatican, plus petit État du monde ? | | 0,44 | km² | Larousse, État de la Cité du Vatican |
+| CG-149 | 1 | [J1], [J2], [J3] et [J4] : combien de verres de Coca-Cola se vendaient par jour pendant sa première année, en 1886 ? | | 9 | verres (à 5 cents le verre) | Logically Facts, d'après Coca-Cola |
+| CG-150 | 1 | [J1], [J2], [J3] et [J4] : combien de marches faut-il monter pour atteindre le sommet de la tour Eiffel ? | | 1 665 | marches | Structurae, Tour Eiffel |
+| CG-151 | 1 | [J1], [J2], [J3] et [J4] : jusqu'à quel âge peut vivre un requin du Groenland ? | | 400 | ans | Nielsen et al., 2016, Science |
+| CG-159 | 1 | [J1], [J2], [J3] et [J4] : quelle est la température de l'air traversé par un éclair ? | | 30 000 | °C (5 fois la surface du Soleil) | Larousse, Foudre |
+| CG-160 | 1 | [J1], [J2], [J3] et [J4] : de combien de centimètres la Lune s'éloigne-t-elle de la Terre chaque année ? | | 3,8 | cm | NASA, mesures laser sur les réflecteurs Apollo, citée par Futura Sciences en 2025 |
+| CG-161 | 1 | [J1], [J2], [J3] et [J4] : en 1908, de combien de mètres le marathon a-t-il été rallongé pour partir sous les fenêtres du château de Windsor ? | | 352 | mètres (d'où les 42,195 km) | Marathons.com, Pourquoi la distance d'un marathon est-elle de 42,195 km ? |
+| CG-162 | 1 | [J1], [J2], [J3] et [J4] : quelle est la vitesse de pointe d'Usain Bolt en course ? | | 44 | km/h (43,99 km/h mesurés) | Encyclopædia Britannica, How fast is the world's fastest human? |
+| CG-163 | 1 | [J1], [J2], [J3] et [J4] : à quel âge Mozart a-t-il composé son premier morceau ? | | 5 | ans (son père l'écrivait pour lui) | The Morgan Library & Museum, Mozart, earliest compositions |
+| CG-164 | 1 | [J1], [J2], [J3] et [J4] : combien d'équipes ont joué la toute première Coupe du monde de football, en 1930 ? | | 13 | équipes | Billiken, Les 13 pays qui ont joué la première Coupe du monde |
+| CG-219 | 1 | [J1], [J2], [J3] et [J4] : de combien de degrés penche la tour de Pise ? | | 4 | degrés environ (le sommet dépasse de plus de 4 mètres, après un redressement de 40 cm entre 1993 et 2001) | Visit Tuscany, site officiel du tourisme en Toscane, La tour penchée de Pise ; Paris Match Belgique, 2018, Pourra-t-on redresser la Tour de Pise ? |
+| CG-016 | 2 | [J1], [J2], [J3] et [J4] : quelle est la longueur totale de la Grande Muraille de Chine ? | | 21 196 | km | Administration d'État du patrimoine culturel chinois, 2012 |
+| CG-020 | 2 | [J1], [J2], [J3] et [J4] : combien de fois le cœur bat-il environ en une journée ? | | 100 000 | battements | Fédération française de cardiologie |
+| CG-021 | 2 | [J1], [J2], [J3] et [J4] : combien d'épisodes compte la série Friends ? | | 236 | épisodes | Warner Bros |
+| CG-138 | 2 | [J1], [J2], [J3] et [J4] : combien de mois dure la grossesse d'une éléphante ? | | 22 | mois (record chez les mammifères) | Guinness World Records, Longest gestation period (mammal) |
+| CG-152 | 2 | [J1], [J2], [J3] et [J4] : combien de rivets tiennent la tour Eiffel ? | | 2,5 millions | rivets | Structurae, Tour Eiffel |
+| CG-153 | 2 | [J1], [J2], [J3] et [J4] : à quel âge une femelle requin du Groenland peut-elle avoir des petits ? | | 150 | ans environ | Nielsen et al., 2016, Science, cité par Notre-Planète |
+| CG-154 | 2 | [J1], [J2], [J3] et [J4] : combien de langues parle-t-on en Papouasie-Nouvelle-Guinée, record du monde ? | | 840 | langues | Guinness World Records, d'après Ethnologue 2019 |
+| CG-155 | 2 | [J1], [J2], [J3] et [J4] : combien d'îles compte officiellement l'Indonésie ? | | 17 024 | îles (16 056 selon le décompte validé par l'ONU en 2017) | Agence d'information géospatiale indonésienne, 2023, répertoire national des noms géographiques, cité par Wikipédia |
+| CG-156 | 2 | [J1], [J2], [J3] et [J4] : combien d'entrées compte le dictionnaire de l'Académie française, achevé en 2024 ? | | 53 000 | entrées (après une quarantaine d'années de travail) | Académie française, La neuvième édition |
+| CG-157 | 2 | [J1], [J2], [J3] et [J4] : combien de kilomètres faisait le tout premier Tour de France, en 1903 ? | | 2 428 | km (en seulement 6 étapes) | Hérodote, 1er-19 juillet 1903, premier Tour de France |
+| CG-158 | 2 | [J1], [J2], [J3] et [J4] : sur 60 coureurs au départ du premier Tour de France, combien sont arrivés à Paris ? | | 20 | coureurs | Hérodote, 1er-19 juillet 1903, premier Tour de France |
+| CG-165 | 2 | [J1], [J2], [J3] et [J4] : sur Vénus, combien de jours terrestres dure une seule journée ? | | 243 | jours (plus long que son année, 225 jours) | Snopes, One day on Venus is longer than a year on Venus |
+| CG-166 | 2 | [J1], [J2], [J3] et [J4] : combien d'exemplaires de Thriller, de Michael Jackson, se sont vendus aux États-Unis ? | | 34 millions | exemplaires (34 fois disque de platine, record de tous les temps) | RIAA, 2021, citée par The Source |
+| CG-167 | 2 | [J1], [J2], [J3] et [J4] : combien a coûté la construction du vrai Titanic, en 1912 ? | | 7,5 millions | de dollars (le film de 1997 en a coûté 200 millions) | No Film School, Did Titanic really cost more than the actual ship? |
+| CG-168 | 2 | [J1], [J2], [J3] et [J4] : combien d'albums a vendu Jul, plus gros vendeur de l'histoire du rap français ? | | 10 millions | d'albums (fin 2025) | Wikipédia, Jul (rapper) |
+| CG-169 | 2 | [J1], [J2], [J3] et [J4] : combien de fois par seconde la foudre frappe-t-elle le sol sur Terre ? | | 50 à 100 | fois | Larousse, Foudre |
+| CG-099 | 3 | [J1], [J2], [J3] et [J4] : pendant combien d'années le divorce a-t-il été interdit en France au XIXe siècle ? | couple | 68 | ans (de 1816 à 1884) | Ministère de la Justice, Quand le divorce était interdit (1816-1884) |
+| CG-109 | 3 | [J1], [J2], [J3] et [J4] : en combien de millisecondes juge-t-on si quelqu'un est beau ? | | 100 | millisecondes (un dixième de seconde) | Willis et Todorov, 2006, Psychological Science, First impressions (université de Princeton) |
+| CG-110 | 3 | [J1], [J2], [J3] et [J4] : combien de temps a duré le plus long baiser du monde ? | | 58 | heures (58 h 35 min 58 s, Thaïlande, 2013) | Seneweb, 2013, Le nouveau plus long baiser du monde |
+| CG-111 | 3 | [J1], [J2], [J3] et [J4] : combien de bactéries s'échangent pendant un baiser de 10 secondes ? | | 80 millions | bactéries | Kort et al., 2014, Microbiome, étude sur 21 couples |
+| CG-112 | 3 | [J1], [J2], [J3] et [J4] : combien de baisers par jour faut-il pour qu'un couple partage la même flore buccale ? | couple | 9 | baisers | Kort et al., 2014, Microbiome, étude sur 21 couples |
+| CG-113 | 3 | [J1], [J2], [J3] et [J4] : combien mesure le pénis du canard argentin, record chez les oiseaux ? | sexe | 42,5 | cm (plus long que le canard lui-même) | Guinness World Records, 2001, Largest reproductive organ for a bird |
+| CG-114 | 3 | [J1], [J2], [J3] et [J4] : combien mesure le spermatozoïde d'une petite mouche à fruits de 3 mm ? | sexe | 5,8 | cm (20 fois la taille de la mouche) | Pitnick, Spicer et Markow, 1995, Nature, How long is a giant sperm? |
+| CG-115 | 3 | [J1], [J2], [J3] et [J4] : combien de fois l'Américain Glynn Wolfe s'est-il marié ? | couple | 29 | fois (record du monde) | Guinness World Records, Most monogamous marriages by a male |
+| CG-116 | 3 | [J1], [J2], [J3] et [J4] : combien de temps peut durer l'éjaculation d'un cochon ? | sexe | 31 | minutes au maximum (6 en moyenne) | Journal of Animal Science Advances, 2012, cité par Slate |
+| CG-117 | 3 | [J1], [J2], [J3] et [J4] : combien d'œufs un hippocampe mâle peut-il porter dans sa poche ? | | 650 | œufs (c'est le mâle qui accouche) | Larousse, encyclopédie Vie sauvage, article Hippocampe |
+| CG-118 | 3 | [J1], [J2], [J3] et [J4] : combien de fois un couple de lions peut-il s'accoupler en 24 heures ? | sexe | 50 | fois (toutes les 20 à 30 minutes) | Encyclopædia Britannica, Lion, reproduction and life cycle |
+| CG-119 | 3 | [J1], [J2], [J3] et [J4] : combien d'heures par an une femelle panda est-elle fertile, au maximum ? | sexe | 72 | heures (entre 24 et 72, une seule fois par an) | Smithsonian's National Zoo, Giant Panda Estrus FAQs |
+| CG-120 | 3 | [J1], [J2], [J3] et [J4] : quel âge a le plus vieux sex-toy connu ? | sexe | 28 000 | ans (un phallus en pierre polie trouvé en Allemagne) | Université de Tübingen, 2005, grotte de Hohle Fels, citée par The Register |
+| CG-121 | 3 | [J1], [J2], [J3] et [J4] : combien mesure le plus vieux sex-toy connu, un phallus en pierre de 28 000 ans ? | sexe | 20 | cm | Université de Tübingen, 2005, grotte de Hohle Fels, citée par The Register |
+| CG-122 | 3 | [J1], [J2], [J3] et [J4] : en 1564, sur combien d'hommes l'anatomiste Falloppio dit-il avoir testé ses préservatifs en lin ? | sexe | 1 100 | hommes (aucun n'aurait attrapé la syphilis) | Falloppio, 1564, De Morbo Gallico, cité par Wikipédia |
+| CG-123 | 3 | [J1], [J2], [J3] et [J4] : combien de fois la longueur de son corps mesure le pénis d'une balane, le coquillage des rochers ? | sexe | 8 | fois | KQED Deep Look, 2022, cité par Nerdist |
+| CG-124 | 3 | [J1], [J2], [J3] et [J4] : combien de litres de sperme peut produire un testicule de baleine franche ? | sexe | 4,5 | litres | Guinness World Records, Largest animal testes |
+| CG-125 | 3 | [J1], [J2], [J3] et [J4] : combien pèse un seul testicule de baleine franche ? | sexe | 500 | kg (record du règne animal) | Guinness World Records, Largest animal testes |
+| CG-126 | 3 | [J1], [J2], [J3] et [J4] : combien mesure le pénis d'une baleine bleue ? | sexe | 2,4 | mètres (record du règne animal) | Guinness World Records, Longest animal penis |
+| CG-127 | 3 | [J1], [J2], [J3] et [J4] : combien mesure le pénis d'un gorille dos argenté de 200 kg ? | sexe | 3 | cm | Allodocteurs, 2015, Sexualité des animaux : gare au gorille ? |
+| CG-128 | 3 | [J1], [J2], [J3] et [J4] : combien de bébés a eus Diego, la tortue géante des Galápagos qui a sauvé son espèce ? | | 900 | bébés (il restait 14 tortues de son espèce) | Futura Sciences, 2020, Diego, père de 900 enfants, prend sa retraite |
+| CG-129 | 3 | [J1], [J2], [J3] et [J4] : combien de vagins a une femelle kangourou ? | sexe | 3 | vagins | Australian Geographic, 2022, Did you know kangaroos have three vaginas? |
+| CG-130 | 3 | [J1], [J2], [J3] et [J4] : combien de têtes a le pénis de l'échidné ? | sexe | 4 | têtes (seulement 2 servent à chaque fois) | Futura Sciences, 2021, Le pénis à quatre têtes de l'échidné |
+| CG-131 | 3 | [J1], [J2], [J3] et [J4] : chez la couleuvre rayée, combien de mâles peuvent s'enrouler autour d'une seule femelle pour s'accoupler ? | sexe | 100 | mâles | Gouvernement du Manitoba, Couleuvres de Narcisse |
+| CG-132 | 3 | [J1], [J2], [J3] et [J4] : combien de secondes dure le premier baiser de l'histoire du cinéma, filmé en 1896 ? | | 18 | secondes (il a fait scandale) | Wikipédia, The Kiss (1896 film) |
+| CG-133 | 3 | [J1], [J2], [J3] et [J4] : combien pesaient les cadenas d'amour retirés du pont des Arts à Paris en 2015 ? | couple | 45 | tonnes (plus d'un million de cadenas) | Guinness World Records, 2026, How a Paris bridge nearly collapsed under 45 tonnes of love |
+| CG-134 | 3 | [J1], [J2], [J3] et [J4] : combien de fois « je t'aime » est-il écrit sur le mur des Je t'aime à Montmartre ? | | 311 | fois (en 250 langues) | Ville de Paris, Le mur des Je t'aime, 25 ans d'amour en 250 langues |
+| CG-135 | 3 | [J1], [J2], [J3] et [J4] : combien d'ouvriers ont construit le Taj Mahal, offert par un empereur à sa femme morte ? | | 20 000 | ouvriers (pendant 22 ans) | Grunge, d'après ThoughtCo, The real reason it took 22 years to build the Taj Mahal |
+| CG-136 | 3 | [J1], [J2], [J3] et [J4] : combien ont été vendues aux enchères trois lettres d'amour de Napoléon à Joséphine ? | couple | 513 500 | euros (en 2019) | RTBF, 2019, Trois lettres de Napoléon à Joséphine vendues à plus de 500 000 euros |
+| CG-177 | 4 | [J1], [J2], [J3] et [J4] : au Loto, une grille a une chance sur combien de gagner le jackpot ? | | 19 068 840 | (5 bons numéros et le numéro chance) | Euodia, Quelles sont vos véritables chances de gagner au Loto ou à l'EuroMillions ? (calcul vérifiable) |
+| CG-178 | 4 | [J1], [J2], [J3] et [J4] : combien d'heures par jour les 15-24 ans passent-ils sur internet ? | | 5 | heures environ (dont plus de 90 % sur mobile) | Médiamétrie, 2026, L'Année Internet 2025 |
+| CG-179 | 4 | [J1], [J2], [J3] et [J4] : à quel âge, en moyenne, une femme se marie-t-elle en France ? | | 37,5 | ans (39,8 ans pour un homme, données provisoires 2025) | INSEE, 2026, Âge moyen des mariés selon le sexe |
+| CG-180 | 4 | [J1], [J2], [J3] et [J4] : sur 100 mariages, combien finiraient par un divorce ? | couple | 44 | divorces (indicateur 2014) | INSEE, 2016, Insee Première n° 1599, 123 500 divorces en 2014 |
+| CG-191 | 4 | [J1], [J2], [J3] et [J4] : combien de temps par jour un Français passe-t-il sur internet ? | | 2 h 40 | (dont 80 % sur smartphone, chiffre 2024) | Médiamétrie, 2025, L'Année Internet 2024, cité par le Blog du Modérateur |
+| CG-192 | 4 | [J1], [J2], [J3] et [J4] : combien de temps par jour un Français passe-t-il sur les réseaux sociaux et les messageries ? | | 1 h 03 | (chiffre 2024) | Médiamétrie, 2025, L'Année Internet 2024, cité par le Blog du Modérateur |
+| CG-193 | 4 | [J1], [J2], [J3] et [J4] : quelle part des 18-24 ans regarde son téléphone moins de 5 minutes après le réveil ? | | 40 | % (20 % pour l'ensemble des Français) | Deloitte, 2017, Global Mobile Consumer Survey, cité par le Blog du Modérateur |
+| CG-194 | 4 | [J1], [J2], [J3] et [J4] : quelle part des 18-75 ans fume tous les jours en France ? | | 18,2 | % (28,6 % en 2014, chiffre 2024) | Santé publique France, 2025, Forte baisse du tabagisme en France : en 10 ans, 4 millions de fumeurs quotidiens en moins |
+| CG-195 | 4 | [J1], [J2], [J3] et [J4] : combien de décès prématurés le tabac a-t-il causés en France en 2023 ? | | 68 000 | décès (11 % de la mortalité) | Santé publique France, 2025, dossier Tabac |
+| CG-196 | 4 | [J1], [J2], [J3] et [J4] : combien de litres d'alcool pur boit en moyenne chaque habitant de plus de 15 ans par an ? | | 9,75 | litres (chiffre 2024) | OFDT, 2025, La consommation d'alcool et ses conséquences en France en 2024, cité par Santé mentale |
+| CG-197 | 4 | [J1], [J2], [J3] et [J4] : combien de décès par an sont attribuables à l'alcool en France ? | | 41 000 | décès (données 2015) | Santé publique France, 2019, Bulletin épidémiologique hebdomadaire n° 5-6, cité par Pourquoi Docteur |
+| CG-198 | 4 | [J1], [J2], [J3] et [J4] : combien de Français fument du cannabis tous les jours ? | | 900 000 | personnes | OFDT, 2025, Drogues et addictions, chiffres clés, cité par Santé mentale |
+| CG-199 | 4 | [J1], [J2], [J3] et [J4] : combien de Français ont pris de la cocaïne au moins une fois dans l'année ? | | 1,1 million | de personnes (11-75 ans) | OFDT, 2025, Drogues et addictions, chiffres clés, cité par Santé mentale |
+| CG-200 | 4 | [J1], [J2], [J3] et [J4] : combien de Français ont pris de la MDMA ou de l'ecstasy au moins une fois dans l'année ? | | 750 000 | personnes | OFDT, 2025, Drogues et addictions, chiffres clés, cité par Santé mentale |
+| CG-201 | 4 | [J1], [J2], [J3] et [J4] : combien de tonnes de cocaïne ont été saisies en France en 2024 ? | | 54 | tonnes (23 en 2023, record battu dès septembre 2025) | OFAST, 2025, cité par Outremers 360 (AFP) |
+| CG-202 | 4 | [J1], [J2], [J3] et [J4] : combien de Big Mac un Américain a-t-il mangés dans sa vie, record du monde ? | | 35 000 | Big Mac (Don Gorske, presque un par jour depuis 1972) | Guinness World Records, 2025, Most Big Mac burgers eaten in a lifetime |
+| CG-203 | 4 | [J1], [J2], [J3] et [J4] : pendant combien d'années un Américain a-t-il eu le hoquet sans s'arrêter ? | | 68 | ans (de 1922 à 1990) | Guinness World Records, Longest attack of hiccups |
+| CG-204 | 4 | [J1], [J2], [J3] et [J4] : combien de décibels fait le rot le plus fort du monde ? | | 112,4 | décibels (plus fort qu'une perceuse) | Guinness World Records, 2021, Loudest burp (male) |
+| CG-205 | 4 | [J1], [J2], [J3] et [J4] : combien de crottes en forme de cube un wombat peut-il faire par jour ? | | 100 | crottes environ | Smithsonian Magazine, 2021, Scientists have solved the mystery of how wombats poop cubes |
+| CG-206 | 4 | [J1], [J2], [J3] et [J4] : pendant combien de jours une Anglaise a-t-elle éternué sans s'arrêter ? | | 976 | jours (environ un million d'éternuements la première année) | Guinness World Records, Longest sneezing fit |
+| CG-207 | 4 | [J1], [J2], [J3] et [J4] : combien de litres de bière ont été bus à l'Oktoberfest de Munich en 2026 ? | | 6,7 millions | de litres (pour 7,4 millions de visiteurs) | Ville de Munich, 2026, Faits et chiffres sur l'Oktoberfest |
+| CG-208 | 4 | [J1], [J2], [J3] et [J4] : combien d'objets perdus ont été rapportés à l'Oktoberfest de Munich en 2026 ? | | 4 000 | objets environ (dont 1 050 vêtements et 700 portefeuilles) | Ville de Munich, 2026, Faits et chiffres sur l'Oktoberfest |
+| CG-209 | 4 | [J1], [J2], [J3] et [J4] : à quel âge est mort le chat le plus vieux de l'histoire ? | | 38 | ans (Creme Puff, 1967-2005) | Guinness World Records, Oldest cat ever |
+| CG-210 | 4 | [J1], [J2], [J3] et [J4] : combien de jours un lycéen américain a-t-il tenu sans dormir en 1964 ? | | 11 | jours (264 heures) | NPR, 2017, What researchers learned from a guy who stayed awake for 11 days |
+| CG-211 | 4 | [J1], [J2], [J3] et [J4] : combien de hot-dogs le champion du monde a-t-il avalés en 10 minutes ? | | 76 | hot-dogs (Joey Chestnut, 2021) | Guinness World Records, 2021, Most hot dogs eaten at a Nathan's Hot Dog Eating Contest (male) |
+| CG-212 | 4 | [J1], [J2], [J3] et [J4] : combien de tonnes de tomates sont lancées en une heure à la Tomatina, en Espagne ? | | 120 | tonnes (par 20 000 personnes, en 2025) | Associated Press, 2025, Tons of overripe tomatoes become projectiles in Spain's Tomatina food fight, cité par KSAT |
+| CG-213 | 4 | [J1], [J2], [J3] et [J4] : combien mesure la langue la plus longue du monde, du bout aux lèvres ? | | 10,1 | cm | Guinness World Records, 2012, Longest tongue (male) |
+| CG-214 | 4 | [J1], [J2], [J3] et [J4] : combien mesurait l'homme le plus grand de l'histoire ? | | 2,72 | mètres (Robert Wadlow, mesuré en 1940) | Guinness World Records, Tallest man ever |
+| CG-215 | 4 | [J1], [J2], [J3] et [J4] : combien mesuraient au total les ongles d'une Américaine qui ne les coupait plus depuis 1979 ? | | 8,65 | mètres (en 2008, sur les deux mains) | Guinness World Records, Lee Redmond, Longest fingernails on a pair of hands ever (female) |
+| CG-216 | 4 | [J1], [J2], [J3] et [J4] : combien de cuillères un Iranien a-t-il réussi à faire tenir sur son corps ? | | 96 | cuillères (record de 2025) | Guinness World Records, 2025, Man balances 96 spoons on body to break own record |
+| CG-217 | 4 | [J1], [J2], [J3] et [J4] : combien de T-shirts un Canadien a-t-il enfilés les uns sur les autres en 2019 pour battre le record du monde ? | | 260 | T-shirts | Guinness World Records, 2019, Dad puts on 260 T-shirts after son asks him if he can set a record |
+| CG-218 | 4 | [J1], [J2], [J3] et [J4] : combien de jours un paresseux peut-il mettre pour digérer une seule feuille ? | | 30 | jours (il ne descend faire ses besoins qu'une fois par semaine) | Sloth Conservation Foundation, What do sloths eat? |
+| CG-025 | 5 | [J1], [J2], [J3] et [J4] : en 2016, quelle part de la population les Français pensaient-ils musulmane ? | | 31 | % | Ipsos MORI, 2016, Perils of Perception (réalité : 7,5 %) |
+| CG-027 | 5 | [J1], [J2], [J3] et [J4] : quelle part de la population vivant en France est immigrée ? | | 11,6 | % | INSEE, 2026, Immigration, intégration et discriminations (chiffre 2025, provisoire) |
+| CG-035 | 5 | [J1], [J2], [J3] et [J4] : quelle part de la population mondiale vit hors de son pays de naissance ? | | 3,6 | % | OIM, 2024, État de la migration dans le monde (chiffre 2020) |
+| CG-038 | 5 | [J1], [J2], [J3] et [J4] : à quel âge la moitié des femmes ont-elles déjà eu leur premier rapport sexuel en France ? | sexe | 18,2 | ans (âge médian) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-039 | 5 | [J1], [J2], [J3] et [J4] : à quel âge la moitié des hommes ont-ils déjà eu leur premier rapport sexuel en France ? | sexe | 17,7 | ans (âge médian) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-040 | 5 | [J1], [J2], [J3] et [J4] : combien de partenaires sexuels un homme déclare-t-il en moyenne au cours de sa vie en France ? | sexe | 16,4 | partenaires (11,9 en 2006) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-041 | 5 | [J1], [J2], [J3] et [J4] : combien de partenaires sexuels une femme déclare-t-elle en moyenne au cours de sa vie en France ? | sexe | 7,9 | partenaires (4,5 en 2006) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-042 | 5 | [J1], [J2], [J3] et [J4] : quelle part des femmes de 18 à 69 ans a eu au moins un rapport sexuel dans l'année ? | sexe | 77,2 | % (81,6 % des hommes) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-043 | 5 | [J1], [J2], [J3] et [J4] : quelle part des femmes de 18 à 69 ans déclare s'être déjà masturbée ? | sexe | 72,9 | % (56,5 % en 2006) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-044 | 5 | [J1], [J2], [J3] et [J4] : quelle part des hommes a déjà rencontré un partenaire sur un site ou une appli de rencontre ? | sexe | 23,7 | % (17,9 % des femmes) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-045 | 5 | [J1], [J2], [J3] et [J4] : quelle part des femmes utilise la pilule en 2023 ? | sexe | 26,8 | % (55,8 % en 2005) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-046 | 5 | [J1], [J2], [J3] et [J4] : quelle part des femmes se déclare non strictement hétérosexuelle ? | sexe | 22,5 | % (14,5 % des hommes) | Inserm et ANRS-MIE, 2024, Contexte des sexualités en France 2023 |
+| CG-047 | 5 | [J1], [J2], [J3] et [J4] : quelle est la longueur moyenne d'un pénis au repos ? | sexe | 9,16 | cm | Veale et al., 2015, BJU International, étude sur 15 521 hommes |
+| CG-048 | 5 | [J1], [J2], [J3] et [J4] : quelle est la longueur moyenne d'un pénis en érection ? | sexe | 13,12 | cm | Veale et al., 2015, BJU International, étude sur 15 521 hommes |
+| CG-049 | 5 | [J1], [J2], [J3] et [J4] : combien de minutes dure en moyenne une pénétration, chronomètre en main ? | sexe | 5,4 | minutes (valeur médiane) | Waldinger et al., 2005, Journal of Sexual Medicine, étude sur 491 couples dans 5 pays |
+| CG-050 | 5 | [J1], [J2], [J3] et [J4] : selon Kinsey en 1948, quelle part des hommes jouissaient en moins de 2 minutes au moins une fois sur deux ? | sexe | 75 | % | Kinsey, 1948, Sexual Behavior in the Human Male |
+| CG-051 | 5 | [J1], [J2], [J3] et [J4] : combien de fibres nerveuses compte le nerf principal du clitoris ? | sexe | 10 281 | fibres (on en citait 8 000 avant) | Oregon Health & Science University, 2022, congrès SMSNA-ISSM |
+| CG-052 | 5 | [J1], [J2], [J3] et [J4] : combien de calories un homme brûle-t-il en moyenne pendant un rapport sexuel ? | sexe | 101 | kcal (69 pour une femme) | Frappier et al., 2013, PLoS One, étude sur 21 couples |
+| CG-058 | 5 | [J1], [J2], [J3] et [J4] : combien de bulles s'échappent d'une flûte de champagne qu'on ne boit pas ? | | 1 million | bulles (on lit souvent 15 millions) | Liger-Belair, 2014, Journal of Physical Chemistry B |
+| CG-059 | 5 | [J1], [J2], [J3] et [J4] : à temps de travail égal, combien les femmes gagnent-elles de moins que les hommes dans le privé ? | | 13 | % (13,0 % en 2024, 14,2 % en 2023) | INSEE, 2025, Insee Première n° 2079, Les salaires dans le secteur privé en 2024 |
+| CG-060 | 5 | [J1], [J2], [J3] et [J4] : sur une année, de combien le revenu salarial des femmes est-il inférieur à celui des hommes ? | | 22,2 | % (21 340 € contre 27 430 €) | INSEE, 2025, Insee Focus n° 349, Écart de salaire entre femmes et hommes en 2023 |
+| CG-061 | 5 | [J1], [J2], [J3] et [J4] : à partir de quel jour de novembre 2025 les femmes ont-elles « travaillé gratuitement » jusqu'à la fin de l'année ? | | 10 | novembre, à 11 h 31 | Les Glorieuses, 2025, calcul à partir des données INSEE |
+| CG-062 | 5 | [J1], [J2], [J3] et [J4] : au rythme actuel, combien d'années faudra-t-il pour atteindre l'égalité femmes-hommes dans le monde ? | | 123 | ans | Forum économique mondial, 2025, Global Gender Gap Report |
+| CG-063 | 5 | [J1], [J2], [J3] et [J4] : de combien la pension de retraite des femmes est-elle inférieure à celle des hommes ? | | 36 | % (1 349 € contre 2 123 € par mois) | DREES, données fin 2024, citées par JeChange en 2026 |
+| CG-064 | 5 | [J1], [J2], [J3] et [J4] : combien de femmes ont reçu le prix Nobel de physique depuis 1901 ? | | 5 | femmes | Fondation Nobel, liste des lauréats, 2025 |
+| CG-065 | 5 | [J1], [J2], [J3] et [J4] : combien de femmes ont été élues députées en 2024, sur 577 sièges ? | | 208 | députées (36 %) | Public Sénat, 2024, résultats des élections législatives |
+| CG-066 | 5 | [J1], [J2], [J3] et [J4] : combien de temps par jour les femmes qui travaillent passent-elles aux tâches domestiques ? | | 3 h 26 | (2 h pour les hommes) | INSEE, 2010, enquête Emploi du temps, citée par l'Observatoire des inégalités |
+| CG-067 | 5 | [J1], [J2], [J3] et [J4] : parmi les rues qui portent le nom d'une personnalité, quelle part honore une femme ? | | 6 | % | Enquête de 2014 sur les noms de rues, citée par Slate |
+| CG-068 | 5 | [J1], [J2], [J3] et [J4] : en quelle année les Françaises ont-elles obtenu le droit de vote ? | | 1944 | année (ordonnance du 21 avril) | Ordonnance du 21 avril 1944, citée par L'Étudiant |
+| CG-069 | 5 | [J1], [J2], [J3] et [J4] : en quelle année une femme mariée a-t-elle pu ouvrir un compte en banque sans l'accord de son mari ? | | 1965 | année | Loi du 13 juillet 1965, citée par info.gouv.fr |
+| CG-070 | 5 | [J1], [J2], [J3] et [J4] : en quelle année l'interdiction faite aux Parisiennes de porter un pantalon a-t-elle été officiellement abrogée ? | | 2013 | année (interdiction datant de 1800) | Ministère des Droits des femmes, 2013, réponse publiée au Journal officiel du Sénat |
+| CG-071 | 5 | [J1], [J2], [J3] et [J4] : en quelle année une femme mariée a-t-elle pu ouvrir un livret d'épargne sans l'accord de son mari ? | | 1881 | année | info.gouv.fr, 2025, La femme mariée avait le statut de mineure |
+| CG-072 | 5 | [J1], [J2], [J3] et [J4] : en quelle année la femme mariée a-t-elle cessé d'être juridiquement considérée comme une mineure ? | | 1938 | année | info.gouv.fr, 2025, La femme mariée avait le statut de mineure |
+| CG-073 | 5 | [J1], [J2], [J3] et [J4] : en quelle année la pilule contraceptive a-t-elle été autorisée en France ? | | 1967 | année (loi Neuwirth) | Loi Neuwirth du 28 décembre 1967, citée par L'Étudiant |
+| CG-074 | 5 | [J1], [J2], [J3] et [J4] : en quelle année l'IVG a-t-elle été légalisée en France ? | | 1975 | année (loi Veil) | Loi Veil du 17 janvier 1975, citée par L'Étudiant |
+| CG-075 | 5 | [J1], [J2], [J3] et [J4] : en quelle année l'IVG est-elle entrée dans la Constitution ? | | 2024 | année | Loi constitutionnelle du 8 mars 2024 |
+| CG-076 | 5 | [J1], [J2], [J3] et [J4] : en quelle année une femme est-elle devenue Première ministre pour la première fois en France ? | | 1991 | année (Édith Cresson) | L'Étudiant, Les 8 dates clés de l'histoire des droits des femmes en France |
+| CG-077 | 5 | [J1], [J2], [J3] et [J4] : dans combien de pays l'homosexualité est-elle encore un crime, sur 193 ? | | 64 | pays | Observatoire des inégalités, 2025, données ILGA World 2025 |
+| CG-078 | 5 | [J1], [J2], [J3] et [J4] : en 1990, dans combien de pays l'homosexualité était-elle un crime ? | | 113 | pays (64 aujourd'hui) | Observatoire des inégalités, 2025, données ILGA World 2025 |
+| CG-079 | 5 | [J1], [J2], [J3] et [J4] : dans combien de pays l'homosexualité peut-elle être punie de mort ? | | 12 | pays | Observatoire des inégalités, 2025, données ILGA World 2025 |
+| CG-080 | 5 | [J1], [J2], [J3] et [J4] : en quelle année la France a-t-elle dépénalisé l'homosexualité ? | | 1982 | année | Loi du 4 août 1982 |
+| CG-081 | 5 | [J1], [J2], [J3] et [J4] : en quelle année l'OMS a-t-elle retiré l'homosexualité de la liste des maladies mentales ? | | 1990 | année (le 17 mai, devenu journée contre l'homophobie) | Ministère de l'Europe et des Affaires étrangères, Journée internationale de lutte contre les LGBTphobies |
+| CG-082 | 5 | [J1], [J2], [J3] et [J4] : combien de couples de même sexe se sont mariés en France entre 2013 et 2024 ? | | 84 000 | couples | INSEE, 2026, citée par Maire-info |
+| CG-083 | 5 | [J1], [J2], [J3] et [J4] : quelle part des mariages célébrés en 2024 concerne deux personnes de même sexe ? | | 3 | % | INSEE, 2026, citée par Maire-info |
+| CG-084 | 5 | [J1], [J2], [J3] et [J4] : en quelle année la PMA a-t-elle été ouverte aux couples de femmes et aux femmes seules ? | | 2021 | année | Loi de bioéthique du 2 août 2021, citée par L'Étudiant |
+| CG-085 | 5 | [J1], [J2], [J3] et [J4] : quelle part de son cerveau utilise-t-on vraiment ? | | Presque 100 | % (le mythe dit 10 %) | MIT McGovern Institute, 2024, cité par Techno-Science en 2026 |
+| CG-086 | 5 | [J1], [J2], [J3] et [J4] : le cerveau pèse 2 % du corps : quelle part de l'énergie consomme-t-il au repos ? | | 20 | % | Techno-Science, 2026, Est-il vrai que l'on utilise seulement 10 % de notre cerveau ? |
+| CG-087 | 5 | [J1], [J2], [J3] et [J4] : combien de neurones compte un cerveau humain ? | | 86 milliards | neurones (on disait 100 milliards) | Azevedo et al., 2009, Journal of Comparative Neurology |
+| CG-088 | 5 | [J1], [J2], [J3] et [J4] : combien pesait le cerveau d'Einstein ? | | 1,23 | kg (1,35 kg en moyenne chez un homme) | Futura Sciences, « On n'utilise que 10 % de notre cerveau » : vrai ou faux ? |
+| CG-089 | 5 | [J1], [J2], [J3] et [J4] : en quelle année les Parisiennes ont-elles pu porter un pantalon, à condition de tenir un guidon de vélo ? | | 1892 | année (et à cheval à partir de 1909) | The Local, 2013, France lifts 200-year-old trouser ban on women |
+ 
+### Chaîne de thème
+ 
+Chacun cite un élément à son tour. Le premier qui sèche ou répète boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| CH-001 | 1 | Chaîne : les pays d'Europe. [J1], tu commences. | | |
+| CH-002 | 1 | Chaîne : les marques de voiture. [J1], tu commences. | | |
+| CH-003 | 1 | Chaîne : les fruits et légumes. [J1], tu commences. | | |
+| CH-004 | 1 | Chaîne : les capitales du monde. [J1], tu commences. | | |
+| CH-005 | 1 | Chaîne : les animaux qui vivent dans l'eau. [J1], tu commences. | | |
+| CH-020 | 1 | Chaîne : les sports olympiques. [J1], tu commences. | | |
+| CH-021 | 1 | Chaîne : les instruments de musique. [J1], tu commences. | | |
+| CH-022 | 1 | Chaîne : les métiers. [J1], tu commences. | | |
+| CH-023 | 1 | Chaîne : les fromages. [J1], tu commences. | | |
+| CH-024 | 1 | Chaîne : les desserts. [J1], tu commences. | | |
+| CH-006 | 2 | Chaîne : les joueurs de foot. [J1], tu commences. | | |
+| CH-007 | 2 | Chaîne : les pays d'Afrique. [J1], tu commences. | | |
+| CH-008 | 2 | Chaîne : les chanteurs et chanteuses françaises. [J1], tu commences. | | |
+| CH-009 | 2 | Chaîne : les marques de bière. [J1], tu commences. | | |
+| CH-010 | 2 | Chaîne : les festivals de musique en France. [J1], tu commences. | | |
+| CH-025 | 2 | Chaîne : les trucs qu'on trouve au fond d'un sac ou d'une poche. [J1], tu commences. | | |
+| CH-026 | 2 | Chaîne : les rappeurs français. [J1], tu commences. | | |
+| CH-027 | 2 | Chaîne : les dessins animés de ton enfance. [J1], tu commences. | | |
+| CH-028 | 2 | Chaîne : les émissions de téléréalité. [J1], tu commences. | | |
+| CH-029 | 2 | Chaîne : les tubes de l'été. [J1], tu commences. | | |
+| CH-052 | 2 | Chaîne : les alcools forts (vodka, rhum…). [J1], tu commences. | | |
+| CH-053 | 2 | Chaîne : ce qu'on mange à 5 h du matin en sortant de soirée. [J1], tu commences. | | |
+| CH-054 | 2 | Chaîne : les jeux à boire (beer pong, roi des cons…). [J1], tu commences. | | |
+| CH-057 | 2 | Chaîne : les DJ de musique électronique. [J1], tu commences. | | |
+| CH-011 | 3 | Chaîne : les moyens de contraception. [J1], tu commences. | sexe | |
+| CH-012 | 3 | Chaîne : les couples de téléréalité. [J1], tu commences. | couple | |
+| CH-013 | 3 | Chaîne : les endroits pour un premier date. [J1], tu commences. | couple | |
+| CH-030 | 3 | Chaîne : les endroits où l'on s'endort après une soirée trop arrosée (baignoire, canapé d'un inconnu, dernier métro…). [J1], tu commences. | | |
+| CH-031 | 3 | Chaîne : les chansons d'amour. [J1], tu commences. | | |
+| CH-032 | 3 | Chaîne : les couples célèbres, réels ou fictifs. [J1], tu commences. | | |
+| CH-033 | 3 | Chaîne : les applis de rencontre. [J1], tu commences. | couple | |
+| CH-034 | 3 | Chaîne : les marques de préservatifs. [J1], tu commences. | sexe | |
+| CH-035 | 3 | Chaîne : les surnoms amoureux ringards. [J1], tu commences. | couple | |
+| CH-036 | 3 | Chaîne : les cocktails. [J1], tu commences. | | |
+| CH-051 | 3 | Chaîne : ce qui ne passe pas dans l'avion. [J1], tu commences. | | |
+| CH-055 | 3 | Chaîne : les shots célèbres (B-52, Jägerbomb…). [J1], tu commences. | | |
+| CH-056 | 3 | Chaîne : les morceaux de techno ou de house que tout le monde connaît. [J1], tu commences. | | |
+| CH-014 | 4 | Chaîne : les inégalités entre hommes et femmes (salaire, tâches ménagères…). [J1], tu commences. | | |
+| CH-015 | 4 | Chaîne : les candidats de téléréalité. [J1], tu commences. | | |
+| CH-016 | 4 | Chaîne : les prénoms des ex des gens ici. [J1], tu commences. | ex, avis | |
+| CH-037 | 4 | Chaîne : les drogues, légales ou non. [J1], tu commences. | transgressions | |
+| CH-038 | 4 | Chaîne : les surnoms qu'on a déjà donnés à quelqu'un ici. [J1], tu commences. | avis | |
+| CH-039 | 4 | Chaîne : les boîtes où quelqu'un ici a déjà travaillé. [J1], tu commences. | | |
+| CH-040 | 4 | Chaîne : les marques de luxe. [J1], tu commences. | | |
+| CH-041 | 4 | Chaîne : les jeux télévisés. [J1], tu commences. | | |
+| CH-042 | 4 | Chaîne : les trucs qu'on emporte d'une chambre d'hôtel. [J1], tu commences. | transgressions | |
+| CH-043 | 4 | Chaîne : les gens ici qui sont déjà sortis ensemble. [J1], tu commences. | couple, avis | |
+| CH-017 | 5 | Chaîne : les infections sexuellement transmissibles. [J1], tu commences. | sexe | |
+| CH-018 | 5 | Chaîne : les couples de stars qui se sont séparés. [J1], tu commences. | couple | |
+| CH-019 | 5 | Chaîne : les sex-toys. [J1], tu commences. | sexe | |
+| CH-044 | 5 | Chaîne : les lieux insolites pour faire l'amour. [J1], tu commences. | sexe | |
+| CH-045 | 5 | Chaîne : les gens ici avec qui tu pourrais sortir. [J1], tu commences. | couple, avis | |
+| CH-046 | 5 | Chaîne : les infractions du Code de la route. [J1], tu commences. | transgressions | |
+| CH-047 | 5 | Chaîne : les pays où le cannabis est légal. [J1], tu commences. | | |
+| CH-048 | 5 | Chaîne : les expressions d'argot pour dire faire l'amour. [J1], tu commences. | sexe | |
+| CH-049 | 5 | Chaîne : les endroits où quelqu'un ici a déjà embrassé quelqu'un. [J1], tu commences. | couple, avis | |
+| CH-050 | 5 | Chaîne : les gens ici qui se sont déjà embrassés. [J1], tu commences. | couple, avis | |
+ 
+### Dans ma valise
+ 
+Chacun répète la liste et ajoute un objet. Le premier qui se trompe boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| VAL-001 | 1 | Dans ma valise pour une île déserte, je mets… [J1], tu commences. | | |
+| VAL-002 | 1 | Dans ma valise pour la plage, je mets… [J1], tu commences. | | |
+| VAL-003 | 1 | Dans ma valise pour un week-end à la montagne, je mets… [J1], tu commences. | | |
+| VAL-004 | 1 | Dans ma valise pour partir sur Mars, je mets… [J1], tu commences. | | |
+| VAL-010 | 1 | Dans ma valise pour un pique-nique, je mets… [J1], tu commences. | | |
+| VAL-011 | 1 | Dans ma valise pour une colonie de vacances, je mets… [J1], tu commences. | | |
+| VAL-012 | 1 | Dans ma valise pour un road trip, je mets… [J1], tu commences. | | |
+| VAL-013 | 1 | Dans ma valise pour un festival, je mets… [J1], tu commences. | | |
+| VAL-014 | 1 | Dans ma valise pour une soirée pyjama, je mets… [J1], tu commences. | | |
+| VAL-015 | 1 | Dans ma valise pour un week-end à la campagne, je mets… [J1], tu commences. | | |
+| VAL-005 | 2 | Dans ma valise pour un enterrement de vie de célibataire raté, je mets… [J1], tu commences. | | |
+| VAL-006 | 2 | Dans ma valise pour survivre à un repas de famille, je mets… [J1], tu commences. | | |
+| VAL-016 | 2 | Dans ma valise pour un mariage où je ne connais personne, je mets… [J1], tu commences. | | |
+| VAL-017 | 2 | Dans ma valise pour survivre à une semaine sans wifi, je mets… [J1], tu commences. | | |
+| VAL-018 | 2 | Dans ma valise pour un camping sous la pluie, je mets… [J1], tu commences. | | |
+| VAL-019 | 2 | Dans ma valise pour un entretien d'embauche qui va mal se passer, je mets… [J1], tu commences. | | |
+| VAL-020 | 2 | Dans ma valise pour une semaine chez mes grands-parents, je mets… [J1], tu commences. | | |
+| VAL-021 | 2 | Dans ma valise pour une soirée déguisée de dernière minute, je mets… [J1], tu commences. | | |
+| VAL-022 | 2 | Dans ma valise pour un lendemain de soirée difficile, je mets… [J1], tu commences. | | |
+| VAL-023 | 2 | Dans ma valise pour survivre à une invasion de zombies, je mets… [J1], tu commences. | | |
+| VAL-054 | 2 | Dans mon sac pour trois jours de festival sous la pluie, je mets… [J1], tu commences. | | |
+| VAL-007 | 3 | Dans ma valise pour un premier date, je mets… [J1], tu commences. | couple | |
+| VAL-024 | 3 | Dans ma valise pour un week-end en amoureux, je mets… [J1], tu commences. | couple | |
+| VAL-025 | 3 | Dans ma valise pour une Saint-Valentin en célibataire, je mets… [J1], tu commences. | couple | |
+| VAL-026 | 3 | Dans ma valise pour une lune de miel ratée, je mets… [J1], tu commences. | couple | |
+| VAL-027 | 3 | Dans ma valise pour un verre avec mon ex, je mets… [J1], tu commences. | ex | |
+| VAL-028 | 3 | Dans ma valise pour une croisière de célibataires, je mets… [J1], tu commences. | couple | |
+| VAL-029 | 3 | Dans ma valise pour rentrer chez moi après une soirée trop arrosée, je mets… [J1], tu commences. | | |
+| VAL-030 | 3 | Dans ma valise pour un speed dating, je mets… [J1], tu commences. | couple | |
+| VAL-031 | 3 | Dans ma valise pour un mariage où mon ex est invité·e, je mets… [J1], tu commences. | ex | |
+| VAL-032 | 3 | Dans ma valise pour une nuit blanche, je mets… [J1], tu commences. | | |
+| VAL-051 | 3 | Dans ma banane de soirée techno, je mets… [J1], tu commences. | | |
+| VAL-052 | 3 | Dans mes poches pour passer le videur, je mets… [J1], tu commences. | | |
+| VAL-053 | 3 | Dans mon sac pour un after qui finit à midi, je mets… [J1], tu commences. | | |
+| VAL-055 | 3 | Dans ma valise pour un week-end à Berlin sans dormir, je mets… [J1], tu commences. | | |
+| VAL-008 | 4 | Dans ma valise pour fuir le pays après une grosse bêtise, je mets… [J1], tu commences. | transgressions | |
+| VAL-033 | 4 | Dans ma valise pour un séminaire d'entreprise obligatoire, je mets… [J1], tu commences. | | |
+| VAL-034 | 4 | Dans ma valise pour une semaine de vacances avec la personne la plus pénible du groupe, je mets… [J1], tu commences. | avis | |
+| VAL-035 | 4 | Dans ma valise pour une téléréalité où je joue le rôle du méchant, je mets… [J1], tu commences. | argent | |
+| VAL-036 | 4 | Dans ma valise pour un procès où je suis coupable, je mets… [J1], tu commences. | transgressions | |
+| VAL-037 | 4 | Dans ma valise pour un week-end où j'ai menti à tout le monde, je mets… [J1], tu commences. | secrets | |
+| VAL-038 | 4 | Dans ma valise pour un entretien avec mon pire patron, je mets… [J1], tu commences. | | |
+| VAL-039 | 4 | Dans ma valise pour un réveillon avec toute ma belle-famille, je mets… [J1], tu commences. | | |
+| VAL-040 | 4 | Dans ma valise pour un week-end entier où je n'ai pas le droit de mentir, je mets… [J1], tu commences. | secrets | |
+| VAL-041 | 4 | Dans ma valise pour un dîner chez quelqu'un que je ne supporte pas, je mets… [J1], tu commences. | | |
+| VAL-009 | 5 | Dans ma valise pour une nuit chez un·e inconnu·e, je mets… [J1], tu commences. | sexe | |
+| VAL-042 | 5 | Dans ma valise pour une soirée dans un club libertin, je mets… [J1], tu commences. | sexe | |
+| VAL-043 | 5 | Dans ma valise pour une nuit en garde à vue, je mets… [J1], tu commences. | transgressions | |
+| VAL-044 | 5 | Dans ma valise pour tromper sans me faire prendre, je mets… [J1], tu commences. | couple | |
+| VAL-045 | 5 | Dans ma valise pour un week-end avec mon ex et sa nouvelle conquête, je mets… [J1], tu commences. | ex | |
+| VAL-046 | 5 | Dans ma valise pour fuir avec la cagnotte du groupe, je mets… [J1], tu commences. | argent, avis | |
+| VAL-047 | 5 | Dans ma valise pour un plan à trois, je mets… [J1], tu commences. | sexe | |
+| VAL-048 | 5 | Dans ma valise pour une soirée où j'ai juré de ne pas finir chez mon ex, je mets… [J1], tu commences. | ex, sexe | |
+| VAL-049 | 5 | Dans ma valise pour cacher un secret à tout le monde ici, je mets… [J1], tu commences. | secrets, avis | |
+| VAL-050 | 5 | Dans ma valise pour rentrer chez moi au petit matin avec la tenue de la veille, je mets… [J1], tu commences. | sexe | |
+ 
+### Montre ou bois
+ 
+Défi à prouver tout de suite. Sinon, le joueur boit.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| MOB-001 | 1 | [J1], quel est ton super pouvoir ? Montre-le. | | |
+| MOB-002 | 1 | [J1], touche ton nez avec ta langue. | | |
+| MOB-003 | 1 | [J1], récite l'alphabet à l'envers jusqu'à la lettre M. | | |
+| MOB-004 | 1 | [J1], tiens en équilibre sur un pied, les yeux fermés, pendant 10 secondes. | | |
+| MOB-013 | 1 | [J1], touche tes orteils sans plier les genoux. | | |
+| MOB-014 | 1 | [J1], tiens 20 secondes sans cligner des yeux. | | |
+| MOB-015 | 1 | [J1], dis « un chasseur sachant chasser sans son chien » trois fois de suite sans te tromper. | | |
+| MOB-016 | 1 | [J1], cite 5 départements avec leur numéro en 15 secondes. | | |
+| MOB-017 | 1 | [J1], cite 5 pays qui commencent par un B en 15 secondes. | | |
+| MOB-018 | 1 | [J1], claque des doigts des deux mains en même temps, cinq fois de suite. | | |
+| MOB-005 | 2 | [J1], siffle un air que le groupe doit reconnaître. | | |
+| MOB-006 | 2 | [J1], fais 10 pompes. | | |
+| MOB-007 | 2 | [J1], montre le truc le plus bizarre que tu as dans tes poches ou ton sac. | | |
+| MOB-008 | 2 | [J1], dis « les chaussettes de l'archiduchesse sont-elles sèches » trois fois de suite sans te tromper. | | |
+| MOB-019 | 2 | [J1], imite trois cris d'animaux. Le groupe doit tous les reconnaître. | | |
+| MOB-020 | 2 | [J1], tiens 30 secondes en planche. | | |
+| MOB-021 | 2 | [J1], montre ta meilleure danse des années 2000. | | |
+| MOB-022 | 2 | [J1], récite les mois de l'année à l'envers en moins de 10 secondes. | | |
+| MOB-023 | 2 | [J1], fais tenir une cuillère sur ton nez pendant 5 secondes. | | |
+| MOB-024 | 2 | [J1], chante le générique d'un dessin animé jusqu'au bout. | | |
+| MOB-009 | 3 | [J1], montre ton meilleur regard de séduction pendant 5 secondes sans rire. | couple | |
+| MOB-010 | 3 | [J1], montre ta cicatrice avec la meilleure histoire et raconte-la. | | |
+| MOB-025 | 3 | [J1], fais ta démarche la plus sexy jusqu'à la porte, sans rire. | couple | |
+| MOB-026 | 3 | [J1], fais ton plus beau clin d'œil à [J2] sans rire. | couple | 2 joueurs désignés |
+| MOB-027 | 3 | [J1], récite l'alphabet en entier d'un seul souffle. | | |
+| MOB-028 | 3 | [J1], fais 5 pas en ligne droite, les yeux fermés, un pied juste devant l'autre. | | |
+| MOB-029 | 3 | [J1], chante une chanson d'amour pendant 15 secondes, avec tout ton cœur. | | |
+| MOB-030 | 3 | [J1], fais un baisemain à [J2] avec toute l'élégance possible. | contact | 2 joueurs désignés |
+| MOB-031 | 3 | [J1], fais 10 squats en chantant. | | |
+| MOB-032 | 3 | [J1], dis « je veux et j'exige d'exquises excuses » trois fois de suite sans te tromper. | | |
+| MOB-011 | 4 | [J1], imite quelqu'un ici. Si le groupe ne devine pas qui, c'est perdu. | avis | |
+| MOB-033 | 4 | [J1], donne trois choses que tu sais sur la personne ici que tu connais le moins bien. | avis | |
+| MOB-034 | 4 | [J1], cite les prénoms des parents de [J2]. | | 2 joueurs désignés |
+| MOB-035 | 4 | [J1], donne la date d'anniversaire de trois personnes ici. | | |
+| MOB-036 | 4 | [J1], imite-toi quand tu es bourré·e. Le groupe juge si c'est fidèle. | avis | |
+| MOB-037 | 4 | [J1], fais un compliment sincère à la personne ici avec qui tu t'entends le moins. | avis | |
+| MOB-038 | 4 | [J1], garde ton sérieux pendant que le groupe te roaste 20 secondes, sans parler du physique. | avis | |
+| MOB-039 | 4 | [J1], imite un patron qui recadre un employé pendant 20 secondes, sans rire. | | |
+| MOB-040 | 4 | [J1], cite le métier exact de chaque personne ici. | | |
+| MOB-041 | 4 | [J1], devine le plat préféré de [J2]. | | 2 joueurs désignés |
+| MOB-012 | 5 | [J1], cite les prénoms de tous tes ex dans l'ordre, sans hésiter. | ex | |
+| MOB-042 | 5 | [J1], cite les prénoms des trois dernières personnes que tu as embrassées. | sexe | |
+| MOB-043 | 5 | [J1], dis à [J2], les yeux dans les yeux, la vraie raison pour laquelle vous êtes potes. | avis | 2 joueurs désignés |
+| MOB-044 | 5 | [J1], annonce ton salaire net exact, sans arrondir. | argent | |
+| MOB-045 | 5 | [J1], désigne la personne ici que tu trouves la plus attirante. | couple, avis | |
+| MOB-046 | 5 | [J1], raconte ton dernier date en entier, sans rien enjoliver. | couple | |
+| MOB-048 | 5 | [J1], avoue un secret sur toi que personne ici ne connaît. | secrets | |
+| MOB-049 | 5 | [J1], dis à chaque personne ici le défaut qui t'agace le plus chez elle, sans parler du physique. | avis | |
+| MOB-050 | 5 | [J1], mime ta tête au réveil chez un·e inconnu·e. | sexe | |
+| MOB-051 | 5 | [J1], cite toutes les personnes ici avec qui tu as déjà flirté. Si quelqu'un se dénonce et que tu l'as oublié, tu bois. | couple, avis | |
+ 
+### Tout le monde concerné
+ 
+Les concernés boivent. Les trois cartes de genre tombent une fois par partie, en mode gorgées seulement.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| TMC-001 | 1 | Ceux qui portent du noir boivent. | | |
+| TMC-002 | 1 | Ceux qui sont nés en hiver boivent. | | |
+| TMC-003 | 1 | Ceux qui ont un animal boivent. | | |
+| TMC-004 | 1 | La personne la plus jeune boit. | | |
+| TMC-015 | 1 | Ceux qui sont déjà partis au ski boivent. Ceux qui ont passé plus de temps à l'après-ski que sur les pistes boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-016 | 1 | Ceux qui sont arrivés en retard ce soir boivent. Ceux qui avaient dit « j'arrive dans 5 minutes » boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-017 | 1 | Ceux qui ont un frère ou une sœur boivent. | | |
+| TMC-018 | 1 | La personne la plus âgée boit. | | |
+| TMC-055 | 1 | Ceux qui ont déjà dansé sur une table boivent. Ceux qui en sont tombés boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-056 | 1 | Ceux qui ont déjà chanté au karaoké boivent. Ceux qui ont pris le micro sans qu'on le leur demande boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-063 | 1 | Ceux qui ont déjà fait la fermeture d'un bar boivent. Ceux qui ont aidé à ranger les chaises boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-064 | 1 | Ceux qui ont déjà oublié leur veste en soirée boivent. Ceux qui ne l'ont jamais récupérée boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-065 | 1 | Ceux qui ont déjà chanté « Les lacs du Connemara » en soirée boivent. Ceux qui connaissent tout le texte boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-066 | 1 | Ceux qui ont déjà fait un selfie avec un inconnu en soirée boivent. Ceux qui sont toujours en contact avec lui boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-005 | 2 | Ceux qui ont déjà raté un train ou un avion à cause d'une soirée boivent. Ceux qui ont dormi à la gare ou à l'aéroport boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-006 | 2 | Ceux qui se sont déjà fait recaler à l'entrée d'une boîte boivent. Ceux qui ont retenté avec une autre veste boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-007 | 2 | Ceux qui ont déjà vomi dans un taxi ou un VTC boivent. Ceux qui ont payé le nettoyage boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-019 | 2 | Ceux qui ont déjà raté le permis boivent. Ceux qui l'ont raté plus de deux fois boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-020 | 2 | Ceux qui ont déjà été en retard à un rendez-vous important boivent. Ceux qui avaient la gueule de bois boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-021 | 2 | Ceux qui ont pleuré devant un film cette année boivent. Ceux qui ont pleuré devant un dessin animé boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-022 | 2 | Ceux qui ont déjà répondu « je suis en route » en sortant de la douche boivent. Ceux qui n'étaient même pas encore douchés boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-023 | 2 | Ceux qui ont déjà fait une chute en public boivent. Ceux qui ont fait semblant de courir pour cacher la honte boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-024 | 2 | Ceux qui se sont déjà endormis en cours ou en réunion boivent. Ceux qui ont ronflé boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-025 | 2 | Ceux qui ont déjà perdu leur téléphone en soirée boivent. Ceux qui l'ont retrouvé dans les toilettes boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-050 | 2 | Ceux qui ont déjà perdu leurs potes en festival boivent. Ceux qui ne les ont retrouvés que le lendemain boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-051 | 2 | Ceux qui ont déjà pris le premier métro en sortant de soirée boivent. Ceux qui s'y sont endormis et ont raté leur arrêt boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-057 | 2 | Ceux qui ont déjà mangé un kebab après 4 h du matin boivent. Ceux qui se sont endormis avec boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-058 | 2 | Ceux qui ont déjà fait un festival boivent. Ceux qui y ont dormi sans tente boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-067 | 2 | Ceux qui ont déjà perdu une chaussure en soirée boivent. Ceux qui sont rentrés pieds nus boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-068 | 2 | Ceux qui se sont déjà endormis en soirée boivent. Ceux qui se sont réveillés dessinés au feutre boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-069 | 2 | Ceux qui ont déjà pleuré en soirée boivent. Ceux qui ont pleuré sur l'épaule d'un inconnu boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-070 | 2 | Ceux qui ont déjà fait plus d'une heure de queue devant une boîte boivent. Ceux qui ne sont finalement pas entrés boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-071 | 2 | Ceux qui ont déjà dormi dans une tente en festival boivent. Ceux qui se sont réveillés dans la tente de quelqu'un d'autre boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-008 | 3 | Ceux qui ont un ex dans la salle boivent. | ex | |
+| TMC-009 | 3 | Les célibataires boivent. | couple | |
+| TMC-010 | 3 | Ceux qui ont déjà dragué quelqu'un ce soir boivent. Ceux qui se sont pris un vent boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-026 | 3 | Ceux qui ont déjà eu un crush sur un·e prof boivent. Ceux qui le lui ont fait comprendre boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-027 | 3 | Ceux qui ont déjà utilisé une appli de rencontre boivent. Ceux qui ont déjà matché avec quelqu'un d'ici boivent double. | couple, avis | Enjeu doublé pour le second groupe |
+| TMC-028 | 3 | Ceux qui sont déjà rentrés d'une soirée au lever du soleil boivent. Ceux qui sont rentrés à l'heure du déjeuner boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-029 | 3 | Ceux qui ont déjà pris un râteau boivent. Ceux qui l'ont pris devant leurs potes boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-030 | 3 | Ceux qui ont été jaloux·ses ce mois-ci boivent. Ceux qui l'ont été à cause d'un·e ex boivent double. | couple, ex | Enjeu doublé pour le second groupe |
+| TMC-031 | 3 | Ceux qui sont encore en contact avec un·e ex boivent. Ceux qui l'ont revu·e en cachette boivent double. | ex, secrets | Enjeu doublé pour le second groupe |
+| TMC-032 | 3 | Ceux qui ont déjà oublié la fin d'une soirée boivent. Ceux qui ont découvert la suite en photo le lendemain boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-052 | 3 | Ceux qui sont déjà allés au boulot directement après une soirée boivent. Ceux qui s'y sont endormis boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-053 | 3 | Ceux qui ont déjà fini une soirée dans un after chez des inconnus boivent. Ceux qui ne savent toujours pas chez qui c'était boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-054 | 3 | Ceux qui ont déjà vomi en soirée boivent. Ceux qui ont continué la soirée après boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-059 | 3 | Ceux qui ont déjà écrit à un·e ex en soirée boivent. Ceux qui l'ont regretté le lendemain boivent double. | ex | Enjeu doublé pour le second groupe |
+| TMC-060 | 3 | Ceux qui ont déjà fait un after jusqu'au lendemain midi boivent. Ceux qui sont allés directement à un repas de famille boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-061 | 3 | Ceux qui ont déjà embrassé quelqu'un en boîte boivent. Ceux qui ne connaissaient pas son prénom boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-072 | 3 | Ceux qui ont déjà dragué quelqu'un dans la file des toilettes d'une boîte boivent. Ceux qui ont conclu boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-073 | 3 | Ceux qui ont déjà passé la nuit chez quelqu'un rencontré le soir même boivent. Ceux qui sont repartis avec un de ses vêtements boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-074 | 3 | Ceux qui ont déjà menti sur leur âge pour entrer quelque part boivent. Ceux qui se sont fait griller boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-075 | 3 | Ceux qui ont déjà fait la bise à un inconnu en croyant le connaître boivent. Ceux qui ont discuté 10 minutes avant de comprendre boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-076 | 3 | Ceux qui ont déjà pris un râteau en boîte boivent. Ceux qui ont retenté le même soir avec la même personne boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-011 | 4 | Ceux qui ont déjà menti à quelqu'un ici ce soir boivent. Ceux qui ont menti à la personne à leur droite boivent double. | avis | Enjeu doublé pour le second groupe |
+| TMC-012 | 4 | Ceux qui ont déjà fait semblant d'être occupé·e pour ne pas venir à une soirée de ce groupe boivent. Ceux qui sont sortis ailleurs le même soir boivent double. | avis | Enjeu doublé pour le second groupe |
+| TMC-033 | 4 | Ceux qui ont déjà menti à leur patron pour avoir un jour de repos boivent. Ceux qui étaient en fait en lendemain de soirée boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-034 | 4 | Ceux qui doivent de l'argent à quelqu'un ici boivent. Ceux qui ont oublié combien boivent double. | argent | Enjeu doublé pour le second groupe |
+| TMC-035 | 4 | Ceux qui ont déjà dit du mal d'un absent ce soir boivent. Ceux qui l'ont fait devant quelqu'un qui va le répéter boivent double. | avis | Enjeu doublé pour le second groupe |
+| TMC-036 | 4 | Ceux qui ont déjà fraudé dans les transports boivent. Ceux qui se sont fait contrôler boivent double. | transgressions | Enjeu doublé pour le second groupe |
+| TMC-037 | 4 | Ceux qui ont déjà inventé une maladie pour ne pas aller au boulot boivent. Ceux qui étaient en fait en festival ou en week-end boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-038 | 4 | Ceux qui ont déjà dit à leur patron ce qu'ils pensaient vraiment de lui boivent. Ceux qui ont démissionné juste après boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-039 | 4 | Ceux qui ont déjà raconté un secret qu'on leur avait confié boivent. Ceux qui l'ont raconté à quelqu'un ici boivent double. | secrets, avis | Enjeu doublé pour le second groupe |
+| TMC-040 | 4 | Ceux qui se pensent la personne la plus drôle ici boivent. Ceux que personne d'autre ne trouve drôles boivent double. | avis | Enjeu doublé pour le second groupe |
+| TMC-049 | 4 | Ceux qui se sont déjà fait ramener en voiture par quelqu'un qui conduisait bourré boivent. Ceux qui conduisaient boivent double. | transgressions | Enjeu doublé pour le second groupe |
+| TMC-062 | 4 | Ceux qui se sont déjà réveillés avec un bleu sans savoir d'où il venait boivent. Ceux qui ont fini la soirée aux urgences boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-077 | 4 | Ceux qui ont déjà ramené chez lui quelqu'un du groupe complètement bourré boivent. Ceux qui ont dû le porter boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-078 | 4 | Ceux qui ont déjà fait semblant d'être sobres devant leurs parents boivent. Ceux qui se sont fait griller boivent double. | | Enjeu doublé pour le second groupe |
+| TMC-079 | 4 | Ceux qui ont déjà critiqué la soirée de quelqu'un ici boivent. Ceux qui l'ont dit à quelqu'un d'autre ici boivent double. | avis | Enjeu doublé pour le second groupe |
+| TMC-080 | 4 | Ceux qui ont déjà embarqué un verre ou un objet dans un bar boivent. Ceux qui l'ont encore chez eux boivent double. | transgressions | Enjeu doublé pour le second groupe |
+| TMC-013 | 5 | Ceux qui ont déjà embrassé quelqu'un de cette pièce boivent. Ceux qui ont fait plus que l'embrasser boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-014 | 5 | Ceux qui ont déjà eu une aventure d'un soir boivent. Ceux qui sont partis avant le réveil de l'autre boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-041 | 5 | Ceux qui ont déjà eu une aventure en festival ou en vacances boivent. Ceux qui ne l'ont jamais revue boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-042 | 5 | Ceux qui ont déjà trompé quelqu'un boivent. Ceux qui ne se sont jamais fait prendre boivent double. | couple | Enjeu doublé pour le second groupe |
+| TMC-043 | 5 | Ceux qui ont déjà fini une soirée au commissariat boivent. Ceux qui y ont dormi boivent double. | transgressions | Enjeu doublé pour le second groupe |
+| TMC-044 | 5 | Ceux qui ont déjà fait un plan à trois boivent. Ceux qui en ont fait plus d'un boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-045 | 5 | Ceux qui ont déjà menti sur leur bodycount boivent. Ceux qui ont menti à la hausse boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-046 | 5 | Ceux qui ont déjà eu une relation cachée boivent. Ceux qui l'ont cachée à quelqu'un ici boivent double. | couple, secrets | Enjeu doublé pour le second groupe |
+| TMC-047 | 5 | Ceux qui ont déjà pris de l'argent à quelqu'un sans le lui dire boivent. Ceux qui l'ont pris à leurs parents boivent double. | argent, transgressions | Enjeu doublé pour le second groupe |
+| TMC-048 | 5 | Ceux qui ont déjà couché avec l'ex de quelqu'un ici boivent. Ceux qui ne l'ont jamais avoué boivent double. | ex, sexe, avis | Enjeu doublé pour le second groupe |
+| TMC-081 | 5 | Ceux qui ont déjà embrassé deux personnes dans la même soirée boivent. Ceux qui l'ont fait dans la même boîte boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-082 | 5 | Ceux qui ont déjà couché avec quelqu'un en festival boivent. Ceux qui l'ont fait dans une tente mal fermée boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-083 | 5 | Ceux qui ont déjà fini une soirée chez leur ex boivent. Ceux qui y ont dormi boivent double. | ex, sexe | Enjeu doublé pour le second groupe |
+| TMC-084 | 5 | Ceux qui ont déjà pris de la drogue en soirée boivent. Ceux qui l'ont caché à quelqu'un ici boivent double. | transgressions | Enjeu doublé pour le second groupe |
+| TMC-085 | 5 | Ceux qui ont déjà fait l'amour dans des toilettes boivent. Ceux qui se sont fait surprendre boivent double. | sexe | Enjeu doublé pour le second groupe |
+| TMC-GARS | 1 | Tous les gars boivent. | | Carte de genre, gorgées uniquement |
+| TMC-FILLES | 1 | Toutes les filles boivent. | | Carte de genre, gorgées uniquement |
+| TMC-AUTRES | 1 | Tous ceux qui ne sont ni gars ni fille boivent. | | Carte de genre, gorgées uniquement |
+ 
+### Sentence gratuite
+ 
+Un joueur au hasard boit, sans raison. En mode points, il perd des points directement.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| SEN-001 | 1 | [J1] boit. Pourquoi ? Il fallait bien quelqu'un. | | |
+| SEN-002 | 1 | [J1], l'univers a parlé : tu bois. | | |
+| SEN-010 | 1 | [J1] boit parce qu'[il/elle/iel] a une tête à applaudir quand l'avion atterrit. | | |
+| SEN-011 | 1 | [J1], tu bois. Ne cherche pas à comprendre. | | |
+| SEN-012 | 1 | [J1], tu bois parce que tu ris avant la fin de tes propres blagues. | | |
+| SEN-013 | 1 | [J1], tu bois. Le jeu t'aime bien, c'est tout. | | |
+| SEN-014 | 1 | [J1] boit. Le jeu a hésité entre toi et le chat. Le chat a gagné. | | |
+| SEN-015 | 1 | [J1], tu bois parce que tu lis la notice avant de monter un meuble. Personne ne fait ça. | | |
+| SEN-016 | 1 | [J1], tu bois. Prends-le comme un cadeau. | | |
+| SEN-017 | 1 | [J1] boit pour avoir dit « c'est la dernière » il y a trois verres. | | |
+| SEN-003 | 2 | [J1] boit parce qu'[il/elle/iel] a une tête à mettre du ketchup sur les pâtes. | | |
+| SEN-004 | 2 | [J1], tu bois pour toutes les fois où tu as dit « j'arrive dans 5 minutes ». | | |
+| SEN-018 | 2 | [J1] boit parce qu'[il/elle/iel] dit « on se capte » et ne capte jamais personne. | | |
+| SEN-019 | 2 | [J1], tu bois pour tous les vocaux de trois minutes que tu as envoyés. | | |
+| SEN-020 | 2 | [J1] boit. On ne sait pas encore pourquoi, mais ça viendra. | | |
+| SEN-021 | 2 | [J1], tu bois pour toutes les fois où tu as dit « on fait ça la semaine prochaine ». | | |
+| SEN-022 | 2 | [J1] boit parce qu'[il/elle/iel] range ses chaussettes par couleur. Ou pas. Dans le doute. | | |
+| SEN-023 | 2 | [J1], tu bois pour ton dernier pas de danse. Il méritait une sanction. | | |
+| SEN-024 | 2 | [J1] boit parce qu'[il/elle/iel] a ri trop fort à la dernière blague. | | |
+| SEN-025 | 2 | [J1], tu bois pour toutes les séries que tu n'as jamais finies. | | |
+| SEN-005 | 3 | [J1] boit pour tous les cœurs qu'[il/elle/iel] a brisés. Ou qu'[il/elle/iel] n'a jamais réussi à briser. | couple | |
+| SEN-026 | 3 | [J1] boit pour tous les râteaux qu'[il/elle/iel] a pris. | couple | |
+| SEN-027 | 3 | [J1], tu bois pour ton dernier date. Il le mérite. | couple | |
+| SEN-028 | 3 | [J1] boit. Ton ex trinque sûrement aussi en ce moment. | ex | |
+| SEN-029 | 3 | [J1], tu bois pour la prochaine fois où tu diras « je ne bois plus jamais ». | | |
+| SEN-030 | 3 | [J1] boit parce qu'[il/elle/iel] drague comme un GPS : en recalculant sans arrêt. | couple | |
+| SEN-031 | 3 | [J1], tu bois. Ton crush n'en saura rien. | couple | |
+| SEN-032 | 3 | [J1] boit pour tous les « on reste amis » qu'[il/elle/iel] a entendus. | couple | |
+| SEN-033 | 3 | [J1], tu bois pour le canapé qui t'attend ce soir. | | |
+| SEN-034 | 3 | [J1] boit. Cupidon a raté sa cible, alors le jeu tire à sa place. | couple | |
+| SEN-006 | 4 | [J1], tu bois parce que ton humour, c'est comme le wifi dans le TGV : ça coupe tout le temps. | avis | |
+| SEN-007 | 4 | [J1], tu bois. Même ton reflet te ghoste. | avis | |
+| SEN-035 | 4 | [J1], tu bois parce que tes anecdotes ont toutes une fin décevante. | avis | |
+| SEN-036 | 4 | [J1] boit parce qu'[il/elle/iel] demande « je vous dois combien ? » sans jamais sortir sa carte. | argent, avis | |
+| SEN-037 | 4 | [J1], tu bois. Tout le monde ici t'aime bien. Mais pas tant que ça. | avis | |
+| SEN-038 | 4 | [J1], tu bois parce que tes conseils, personne ne les suit. Même pas toi. | avis | |
+| SEN-039 | 4 | [J1] boit parce qu'[il/elle/iel] dit « je suis cash » pour excuser son manque de tact. | avis | |
+| SEN-040 | 4 | [J1], tu bois. Ton CV ment encore plus que toi. | | |
+| SEN-041 | 4 | [J1] boit. Le groupe a voté en secret. À l'unanimité. | avis | |
+| SEN-042 | 4 | [J1], tu bois parce que même ton horoscope a arrêté de croire en toi. | | |
+| SEN-008 | 5 | [J1], tu bois parce que t'es une merde, c'est tout. | avis | |
+| SEN-009 | 5 | [J1] boit. Personne ne sait pourquoi, mais tout le monde trouve ça mérité. | avis | |
+| SEN-043 | 5 | [J1], tu bois. Même tes ex ne comprennent pas ce qui leur a pris. | ex | |
+| SEN-044 | 5 | [J1] boit parce qu'[il/elle/iel] est le plan B de tout le monde. | avis | |
+| SEN-045 | 5 | [J1], tu bois parce que si on votait pour virer quelqu'un du groupe, tu aurais tes chances. | avis | |
+| SEN-046 | 5 | [J1] boit. Au lit comme en soirée : beaucoup de bruit pour pas grand-chose. | sexe | |
+| SEN-047 | 5 | [J1], tu bois parce que ta vie amoureuse est une série que personne n'a envie de regarder. | couple | |
+| SEN-048 | 5 | [J1], tu bois parce que tout le monde ici a déjà parlé de toi dans ton dos. | avis | |
+| SEN-049 | 5 | [J1], tu bois. Ton compte en banque et ta dignité sont à découvert. | argent | |
+| SEN-050 | 5 | [J1], tu bois. Pas pour ce que tu as fait, pour ce que tu vas faire ce soir. | | |
+ 
+### Invente une règle
+ 
+La règle est annoncée à voix haute. Elle reste valable le nombre de cartes indiqué.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| REG-001 | 1 | [J1], invente une règle valable [durée] cartes. Celui qui l'oublie boit. | | |
+| REG-002 | 1 | [J1], invente un mot interdit pendant [durée] cartes. | | |
+| REG-007 | 1 | [J1], invente un surnom que tout le monde doit utiliser pour toi pendant [durée] cartes. | | |
+| REG-008 | 1 | [J1], invente un geste que tout le monde doit faire avant de boire, pendant [durée] cartes. | | |
+| REG-009 | 1 | [J1], invente un mot qui remplace « boire » pendant [durée] cartes. | | |
+| REG-010 | 1 | [J1], invente une règle sur la main qui tient le verre, valable [durée] cartes. | | |
+| REG-011 | 1 | [J1], invente un mot à ajouter à la fin de chaque phrase pendant [durée] cartes. | | |
+| REG-012 | 1 | [J1], invente un geste à faire chaque fois que quelqu'un rit, pendant [durée] cartes. | | |
+| REG-013 | 1 | [J1], invente une règle sur les prénoms (prénom interdit, surnom obligatoire…), valable [durée] cartes. | | |
+| REG-014 | 1 | [J1], invente une phrase que le prochain joueur désigné doit dire avant de jouer, pendant [durée] cartes. | | |
+| REG-003 | 2 | [J1], invente un geste obligatoire avant de parler, pendant [durée] cartes. | | Règle valable 15 cartes |
+| REG-004 | 2 | [J1], invente une règle sur la façon de parler (accent, surnom, interdiction…), pendant [durée] cartes. | | |
+| REG-015 | 2 | [J1], invente une règle sur la façon de s'asseoir, valable [durée] cartes. | | |
+| REG-016 | 2 | [J1], invente une règle sur les rires (rire interdit, rire obligatoire…), valable [durée] cartes. | | |
+| REG-017 | 2 | [J1], invente une voix que tout le monde doit prendre pour lire les cartes, pendant [durée] cartes. | | |
+| REG-018 | 2 | [J1], invente un mot que tout le monde doit placer dans chaque phrase, pendant [durée] cartes. | | |
+| REG-019 | 2 | [J1], invente une posture obligatoire pour celui qui joue (debout, main sur la tête…), pendant [durée] cartes. | | |
+| REG-020 | 2 | [J1], invente une règle sur les gros mots, valable [durée] cartes. | | |
+| REG-021 | 2 | [J1], invente un rituel à faire chaque fois que quelqu'un perd, pendant [durée] cartes. | | |
+| REG-022 | 2 | [J1], invente une règle sur les questions (interdit d'en poser, obligé de répondre par une question…), valable [durée] cartes. | | |
+| REG-005 | 3 | [J1], invente une règle sur la drague, valable [durée] cartes. | couple | |
+| REG-023 | 3 | [J1], invente une règle sur les compliments, valable [durée] cartes. | | |
+| REG-024 | 3 | [J1], invente un surnom amoureux que tout le monde doit utiliser entre soi, pendant [durée] cartes. | couple | |
+| REG-025 | 3 | [J1], invente une façon obligatoire de trinquer (regard dans les yeux, phrase…), pendant [durée] cartes. | | |
+| REG-026 | 3 | [J1], invente une règle qui oppose les célibataires et les gens en couple, valable [durée] cartes. | couple | |
+| REG-027 | 3 | [J1], invente un mot de l'amour interdit (bisou, date, crush…), pendant [durée] cartes. | couple | |
+| REG-028 | 3 | [J1], invente une règle sur les ex (interdit d'en parler, obligé d'en parler…), valable [durée] cartes. | ex | |
+| REG-029 | 3 | [J1], invente une règle sur les clins d'œil, valable [durée] cartes. | | |
+| REG-030 | 3 | [J1], invente une règle qui lie chaque joueur à son voisin de gauche, valable [durée] cartes. | | |
+| REG-031 | 3 | [J1], invente une chanson de deux lignes que chaque perdant doit chanter, pendant [durée] cartes. | | |
+| REG-006 | 4 | [J1], invente une règle qui vise une seule personne ici, valable [durée] cartes. | avis | Règle valable 5 cartes |
+| REG-032 | 4 | [J1], invente une règle qui vise la personne la plus bavarde ici, valable [durée] cartes. | avis | |
+| REG-033 | 4 | [J1], invente une règle pour le prochain qui se plaint, valable [durée] cartes. | | |
+| REG-034 | 4 | [J1], invente une règle contre ceux qui coupent la parole, valable [durée] cartes. | | |
+| REG-035 | 4 | [J1], invente une phrase à dire avant de critiquer quelqu'un, pendant [durée] cartes. | avis | |
+| REG-036 | 4 | [J1], invente un surnom pour chaque joueur, à utiliser pendant [durée] cartes. | avis | |
+| REG-037 | 4 | [J1], invente une règle qui oblige à faire un compliment empoisonné avant de jouer, pendant [durée] cartes. | avis | |
+| REG-038 | 4 | [J1], invente une règle qui donne un pouvoir à une seule personne ici, pendant [durée] cartes. | avis | |
+| REG-039 | 4 | [J1], invente une règle pour ceux qui vont aux toilettes, valable [durée] cartes. | | |
+| REG-040 | 4 | [J1], invente une règle sur les mensonges, valable [durée] cartes. | | |
+| REG-041 | 5 | [J1], invente une règle sur le bodycount, valable [durée] cartes. | sexe | |
+| REG-042 | 5 | [J1], invente une règle qui oblige chaque perdant à avouer un secret, pendant [durée] cartes. | secrets | |
+| REG-043 | 5 | [J1], invente une règle qui oblige chaque perdant à dire qui il embrasserait ici, pendant [durée] cartes. | couple, avis | |
+| REG-044 | 5 | [J1], invente une règle qui vise la personne qui t'agace le plus ici, valable [durée] cartes. | avis | |
+| REG-045 | 5 | [J1], invente une règle qui oblige chaque perdant à raconter son pire moment de honte, pendant [durée] cartes. | secrets | |
+| REG-046 | 5 | [J1], invente une règle qui oblige chaque perdant à raconter un truc illégal qu'il a fait, pendant [durée] cartes. | transgressions | |
+| REG-047 | 5 | [J1], invente une liste de mots coquins interdits, valable [durée] cartes. | sexe | |
+| REG-048 | 5 | [J1], invente une règle : chaque perdant répond à une question choisie par le groupe, pendant [durée] cartes. | secrets | |
+| REG-049 | 5 | [J1], invente une règle de roast : chaque perdant se fait roaster 10 secondes, sans parler du physique, pendant [durée] cartes. | avis | |
+| REG-050 | 5 | [J1], invente une règle complètement injuste pour [J2], valable [durée] cartes. | avis | 2 joueurs désignés |
+ 
+### Partenaire de boisson
+ 
+Gorgées uniquement. Une fois par partie aux niveaux 1 et 2, deux fois aux niveaux 3 à 5.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| PAR-001 | 1 | [J1], choisis ton partenaire de boisson. Jusqu'à la fin de la partie, dès que l'un de vous boit, l'autre boit autant. | | |
+| PAR-002 | 2 | [J1], choisis quelqu'un pour partager tes malheurs : jusqu'à la fin de la partie, quand l'un boit, l'autre boit autant. | | |
+| PAR-003 | 3 | [J1], choisis ton âme sœur de boisson. Jusqu'à la fin de la partie, vous buvez ensemble. | couple | |
+ 
+### Pause
+ 
+Gorgées uniquement, environ une carte toutes les 50. Aucun enjeu.
+ 
+| Réf. | Niv. | Texte | Thèmes | Remarque |
+|---|---|---|---|---|
+| PAU-001 | 1 | Pause : tout le monde boit un verre d'eau. Oui, d'eau. | | |
+| PAU-002 | 1 | Pause hydratation. Ton foie te remercie d'avance. | | |
+| PAU-003 | 1 | Verre d'eau pour tout le monde. Ceux qui râlent en boivent deux. | | |
+| PAU-004 | 1 | Pause : un verre d'eau et on reprend. La soirée est longue. | | |
+ 
+---
+ 
+## 3. Avancement
+ 
+Objectif MVP (specs §16) : par niveau, **au moins 10 cartes par mini-jeu** (culture G comprise) et environ 150 cartes au total. En gras, les cases sous l'objectif.
+ 
+Le jeu tire d'abord un mini-jeu, puis une carte de ce mini-jeu : un mini-jeu très fourni ne sort pas plus souvent qu'un autre, il se répète juste moins.
+ 
+| Mini-jeu | Niv. 1 | Niv. 2 | Niv. 3 | Niv. 4 | Niv. 5 |
+|---|---|---|---|---|---|
+| Tu préfères | 11 | 10 | 10 | 10 | 10 |
+| J'ai déjà ou je n'ai jamais | 21 | 22 | 20 | 20 | 21 |
+| Action ou vérité | 10 | 10 | 10 | 10 | 10 |
+| Qui pourrait… ? | 10 | 11 | 12 | 10 | 10 |
+| Tribunal | 10 | 12 | 10 | 10 | 10 |
+| Duel | 10 | 10 | 10 | 10 | 10 |
+| Culture G | 26 | 16 | 29 | 32 | 50 |
+| Chaîne de thème | 10 | 14 | 13 | 10 | 10 |
+| Dans ma valise | 10 | 11 | 14 | 10 | 10 |
+| Montre ou bois | 10 | 10 | 10 | 10 | 10 |
+| Tout le monde concerné | 17 | 19 | 21 | 16 | 15 |
+| Sentence gratuite | 10 | 10 | 10 | 10 | 10 |
+| Invente une règle | 10 | 10 | 10 | 10 | 10 |
+| **Total** | 165 | 165 | 179 | 168 | 186 |
+ 
+Hors objectif : Partenaire de boisson (quelques cartes suffisent, quota d'une ou deux par partie) et Pause (une carte toutes les 50 environ).
