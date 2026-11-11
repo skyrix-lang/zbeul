@@ -236,6 +236,23 @@ const updateReportRoute = createRoute({
 // of each hash (apps/bff/src/password.ts).
 const ADMIN_ATTEMPTS_PER_CLIENT = { limit: 10, windowSeconds: 15 * 60 };
 
+// A hash costs about 30 MB and a fifth of a second on a thread the whole
+// server shares. Clients that change address for each attempt escape the
+// limit above, so only a few hashes run at once: the others are told to wait,
+// and the public site keeps answering.
+const MAX_HASHES_AT_ONCE = 2;
+const BUSY = Symbol("busy");
+let hashes = 0;
+async function hashing<T>(work: () => Promise<T>): Promise<T | typeof BUSY> {
+  if (hashes >= MAX_HASHES_AT_ONCE) return BUSY;
+  hashes++;
+  try {
+    return await work();
+  } finally {
+    hashes--;
+  }
+}
+
 /** Reports are anonymous, so they're limited per client address instead. */
 const REPORTS_PER_CLIENT = { limit: 20, windowSeconds: 60 * 60 };
 
@@ -291,7 +308,8 @@ const publicApi = new OpenAPIHono({
     if (!(await hit(`admin:client:${ip}`, ADMIN_ATTEMPTS_PER_CLIENT))) {
       return c.json({ error: "Too many attempts" }, 429);
     }
-    const userId = await setUpAdmin(c.req.valid("json"));
+    const userId = await hashing(() => setUpAdmin(c.req.valid("json")));
+    if (userId === BUSY) return c.json({ error: "Too many attempts" }, 429);
     if (!userId) return c.json({ error: "Refused" }, 403);
     const session = await createSession(userId, undefined);
     setSessionCookie(c, session.token, session.expiresAt);
@@ -303,7 +321,8 @@ const publicApi = new OpenAPIHono({
     if (!(await hit(`admin:client:${ip}`, ADMIN_ATTEMPTS_PER_CLIENT))) {
       return c.json({ error: "Too many attempts" }, 429);
     }
-    const userId = await logInAdmin(c.req.valid("json"));
+    const userId = await hashing(() => logInAdmin(c.req.valid("json")));
+    if (userId === BUSY) return c.json({ error: "Too many attempts" }, 429);
     if (!userId) return c.json({ error: "Wrong email or password" }, 403);
     const session = await createSession(userId, undefined);
     setSessionCookie(c, session.token, session.expiresAt);
@@ -330,9 +349,10 @@ const adminApi = new OpenAPIHono<ApiEnv>({
 });
 
 // A hidden page isn't a protection: every admin route checks that the caller
-// is signed in and is the admin. Anyone else gets the same 404 as for a path
-// that doesn't exist, signed in or not. (The sign-in routes above answer
-// before this is reached.)
+// is signed in and is the admin. Anyone else gets the 404 of a path that
+// doesn't exist, signed in or not. (The sign-in routes above answer before
+// this is reached.) This refuses access; it doesn't hide that an admin
+// exists, which the public API document and the sign-in page show anyway.
 adminApi.use("/admin/*", requireAdmin);
 
 adminApi
@@ -361,13 +381,16 @@ const userApi = new OpenAPIHono<ApiEnv>({
 });
 
 // Each route checks the session: every one of them is a public endpoint.
-userApi.use(async (c, next) => {
+// On the user's paths only: an unknown path is a 404 for everyone, not a 401
+// that depends on being signed in.
+const requireUser: MiddlewareHandler<ApiEnv> = async (c, next) => {
   const user = await getSessionUser(c);
   if (!user) return c.json({ error: "Unauthorized" }, 401);
   c.set("user", user);
   c.header("Cache-Control", "no-store");
   await next();
-});
+};
+userApi.use("/bookings", requireUser).use("/bookings/*", requireUser);
 
 userApi
   .openapi(listBookings, async (c) => {

@@ -18,6 +18,7 @@ import {
   levelCap,
   pendingAnswer,
   type GameState,
+  type Outcome,
 } from "../engine/game";
 import { GAMES, LEVEL_NAMES } from "../engine/rules";
 import { cardSegments, segmentsText, stakeLine } from "../engine/text";
@@ -34,15 +35,23 @@ import { leaveGameMode, useScreenAwake } from "../use-game-screen";
  */
 export function PlayPage() {
   const game = useGame((state) => state.game);
+  const play = useGame((state) => state.play);
   useScreenAwake();
   useEffect(() => leaveGameMode, []);
+  const current = game?.turns.at(-1);
+  const missing =
+    !!current && !game?.finished && !deck.byId.has(current.cardId);
+  // The card on screen was removed by an update: on to the next one.
+  useEffect(() => {
+    if (missing) play("next");
+  }, [missing, play]);
 
   if (!game) return <Navigate to={PATHS.home} replace />;
   if (game.finished) return <Navigate to={PATHS.end} replace />;
   const turn = game.turns.at(-1);
   const card = turn && deck.byId.get(turn.cardId);
-  // A card removed by an update: the game can't go on.
-  if (!turn || !card) return <Navigate to={PATHS.end} replace />;
+  if (!turn) return <Navigate to={PATHS.home} replace />;
+  if (!card) return null; // Skipped by the effect above.
   return <Table game={game} card={card} />;
 }
 
@@ -66,16 +75,6 @@ function Table({ game, card }: { game: GameState; card: Card }) {
     settings.pressure && number > 1 && cap > levelCap(settings, number - 2);
   const nameOf = (id: string) =>
     players.find((player) => player.id === id)?.name ?? "?";
-
-  // When the buttons change with the card, the new card's first button takes
-  // the focus: a keyboard never stays on a button that just disappeared.
-  const actions = useRef<HTMLDivElement>(null);
-  const shown = useRef(number);
-  useEffect(() => {
-    if (shown.current === number) return;
-    shown.current = number;
-    actions.current?.querySelector("button")?.focus({ preventScroll: true });
-  }, [number]);
 
   return (
     <div
@@ -185,49 +184,8 @@ function Table({ game, card }: { game: GameState; card: Card }) {
         </p>
       </main>
 
-      {settled ? (
-        <>
-          <div
-            ref={actions}
-            className="flex gap-3 [grid-area:lose] landscape:flex-col"
-          >
-            <Button
-              size="xl"
-              variant="secondary"
-              onClick={() => play("lost")}
-              className="min-w-0 flex-[2] px-2 landscape:flex-[3]"
-            >
-              Perdu
-            </Button>
-            <Button
-              size="xl"
-              variant="ghost"
-              onClick={() => play("joker")}
-              className="border-input min-w-0 flex-1 border border-dashed px-2"
-            >
-              Joker
-            </Button>
-          </div>
-          <div className="flex [grid-area:win]">
-            <Button
-              size="xl"
-              onClick={() => play("won")}
-              className="min-w-0 flex-1 px-2"
-            >
-              Gagné
-            </Button>
-          </div>
-        </>
-      ) : (
-        <div
-          ref={actions}
-          className="flex [grid-area:lose/lose/win/win] landscape:[grid-area:win]"
-        >
-          <Button size="xl" onClick={() => play("next")} className="flex-1">
-            Carte suivante
-          </Button>
-        </div>
-      )}
+      {/* New buttons for each card: see Actions. */}
+      <Actions key={number} settled={settled} onPlay={play} />
 
       {!rotateHintClosed && (
         <div className="bg-background/95 fixed inset-0 z-40 hidden flex-col items-center justify-center gap-5 p-8 text-center portrait:pointer-coarse:flex">
@@ -278,7 +236,7 @@ function Table({ game, card }: { game: GameState; card: Card }) {
         <DialogTitle>Signaler cette carte ?</DialogTitle>
         <DialogDescription>
           {reported === card.id
-            ? "C'est noté, merci. On regarde ça à tête reposée."
+            ? "C'est noté, merci. Sans réseau, ça partira à la prochaine connexion."
             : `Carte ${card.id}. Fausse, nulle ou déplacée : dis-le, c'est anonyme. Aucune info sur vous ne part avec.`}
         </DialogDescription>
         <DialogActions>
@@ -299,6 +257,91 @@ function Table({ game, card }: { game: GameState; card: Card }) {
         </DialogActions>
       </Dialog>
     </div>
+  );
+}
+
+/**
+ * The card's buttons. They take a third of a second to accept a tap: a double
+ * tap on the previous card must not settle this one before anyone has read
+ * it. Meanwhile they look the same, and say "disabled" to assistive tools.
+ */
+function Actions({
+  settled,
+  onPlay,
+}: {
+  settled: boolean;
+  onPlay: (outcome: Outcome | "next") => void;
+}) {
+  const group = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setReady(true);
+      // The previous card's buttons are gone, and the focus with them: a
+      // keyboard carries on from this card's first button.
+      if (document.activeElement === document.body) {
+        group.current?.querySelector("button")?.focus({ preventScroll: true });
+      }
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+  const tap = (outcome: Outcome | "next") => () => {
+    if (ready) onPlay(outcome);
+  };
+
+  if (!settled) {
+    return (
+      <div
+        ref={group}
+        className="flex [grid-area:lose/lose/win/win] landscape:[grid-area:win]"
+      >
+        <Button
+          size="xl"
+          aria-disabled={!ready}
+          onClick={tap("next")}
+          className="flex-1"
+        >
+          Carte suivante
+        </Button>
+      </div>
+    );
+  }
+  return (
+    <>
+      <div
+        ref={group}
+        className="flex gap-3 [grid-area:lose] landscape:flex-col"
+      >
+        <Button
+          size="xl"
+          variant="secondary"
+          aria-disabled={!ready}
+          onClick={tap("lost")}
+          className="min-w-0 flex-[2] px-2 landscape:flex-[3]"
+        >
+          Perdu
+        </Button>
+        <Button
+          size="xl"
+          variant="ghost"
+          aria-disabled={!ready}
+          onClick={tap("joker")}
+          className="border-input min-w-0 flex-1 border border-dashed px-2"
+        >
+          Joker
+        </Button>
+      </div>
+      <div className="flex [grid-area:win]">
+        <Button
+          size="xl"
+          aria-disabled={!ready}
+          onClick={tap("won")}
+          className="min-w-0 flex-1 px-2"
+        >
+          Gagné
+        </Button>
+      </div>
+    </>
   );
 }
 

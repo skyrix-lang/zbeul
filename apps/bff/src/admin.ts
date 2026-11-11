@@ -68,7 +68,14 @@ export async function setUpAdmin(
     .values({ email: ADMIN_EMAIL, passwordHash, isAdmin: true })
     .onConflictDoUpdate({
       target: users.email,
-      set: { passwordHash, isAdmin: true },
+      // An identity a provider attached to this email earlier is detached:
+      // from now on the password is the only way into this account.
+      set: {
+        passwordHash,
+        isAdmin: true,
+        oidcIssuer: null,
+        oidcSubject: null,
+      },
       // Never over a password that is already set: of two requests at once,
       // only the first one wins.
       setWhere: isNull(users.passwordHash),

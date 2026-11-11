@@ -1,8 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
+  getGetMeQueryKey,
   getListReportsQueryKey,
   throwUnexpected,
   useGetAdminStatus,
@@ -69,10 +70,19 @@ function Dashboard({
   status,
   renderCard,
 }: AdminPageProps & { email: string | null }) {
+  const queryClient = useQueryClient();
   const reports = useListReports(
     { status },
-    { query: { throwOnError: throwUnexpected(404) } },
+    { query: { throwOnError: throwUnexpected(404), retry: false } },
   );
+  // A 404 here means the session ended (to anyone but the admin the route
+  // doesn't exist): asking who is there again brings the sign-in form back.
+  const signedOut = reports.isError;
+  useEffect(() => {
+    if (signedOut) {
+      void queryClient.invalidateQueries({ queryKey: getGetMeQueryKey() });
+    }
+  }, [signedOut, queryClient]);
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-3xl flex-col gap-6 p-5">
@@ -140,9 +150,16 @@ function ReportRow({
 }) {
   const queryClient = useQueryClient();
   const update = useUpdateReport();
+  const [failed, setFailed] = useState(false);
   const file = async (status: ReportStatus) => {
-    await update.mutateAsync({ id: report.id, data: { status } });
-    // The report leaves this list and joins another.
+    setFailed(false);
+    try {
+      await update.mutateAsync({ id: report.id, data: { status } });
+    } catch {
+      setFailed(true);
+    }
+    // The report leaves this list and joins another. After a failure, the
+    // list says whether the session is still there.
     await queryClient.invalidateQueries({
       queryKey: getListReportsQueryKey().slice(0, 1),
     });
@@ -167,6 +184,11 @@ function ReportRow({
           <p className="whitespace-pre-wrap">{report.message}</p>
         ) : (
           <p className="text-muted-foreground text-sm">Sans commentaire.</p>
+        )}
+        {failed && (
+          <p role="alert" className="text-destructive-soft-foreground text-sm">
+            Ça n'a pas marché. Réessaie.
+          </p>
         )}
         <div className="flex flex-wrap gap-2">
           {actions

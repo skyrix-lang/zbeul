@@ -644,6 +644,25 @@ describe("starting", () => {
     expect(startProblems(settings, somePlayers(4))).toEqual([]);
   });
 
+  it("moves on from a saved card that an update removed from the deck", () => {
+    const context = contextFor(1);
+    const saved = startGame(
+      { id: "game", settings: settingsWith({}), players: somePlayers(4) },
+      context,
+    );
+    const removed = {
+      ...saved,
+      turns: [{ cardId: "GONE-001", players: [], stake: 2 }],
+    };
+
+    for (const outcome of ["next", "won", "joker"] as const) {
+      const after = play(removed, outcome, context);
+      expect(after.turns).toHaveLength(2);
+      expect(deck.byId.has(after.turns[1]!.cardId)).toBe(true);
+      expect(ranking(after).every((row) => row.total === 0)).toBe(true);
+    }
+  });
+
   it("is over after the chosen number of cards", () => {
     const context = contextFor(1);
     const state = playThrough(settingsWith({ duration: 30 }), somePlayers(4));

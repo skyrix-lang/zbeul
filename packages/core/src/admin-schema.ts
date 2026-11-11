@@ -57,8 +57,12 @@ export const adminSetupSchema = z
     code: z.string().trim().min(1).max(200),
   })
   .refine(
-    ({ email, password }) =>
-      !password.toLowerCase().includes(email.split("@")[0]!.split("+")[0]!),
+    ({ email, password }) => {
+      // The name before the @ and any +tag. Too short to mean anything ("me",
+      // "a"), it isn't checked: it would refuse ordinary words.
+      const name = email.split("@")[0]!.split("+")[0]!;
+      return name.length < 4 || !password.toLowerCase().includes(name);
+    },
     { message: "Pas ton adresse dans le mot de passe", path: ["password"] },
   )
   .meta({ id: "AdminSetup" });

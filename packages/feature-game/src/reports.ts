@@ -8,6 +8,13 @@ import { usePrefs, type PendingReport } from "./store";
 
 const MAX_PENDING = 20;
 
+/**
+ * The server said no to this report (invalid, or too many): sending it again
+ * won't help. Anything else (no network, a server error) is worth a retry.
+ */
+const isRefusal = (error: unknown) =>
+  error instanceof ApiError && [400, 429].includes(error.status);
+
 function keep(report: PendingReport) {
   const { pendingReports, update } = usePrefs.getState();
   update({ pendingReports: [...pendingReports, report].slice(-MAX_PENDING) });
@@ -15,7 +22,8 @@ function keep(report: PendingReport) {
 
 /**
  * Sends a report. Resolves to "sent", or to "kept" when there is no network:
- * the report is then sent later. A report the server refuses is dropped.
+ * or the server is down: the report is then sent later. A report the server
+ * refuses is dropped.
  */
 export function useSendReport() {
   const { mutateAsync } = useCreateReport();
@@ -25,7 +33,7 @@ export function useSendReport() {
         await mutateAsync({ data: report });
         return "sent";
       } catch (error) {
-        if (error instanceof ApiError) return "refused";
+        if (isRefusal(error)) return "refused";
         keep(report);
         return "kept";
       }
@@ -46,7 +54,7 @@ export function useFlushReports() {
         try {
           await mutateAsync({ data: report });
         } catch (error) {
-          if (!(error instanceof ApiError)) keep(report);
+          if (!isRefusal(error)) keep(report);
         }
       }
     })();

@@ -47,9 +47,22 @@ describe("adminSetupSchema", () => {
   it("refuses a password built on the email", () => {
     const result = adminSetupSchema.safeParse({
       ...setup,
+      email: "lovelace+zbeul@example.test",
       password: "Ada-Lovelace-1815",
     });
     expect(result.error?.issues[0]?.path).toEqual(["password"]);
+  });
+
+  it("doesn't refuse ordinary words for a very short address", () => {
+    for (const email of ["me@example.test", "+tag@example.test"]) {
+      expect(
+        adminSetupSchema.safeParse({
+          ...setup,
+          email,
+          password: "Comme-Menthe-42!",
+        }).success,
+      ).toBe(true);
+    }
   });
 
   it("refuses a missing code or a bad email", () => {

@@ -23,7 +23,7 @@ type FormOutput = z.output<typeof createReportSchema>;
 
 const DONE = {
   sent: "Bien reçu, merci. On lit tout, même les insultes.",
-  kept: "Pas de réseau : c'est gardé sur ton téléphone et ça partira tout seul à la prochaine connexion.",
+  kept: "Ça ne passe pas pour l'instant : c'est gardé sur ton téléphone et ça partira tout seul à la prochaine connexion.",
   refused:
     "Trop de signalements d'un coup depuis chez toi. Souffle, et réessaie dans une heure.",
 };

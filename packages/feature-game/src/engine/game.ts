@@ -515,9 +515,11 @@ export function play(
   context: Context,
 ): GameState {
   const turn = state.turns.at(-1);
-  const card = turn && context.deck.byId.get(turn.cardId);
-  if (!turn || !card || state.finished) return state;
-  if (outcome === "next" || !isSettled(card) || turn.outcome) {
+  if (!turn || state.finished) return state;
+  const card = context.deck.byId.get(turn.cardId);
+  // A card that an update removed from the deck can't be settled: the game
+  // moves on, so a saved game stays playable.
+  if (!card || outcome === "next" || !isSettled(card) || turn.outcome) {
     return nextTurn(state, context);
   }
   const settled: GameState = {
