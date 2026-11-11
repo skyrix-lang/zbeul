@@ -54,7 +54,10 @@ export function createApp() {
         objectSrc: ["'none'"],
         baseUri: ["'self'"],
         // Signing out is a form whose response redirects to the provider.
-        formAction: ["'self'", new URL(OIDC_ISSUER).origin],
+        formAction: [
+          "'self'",
+          ...(OIDC_ISSUER ? [new URL(OIDC_ISSUER).origin] : []),
+        ],
         frameAncestors: ["'none'"],
       },
       strictTransportSecurity: "max-age=63072000; includeSubDomains",
@@ -98,12 +101,24 @@ export function createApp() {
         },
       }),
     );
-    // Other files of the build (logo.svg, icon.svg), by name. A path without an
+    // Other files of the build (icons, the web manifest, the service worker),
+    // by name. A path without an
     // extension is a client route, handled below.
     // index.html only through the route below, with PUBLIC_URL filled in; a
     // missing file is a 404, not the app's page.
     app.get("/index.html", (c) => c.redirect("/", 301));
-    app.get("/:file{[^/]+\\.[a-z0-9]+}", serveStatic({ root: STATIC_DIR }));
+    // These names stay the same from one build to the next, so the browser
+    // asks again each time. It matters most for sw.js: a phone that kept an
+    // old service worker would never see a new version of the app.
+    app.get(
+      "/:file{[^/]+\\.[a-z0-9]+}",
+      serveStatic({
+        root: STATIC_DIR,
+        onFound: (_path, c) => {
+          c.header("Cache-Control", "no-cache");
+        },
+      }),
+    );
     app.get("/:file{[^/]+\\.[a-z0-9]+}", (c) => c.text("Not found", 404));
     // Every other path is a client route: the SPA decides what to show.
     app.get("*", (c) => {

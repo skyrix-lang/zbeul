@@ -22,15 +22,35 @@ export const envSchema = z
     DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
     /** Signs the short-lived sign-in cookie. */
     SESSION_SECRET: z.string().min(1),
-    OIDC_ISSUER: z.url(),
-    OIDC_CLIENT_ID: z.string().min(1),
-    OIDC_CLIENT_SECRET: z.string().min(1),
+    /**
+     * The identity provider. Optional as a whole: without it nobody signs in
+     * through a provider, and the admin's password is the only way in.
+     */
+    OIDC_ISSUER: z.url().optional(),
+    OIDC_CLIENT_ID: z.string().min(1).optional(),
+    OIDC_CLIENT_SECRET: z.string().min(1).optional(),
+    /** The one admin account (apps/bff/src/admin.ts). Unset: no admin. */
+    ADMIN_EMAIL: z.string().trim().toLowerCase().pipe(z.email()).optional(),
+    /**
+     * Lets the admin choose their password, the first time only. Unset: the
+     * password can't be set (or reset) from the web.
+     */
+    ADMIN_SETUP_CODE: z.string().min(16).optional(),
     /** The least severe level that is logged (src/log.ts). */
     LOG_LEVEL: z.enum(logLevels).default("info"),
     /** The built SPA, served in production. Unset in development (Vite serves it). */
     STATIC_DIR: z.string().optional(),
   })
   .superRefine((env, context) => {
+    const oidc = [env.OIDC_ISSUER, env.OIDC_CLIENT_ID, env.OIDC_CLIENT_SECRET];
+    if (oidc.some(Boolean) && !oidc.every(Boolean)) {
+      context.addIssue({
+        code: "custom",
+        message:
+          "Set OIDC_ISSUER, OIDC_CLIENT_ID and OIDC_CLIENT_SECRET, or none",
+        path: ["OIDC_ISSUER"],
+      });
+    }
     if (env.NODE_ENV !== "production") return;
     if (env.SESSION_SECRET.length < 32 || env.SESSION_SECRET === "change-me") {
       context.addIssue({
@@ -55,7 +75,11 @@ export type Env = z.infer<typeof envSchema>;
 
 /** Parses `source`, throwing one error that lists every problem. */
 export function parseEnv(source: Record<string, string | undefined>): Env {
-  const result = envSchema.safeParse(source);
+  // `NAME=` in an env file means "not set", not an empty value.
+  const set = Object.fromEntries(
+    Object.entries(source).filter(([, value]) => value !== ""),
+  );
+  const result = envSchema.safeParse(set);
   if (!result.success) {
     const problems = result.error.issues
       .map((issue) => `  ${issue.path.join(".")}: ${issue.message}`)

@@ -12,11 +12,73 @@ export type MeUser = {
   email: string | null;
   /** @nullable */
   name: string | null;
+  isAdmin: boolean;
 } | null;
 
 export interface Me {
   /** @nullable */
   user: MeUser;
+}
+
+export interface ApiErrorBody {
+  error: string;
+  issues?: unknown[];
+}
+
+export interface CreateReport {
+  /**
+     * @maxLength 20
+     * @pattern ^[A-Z]+-[A-Z0-9]+$
+     */
+  cardId?: string;
+  /** @maxLength 1000 */
+  message?: string;
+}
+
+export interface AdminStatus {
+  setupNeeded: boolean;
+}
+
+export interface AdminSetup {
+  email: string;
+  /** @maxLength 200 */
+  password: string;
+  /**
+     * @minLength 1
+     * @maxLength 200
+     */
+  code: string;
+}
+
+export interface AdminLogin {
+  email: string;
+  /**
+     * @minLength 1
+     * @maxLength 200
+     */
+  password: string;
+}
+
+export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
+
+
+export const ReportStatus = {
+  open: 'open',
+  handled: 'handled',
+  dismissed: 'dismissed',
+} as const;
+
+export interface Report {
+  id: string;
+  /** @nullable */
+  cardId: string | null;
+  message: string;
+  status: ReportStatus;
+  createdAt: string;
+}
+
+export interface UpdateReport {
+  status: ReportStatus;
 }
 
 export type BookingStatus = typeof BookingStatus[keyof typeof BookingStatus];
@@ -36,11 +98,6 @@ export interface Booking {
   time: string;
   duration: number;
   status: BookingStatus;
-}
-
-export interface ApiErrorBody {
-  error: string;
-  issues?: unknown[];
 }
 
 export interface CreateBooking {
@@ -84,6 +141,10 @@ export const GetHealth503Status = {
 
 export type GetHealth503 = {
   status: GetHealth503Status;
+};
+
+export type ListReportsParams = {
+  status?: ReportStatus;
 };
 
 export type ListBookingsParams = {

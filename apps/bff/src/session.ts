@@ -16,6 +16,8 @@ export interface SessionUser {
   id: string;
   email: string | null;
   name: string | null;
+  /** Set on the admin's account only (apps/bff/src/admin.ts). */
+  isAdmin: boolean;
 }
 
 /**
@@ -62,7 +64,12 @@ export async function getSessionUser(c: Context): Promise<SessionUser | null> {
   const token = getCookie(c, sessionCookieName());
   if (!token) return null;
   const [row] = await getDb()
-    .select({ id: users.id, email: users.email, name: users.name })
+    .select({
+      id: users.id,
+      email: users.email,
+      name: users.name,
+      isAdmin: users.isAdmin,
+    })
     .from(userSessions)
     .innerJoin(users, eq(users.id, userSessions.userId))
     .where(

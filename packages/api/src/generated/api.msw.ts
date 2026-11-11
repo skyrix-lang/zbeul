@@ -19,20 +19,33 @@ import type {
 } from 'msw';
 
 import {
-  BookingStatus
+  BookingStatus,
+  ReportStatus
 } from './api.schemas';
 import type {
+  AdminLogin,
+  AdminSetup,
+  AdminStatus,
   Booking,
   CreateBooking,
+  CreateReport,
   GetHealth200,
   Me,
-  UpdateBooking
+  Report,
+  UpdateBooking,
+  UpdateReport
 } from './api.schemas';
 
 
 export const getGetHealthResponseMock = (overrideResponse: Partial<Extract<GetHealth200, object>> = {}): GetHealth200 => ({status: faker.helpers.arrayElement(['ok'] as const), ...overrideResponse})
 
-export const getGetMeResponseMock = (overrideResponse: Partial<Extract<Me, object>> = {}): Me => ({user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null])},null,]), ...overrideResponse})
+export const getGetMeResponseMock = (overrideResponse: Partial<Extract<Me, object>> = {}): Me => ({user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), isAdmin: faker.datatype.boolean()},null,]), ...overrideResponse})
+
+export const getGetAdminStatusResponseMock = (overrideResponse: Partial<Extract<AdminStatus, object>> = {}): AdminStatus => ({setupNeeded: faker.datatype.boolean(), ...overrideResponse})
+
+export const getListReportsResponseMock = (): Report[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), cardId: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), message: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(Object.values(ReportStatus)), createdAt: faker.date.past().toISOString().slice(0, 19) + 'Z'})))
+
+export const getUpdateReportResponseMock = (overrideResponse: Partial<Extract<Report, object>> = {}): Report => ({id: faker.string.uuid(), cardId: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), message: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(Object.values(ReportStatus)), createdAt: faker.date.past().toISOString().slice(0, 19) + 'Z', ...overrideResponse})
 
 export const getListBookingsResponseMock = (): Booking[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), date: faker.date.past().toISOString().slice(0, 10), time: faker.string.alpha({length: {min: 10, max: 20}}), duration: faker.number.int(), status: faker.helpers.arrayElement(Object.values(BookingStatus))})))
 
@@ -60,6 +73,72 @@ export const getGetMeMockHandler = (overrideResponse?: Me | ((info: Parameters<H
     return HttpResponse.json(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
     : getGetMeResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getCreateReportMockHandler = (overrideResponse?: void | ((info: Parameters<HttpResponseResolver<PathParams, CreateReport>>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, CreateReport>('*/api/reports', async (info: Parameters<HttpResponseResolver<PathParams, CreateReport>>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+
+export const getGetAdminStatusMockHandler = (overrideResponse?: AdminStatus | ((info: Parameters<HttpResponseResolver>[0]) => Promise<AdminStatus> | AdminStatus), options?: RequestHandlerOptions) => {
+  return http.get('*/api/admin/status', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetAdminStatusResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getSetUpAdminMockHandler = (overrideResponse?: void | ((info: Parameters<HttpResponseResolver<PathParams, AdminSetup>>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, AdminSetup>('*/api/admin/setup', async (info: Parameters<HttpResponseResolver<PathParams, AdminSetup>>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+
+export const getLogInAdminMockHandler = (overrideResponse?: void | ((info: Parameters<HttpResponseResolver<PathParams, AdminLogin>>[0]) => Promise<void> | void), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, AdminLogin>('*/api/admin/login', async (info: Parameters<HttpResponseResolver<PathParams, AdminLogin>>[0]) => {
+  if (typeof overrideResponse === 'function') {await overrideResponse(info); }
+
+    return new HttpResponse(null,
+      { status: 204
+      })
+  }, options)
+}
+
+export const getListReportsMockHandler = (overrideResponse?: Report[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<Report[]> | Report[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/admin/reports', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getListReportsResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getUpdateReportMockHandler = (overrideResponse?: Report | ((info: Parameters<HttpResponseResolver<{ id: string }, UpdateReport>>[0]) => Promise<Report> | Report), options?: RequestHandlerOptions) => {
+  return http.patch<{ id: string }, UpdateReport>('*/api/admin/reports/:id', async (info: Parameters<HttpResponseResolver<{ id: string }, UpdateReport>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUpdateReportResponseMock(),
       { status: 200
       })
   }, options)
@@ -103,6 +182,12 @@ export const getUpdateBookingMockHandler = (overrideResponse?: Booking | ((info:
 export const getZbeulAPIMock = () => [
   getGetHealthMockHandler(),
   getGetMeMockHandler(),
+  getCreateReportMockHandler(),
+  getGetAdminStatusMockHandler(),
+  getSetUpAdminMockHandler(),
+  getLogInAdminMockHandler(),
+  getListReportsMockHandler(),
+  getUpdateReportMockHandler(),
   getListBookingsMockHandler(),
   getCreateBookingMockHandler(),
   getUpdateBookingMockHandler()
