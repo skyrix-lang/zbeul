@@ -246,7 +246,7 @@ themselves. The app must be served over https: a service worker, and so the
 install and the offline play, need it.
 
 One-time setup on the server, in the directory `yarn deploy` uses
-(`~/apps/zbeul` by default):
+(`apps/zbeul` in the user's home by default; `DEPLOY_DIR` changes it):
 
 1. Create a database and its user in Postgres.
 2. Write `.env.production` there, readable by its owner only:
@@ -269,8 +269,10 @@ Then, for each release, from a checkout of the commit to ship:
 DEPLOY_SSH=user@host DEPLOY_PORT=22 yarn deploy
 ```
 
-It copies the commit to the server (no git access is needed there), builds the
-image, applies the migrations, restarts the app and prunes old images. The
+It copies the commit to the server (no git access is needed there), then
+`scripts/deploy-remote.sh` builds the image there, applies the migrations,
+restarts the app and prunes old images. A server whose Docker has no BuildKit
+still builds, more slowly: `sudo apt install docker-buildx` fixes that. The
 proxy sets `x-forwarded-for`, which the rate limits read. The app sets its own
 cache headers: the proxy needs no rule for the service worker.
 

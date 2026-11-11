@@ -20,10 +20,15 @@ else
   sed -i 's/--mount=type=cache,target=[^ ]* //' docker/Dockerfile
 fi
 
-compose build
+# Both images, by name: `migrate` has a profile, so a plain `build` skips it
+# and the next release would run the previous release's migrations.
+compose build app migrate
 # Before the new version starts: a failed migration stops the deploy here,
 # with the old version still running.
 compose run --rm migrate
-compose up -d app
-docker image prune -f >/dev/null
+# Waits for the health check: a setting the app refuses at startup fails the
+# deploy here instead of leaving a container that restarts in a loop.
+compose up -d --wait app
+# This project's leftovers only: the server runs other things.
+docker image prune -f --filter "label=com.docker.compose.project=zbeul" >/dev/null
 compose ps
