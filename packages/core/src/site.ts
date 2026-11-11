@@ -3,8 +3,14 @@
 export const site = {
   name: "Zbeul",
   description:
-    "The game for afterparties: party games for friends on one phone you pass around, from chill to borderline. Free, no account, plays offline. 18+ only.",
+    "Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes.",
 };
 
 /** Pages that should rank: listed in the sitemap. App pages aren't. */
-export const PUBLIC_PATHS = ["/"] as const;
+export const PUBLIC_PATHS = [
+  "/",
+  "/mentions-legales",
+  "/conditions",
+  "/confidentialite",
+  "/charte",
+] as const;
