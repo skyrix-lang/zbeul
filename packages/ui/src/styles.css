@@ -4,6 +4,7 @@
  */
 @theme inline {
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
   --radius-lg: calc(var(--radius) + 4px);
@@ -31,7 +32,79 @@
   --color-destructive: var(--destructive);
   --color-destructive-soft: var(--destructive-soft);
   --color-destructive-soft-foreground: var(--destructive-soft-foreground);
+
+  --color-level-1: var(--level-1);
+  --color-level-1-foreground: var(--level-1-foreground);
+  --color-level-2: var(--level-2);
+  --color-level-2-foreground: var(--level-2-foreground);
+  --color-level-3: var(--level-3);
+  --color-level-3-foreground: var(--level-3-foreground);
+  --color-level-4: var(--level-4);
+  --color-level-4-foreground: var(--level-4-foreground);
+  --color-level-5: var(--level-5);
+  --color-level-5-foreground: var(--level-5-foreground);
+  --color-level-5-glow: var(--level-5-glow);
+  --color-family-vote: var(--family-vote);
+  --color-family-revelations: var(--family-revelations);
+  --color-family-defis: var(--family-defis);
+  --color-family-culture: var(--family-culture);
+  --color-family-collectif: var(--family-collectif);
+
+  /* Quick, never in the way; a plain fade when motion is reduced. */
+  --animate-card-in: card-in 280ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  --animate-fade-in: fade-in 200ms ease-out both;
+  --animate-pop: pop 2400ms ease-out both;
+  --animate-rise: rise 420ms cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+  --animate-mark: mark 320ms 180ms ease-out both;
+  --animate-drift: drift 16s ease-in-out infinite alternate;
+
+  @keyframes card-in {
+    from {
+      opacity: 0;
+      transform: translateX(12%) rotate(2deg) scale(0.96);
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes pop {
+    0% {
+      opacity: 0;
+      transform: translateY(-0.75rem) scale(0.9);
+    }
+    12%,
+    80% {
+      opacity: 1;
+      transform: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+  }
+  @keyframes mark {
+    from {
+      background-color: transparent;
+      color: inherit;
+    }
+  }
+  @keyframes drift {
+    to {
+      transform: translate(6%, 8%) scale(1.15);
+    }
+  }
 }
+
+/* `installed:` applies once the app runs from the phone's home screen. */
+@custom-variant installed (@media (display-mode: standalone));
 
 @layer base {
   * {

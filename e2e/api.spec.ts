@@ -230,7 +230,7 @@ test("/api/me holds no token or id", async ({ request }) => {
   const me = await (await request.get("/api/me")).json();
 
   expect(me).toEqual({
-    user: { email: "e2e-shared@example.test", name: null },
+    user: { email: "e2e-shared@example.test", name: null, isAdmin: false },
   });
 });
 
@@ -238,9 +238,15 @@ test("the API document lists every route", async ({ request }) => {
   const document = await (await request.get("/api/openapi.json")).json();
 
   expect(Object.keys(document.paths).sort()).toEqual([
+    "/api/admin/login",
+    "/api/admin/reports",
+    "/api/admin/reports/{id}",
+    "/api/admin/setup",
+    "/api/admin/status",
     "/api/bookings",
     "/api/bookings/{id}",
     "/api/health",
     "/api/me",
+    "/api/reports",
   ]);
 });

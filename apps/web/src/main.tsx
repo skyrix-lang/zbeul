@@ -2,9 +2,13 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { captureInstallPrompt } from "@zbeul/feature-game";
 import { createQueryClient } from "./query-client";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
+
+// Chrome's install offer fires once, early: kept for the install page.
+captureInstallPrompt();
 
 const queryClient = createQueryClient(() => {
   const { pathname, search } = window.location;

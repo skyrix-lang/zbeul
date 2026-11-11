@@ -1,6 +1,8 @@
 # Project guide
 
-A full-stack starter for new projects, organized as **versioned packages plus a
+Zbeul, the game for afterparties: a party game played on one shared phone
+(`specs/specs.md` says what it does, `specs/cartes-mvp.md` holds the cards).
+Built on a full-stack starter, organized as **versioned packages plus a
 thin app per customer**: a client-only React 19 SPA (Vite,
 TanStack Router and Query, shadcn/ui on Base UI, Tailwind v4, React Hook Form,
 Zod 4) and a small Hono backend-for-frontend (BFF) that owns sign-in (OpenID
@@ -16,7 +18,9 @@ packages/db              Drizzle schema, migrations (server only)
 packages/api             generated client, hooks and MSW mocks (never edit by hand)
 packages/ui              UI kit on theme tokens
 packages/theme-default   the brand: one CSS-variable file
-packages/feature-*       feature screens (bookings)
+packages/feature-game    the game: engine, deck, every player screen
+packages/feature-admin   the hidden admin at /admin
+packages/feature-*       other feature screens (bookings, the starter's example)
 ```
 
 Each package has a short `AGENTS.md` with its own rules: read it before
@@ -89,7 +93,8 @@ databases.
   `new-page` skill. Crawlers first read `apps/web/index.html`, whose metadata
   describes the home page; public pages are listed in `PUBLIC_PATHS`.
 - App pages set `usePageMeta({ title, noindex: true })` and call `requireUser`
-  in `beforeLoad`.
+  in `beforeLoad`. The game's own pages are the exception: no account, behind
+  the age gate instead (`docs/decisions.md`).
 
 ## BFF and data (`apps/bff`, `packages/db`)
 

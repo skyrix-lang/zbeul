@@ -3,7 +3,7 @@ import { z } from "zod";
 import { getGetMeQueryOptions } from "@zbeul/api";
 import { safeReturnTo } from "@zbeul/core";
 import { buttonVariants, Card } from "@zbeul/ui";
-import { usePageMeta } from "../page-meta";
+import { usePageMeta } from "../../page-meta";
 
 // The BFF sends people back here with ?error=<code> when sign-in fails
 // (apps/bff/src/routes/auth.ts).
@@ -21,7 +21,7 @@ const searchSchema = z.object({
   error: z.string().optional().catch(undefined),
 });
 
-export const Route = createFileRoute("/sign-in")({
+export const Route = createFileRoute("/_starter/sign-in")({
   validateSearch: searchSchema,
   beforeLoad: async ({ context, search }) => {
     const { user } = await context.queryClient.ensureQueryData(

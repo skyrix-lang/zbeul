@@ -31,7 +31,7 @@
     "dev": "sh scripts/dev.sh",
     "build": "yarn workspace @zbeul/web build && yarn workspace @zbeul/bff build",
     "start": "STATIC_DIR=${STATIC_DIR:-apps/web/dist} node --env-file-if-exists=.env --enable-source-maps apps/bff/dist/server.js",
-    "verify": "yarn format:check && yarn check && yarn lint && yarn boundaries && yarn api:check && yarn test:unit",
+    "verify": "yarn format:check && yarn check && yarn lint && yarn boundaries && yarn api:check && yarn cards:check && yarn test:unit",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "check": "yarn workspaces foreach -A --parallel --exclude zbeul run check && tsc --noEmit -p .",
@@ -39,6 +39,8 @@
     "boundaries": "tsx scripts/check-boundaries.ts",
     "api:generate": "tsx scripts/api.ts",
     "api:check": "tsx scripts/api.ts check",
+    "cards:generate": "tsx scripts/cards.ts",
+    "cards:check": "tsx scripts/cards.ts check",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
@@ -57,7 +59,8 @@
     "db:seed": "tsx scripts/seed.ts",
     "docker:build": "docker build -t $npm_package_name:$npm_package_version -f docker/Dockerfile .",
     "docker:up": "docker compose -f docker/compose.yaml up --build",
-    "docker:down": "docker compose -f docker/compose.yaml down"
+    "docker:down": "docker compose -f docker/compose.yaml down",
+    "deploy": "sh scripts/deploy.sh"
   },
   "workspaces": [
     "apps/*",

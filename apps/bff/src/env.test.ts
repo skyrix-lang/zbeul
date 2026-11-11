@@ -24,8 +24,38 @@ describe("parseEnv", () => {
 
   it("lists every missing variable at once", () => {
     expect(() => parseEnv({})).toThrow(
-      /PUBLIC_URL[\s\S]*DATABASE_URL[\s\S]*SESSION_SECRET[\s\S]*OIDC_ISSUER/,
+      /PUBLIC_URL[\s\S]*DATABASE_URL[\s\S]*SESSION_SECRET/,
     );
+  });
+
+  it("runs without an identity provider, but not with half of one", () => {
+    const { OIDC_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET, ...none } =
+      production;
+    expect(parseEnv(none).OIDC_ISSUER).toBeUndefined();
+    // Left empty in an env file is the same as left out.
+    expect(
+      parseEnv({ ...none, OIDC_ISSUER: "", OIDC_CLIENT_ID: "" }).OIDC_CLIENT_ID,
+    ).toBeUndefined();
+    expect(() => parseEnv({ ...none, OIDC_ISSUER })).toThrow(/OIDC_ISSUER/);
+    expect(() =>
+      parseEnv({ ...none, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET }),
+    ).toThrow(/OIDC_ISSUER/);
+  });
+
+  it("normalises the admin's email, and wants a setup code worth the name", () => {
+    const env = parseEnv({
+      ...production,
+      ADMIN_EMAIL: " Ada+Zbeul@Example.Test ",
+      ADMIN_SETUP_CODE: "a-long-enough-setup-code",
+    });
+    expect(env.ADMIN_EMAIL).toBe("ada+zbeul@example.test");
+    expect(parseEnv(production).ADMIN_EMAIL).toBeUndefined();
+    expect(() => parseEnv({ ...production, ADMIN_EMAIL: "ada" })).toThrow(
+      /ADMIN_EMAIL/,
+    );
+    expect(() =>
+      parseEnv({ ...production, ADMIN_SETUP_CODE: "short" }),
+    ).toThrow(/ADMIN_SETUP_CODE/);
   });
 
   it("rejects a database URL that isn't Postgres", () => {

@@ -27,6 +27,9 @@ Object.assign(process.env, {
     process.env.E2E_OIDC_ISSUER ?? "http://localhost:8180/realms/zbeul",
   OIDC_CLIENT_ID: "zbeul-web",
   OIDC_CLIENT_SECRET: "zbeul-web-dev-secret",
+  // The admin of e2e/admin.spec.ts, who chooses a password in the first test.
+  ADMIN_EMAIL: "admin@example.test",
+  ADMIN_SETUP_CODE: "e2e-setup-code-0123456789",
 });
 
 export default defineConfig({
@@ -38,6 +41,9 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",
+    // The service worker would answer from its cache instead of the server,
+    // hiding what a test changes. e2e/pwa.spec.ts turns it back on.
+    serviceWorkers: "block",
   },
   projects: [
     {
@@ -51,14 +57,22 @@ export default defineConfig({
       use: { storageState: SIGNED_IN_STATE },
     },
     {
+      // One admin account for the whole run, whose password is set once: its
+      // tests run in order, in one browser.
+      name: "admin",
+      testMatch: "admin.spec.ts",
+      dependencies: ["setup"],
+      use: { ...devices["Desktop Chrome"] },
+    },
+    {
       name: "desktop",
-      testIgnore: ["api.spec.ts", "auth.setup.ts"],
+      testIgnore: ["api.spec.ts", "auth.setup.ts", "admin.spec.ts"],
       dependencies: ["setup"],
       use: { ...devices["Desktop Chrome"], storageState: SIGNED_IN_STATE },
     },
     {
       name: "mobile",
-      testIgnore: ["api.spec.ts", "auth.setup.ts"],
+      testIgnore: ["api.spec.ts", "auth.setup.ts", "admin.spec.ts"],
       dependencies: ["setup"],
       use: { ...devices["Pixel 7"], storageState: SIGNED_IN_STATE },
     },

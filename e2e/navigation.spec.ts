@@ -1,51 +1,70 @@
-import { expect, test } from "./support";
+import { asReturningPlayer, expect, test } from "./support";
 
 test.describe("home page", () => {
-  test("shows the hero, features and title", async ({ page }) => {
+  test("offers to play, install, and little else: no menu anywhere", async ({
+    page,
+  }) => {
+    await asReturningPlayer(page);
     await page.goto("/");
 
     await expect(page).toHaveTitle("Zbeul");
-    await expect(
-      page.getByRole("heading", { name: "Book with confidence" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Instant Confirmation" }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Zbeul" })).toBeVisible();
+    await expect(page.getByRole("link")).toHaveText([
+      "Jouer",
+      "Installer l'appli",
+      "Favoris",
+      "Réglages",
+    ]);
+    await expect(page.getByRole("banner")).toHaveCount(0);
+    await expect(page.getByRole("navigation")).toHaveCount(0);
+    await expect(page.getByRole("button")).toHaveCount(0);
+    // Nothing public leads to the admin.
+    await expect(page.locator('a[href*="admin"]')).toHaveCount(0);
   });
 
-  test("loads the logo", async ({ page }) => {
+  test("leads to the game's setup, and back", async ({ page }) => {
+    await asReturningPlayer(page);
     await page.goto("/");
 
-    const logo = page.getByRole("banner").locator('img[src="/logo.svg"]');
-    await expect(logo).toBeVisible();
-    await expect
-      .poll(() => logo.evaluate((img: HTMLImageElement) => img.naturalWidth))
-      .toBeGreaterThan(0);
+    await page.getByRole("link", { name: "Jouer" }).click();
+
+    await expect(page).toHaveURL("/jouer");
+    await expect(
+      page.getByRole("heading", { name: "Nouvelle partie" }),
+    ).toBeVisible();
+
+    await page.getByRole("link", { name: "Retour" }).click();
+
+    await expect(page).toHaveURL("/");
   });
 
-  test("links to the bookings", async ({ page }) => {
-    await page.goto("/");
-
-    await page.getByRole("link", { name: "View Bookings" }).click();
-
-    await expect(page).toHaveURL("/bookings");
-    await expect(page.getByRole("heading", { name: "Bookings" })).toBeVisible();
+  test("every secondary screen is one tap away, with a way back", async ({
+    page,
+  }) => {
+    await asReturningPlayer(page);
+    for (const [link, heading] of [
+      ["Favoris", "Favoris"],
+      ["Réglages", "Réglages"],
+      ["Installer l'appli", "Installer l'appli"],
+    ] as const) {
+      await page.goto("/");
+      await page.getByRole("link", { name: link }).click();
+      await expect(
+        page.getByRole("heading", { name: heading, level: 1 }),
+      ).toBeVisible();
+      await page.getByRole("link", { name: "Retour" }).click();
+      await expect(page).toHaveURL("/");
+    }
   });
 });
 
-test.describe("header", () => {
+test.describe("the signed-in pages' header", () => {
   test("desktop navigation", async ({ page, isMobile }) => {
     test.skip(isMobile, "the desktop navigation is hidden on mobile");
-    await page.goto("/");
+    await page.goto("/bookings");
     const menuButton = page.getByRole("button", { name: "Open menu" });
     await expect(menuButton).toBeHidden();
 
-    await page
-      .getByRole("banner")
-      .getByRole("link", { name: "Bookings" })
-      .click();
-
-    await expect(page).toHaveURL("/bookings");
     await expect(
       page.getByRole("banner").getByRole("link", { name: "Bookings" }),
     ).toHaveAttribute("aria-current", "page");
@@ -53,7 +72,7 @@ test.describe("header", () => {
 
   test("mobile menu", async ({ page, isMobile }) => {
     test.skip(!isMobile, "the mobile menu is hidden on desktop");
-    await page.goto("/");
+    await page.goto("/bookings");
     const header = page.getByRole("banner");
     await expect(header.getByRole("link", { name: "Bookings" })).toBeHidden();
 
@@ -77,15 +96,16 @@ test.describe("unknown pages", () => {
   test("show the not-found page, which isn't indexed", async ({ page }) => {
     // The server can't tell which paths the SPA knows, so it answers 200 and
     // the page asks search engines not to index it.
+    await asReturningPlayer(page);
     await page.goto("/does-not-exist");
 
-    await expect(page).toHaveTitle("Page not found | Zbeul");
+    await expect(page).toHaveTitle("Page introuvable | Zbeul");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
       "content",
       "noindex",
     );
 
-    await page.getByRole("link", { name: "Back to home" }).click();
+    await page.getByRole("link", { name: "Retour à l'accueil" }).click();
 
     await expect(page).toHaveURL("/");
     await expect(page.locator('meta[name="robots"]')).toHaveCount(0);

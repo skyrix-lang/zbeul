@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { bookingStatusSchema } from "@zbeul/core";
 import { BookingsPage } from "@zbeul/feature-bookings";
-import { requireUser } from "../auth";
-import { pageFor } from "../overrides";
-import { usePageMeta } from "../page-meta";
+import { requireUser } from "../../auth";
+import { pageFor } from "../../overrides";
+import { usePageMeta } from "../../page-meta";
 
 // An unknown status shows every booking rather than an error.
 const searchSchema = z.object({
@@ -13,7 +13,7 @@ const searchSchema = z.object({
 
 const Page = pageFor("/bookings", BookingsPage);
 
-export const Route = createFileRoute("/bookings")({
+export const Route = createFileRoute("/_starter/bookings")({
   validateSearch: searchSchema,
   beforeLoad: ({ context, location }) =>
     requireUser(context.queryClient, location.href),

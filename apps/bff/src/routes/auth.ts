@@ -4,7 +4,7 @@ import { safeReturnTo } from "@zbeul/core";
 import { clientIp } from "../client-ip";
 import { env } from "../env";
 import { log } from "../log";
-import { callbackUrl, client, oidcConfig } from "../oidc";
+import { callbackUrl, client, oidcConfig, oidcEnabled } from "../oidc";
 import { hit, type RateLimit } from "../rate-limit";
 import { createSession, endSession, setSessionCookie } from "../session";
 import { upsertUser } from "../users";
@@ -29,6 +29,8 @@ const failed = (code: string) => `/sign-in?error=${code}`;
 
 export const authRoutes = new Hono()
   .get("/login", async (c) => {
+    // Without a provider there is nothing to redirect to.
+    if (!oidcEnabled()) return c.redirect(failed("Unavailable"));
     const returnTo = safeReturnTo(c.req.query("returnTo"));
     const ip = clientIp(c.req.raw.headers);
     if (ip && !(await hit(`sign-in:client:${ip}`, SIGN_INS_PER_CLIENT))) {
@@ -118,9 +120,10 @@ export const authRoutes = new Hono()
   // A form POST, so a cross-site page can't sign someone out with a link: the
   // CSRF check in src/app.ts refuses forms from other origins.
   .post("/logout", async (c) => {
+    // The admin, signed in with a password, has no ID token: straight home.
     const idToken = await endSession(c);
     const home = `${env().PUBLIC_URL}/`;
-    if (idToken) {
+    if (idToken && oidcEnabled()) {
       try {
         const config = await oidcConfig();
         if (config.serverMetadata().end_session_endpoint) {

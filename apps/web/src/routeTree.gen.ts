@@ -9,86 +9,397 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as BookingsRouteImport } from './routes/bookings'
-import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as GameRouteImport } from './routes/_game'
+import { Route as StarterRouteImport } from './routes/_starter'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CharteRouteImport } from './routes/charte'
+import { Route as ConditionsRouteImport } from './routes/conditions'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
+import { Route as GameIndexRouteImport } from './routes/_game/index'
+import { Route as GameFavorisRouteImport } from './routes/_game/favoris'
+import { Route as GameFinRouteImport } from './routes/_game/fin'
+import { Route as GameInstallerRouteImport } from './routes/_game/installer'
+import { Route as GameJouerRouteImport } from './routes/_game/jouer'
+import { Route as GamePartieRouteImport } from './routes/_game/partie'
+import { Route as GameReglagesRouteImport } from './routes/_game/reglages'
+import { Route as GameSignalerRouteImport } from './routes/_game/signaler'
+import { Route as StarterBookingsRouteImport } from './routes/_starter/bookings'
+import { Route as StarterSignInRouteImport } from './routes/_starter/sign-in'
 
-const IndexRoute = IndexRouteImport.update({
+const GameRoute = GameRouteImport.update({
+  id: '/_game',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StarterRoute = StarterRouteImport.update({
+  id: '/_starter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharteRoute = CharteRouteImport.update({
+  id: '/charte',
+  path: '/charte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConditionsRoute = ConditionsRouteImport.update({
+  id: '/conditions',
+  path: '/conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameIndexRoute = GameIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => GameRoute,
 } as any)
-const BookingsRoute = BookingsRouteImport.update({
+const GameFavorisRoute = GameFavorisRouteImport.update({
+  id: '/favoris',
+  path: '/favoris',
+  getParentRoute: () => GameRoute,
+} as any)
+const GameFinRoute = GameFinRouteImport.update({
+  id: '/fin',
+  path: '/fin',
+  getParentRoute: () => GameRoute,
+} as any)
+const GameInstallerRoute = GameInstallerRouteImport.update({
+  id: '/installer',
+  path: '/installer',
+  getParentRoute: () => GameRoute,
+} as any)
+const GameJouerRoute = GameJouerRouteImport.update({
+  id: '/jouer',
+  path: '/jouer',
+  getParentRoute: () => GameRoute,
+} as any)
+const GamePartieRoute = GamePartieRouteImport.update({
+  id: '/partie',
+  path: '/partie',
+  getParentRoute: () => GameRoute,
+} as any)
+const GameReglagesRoute = GameReglagesRouteImport.update({
+  id: '/reglages',
+  path: '/reglages',
+  getParentRoute: () => GameRoute,
+} as any)
+const GameSignalerRoute = GameSignalerRouteImport.update({
+  id: '/signaler',
+  path: '/signaler',
+  getParentRoute: () => GameRoute,
+} as any)
+const StarterBookingsRoute = StarterBookingsRouteImport.update({
   id: '/bookings',
   path: '/bookings',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => StarterRoute,
 } as any)
-const SignInRoute = SignInRouteImport.update({
+const StarterSignInRoute = StarterSignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => StarterRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
-  '/sign-in': typeof SignInRoute
+  '/': typeof GameIndexRoute
+  '/admin': typeof AdminRoute
+  '/charte': typeof CharteRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/favoris': typeof GameFavorisRoute
+  '/fin': typeof GameFinRoute
+  '/installer': typeof GameInstallerRoute
+  '/jouer': typeof GameJouerRoute
+  '/partie': typeof GamePartieRoute
+  '/reglages': typeof GameReglagesRoute
+  '/signaler': typeof GameSignalerRoute
+  '/bookings': typeof StarterBookingsRoute
+  '/sign-in': typeof StarterSignInRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
-  '/sign-in': typeof SignInRoute
+  '/': typeof GameIndexRoute
+  '/admin': typeof AdminRoute
+  '/charte': typeof CharteRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/favoris': typeof GameFavorisRoute
+  '/fin': typeof GameFinRoute
+  '/installer': typeof GameInstallerRoute
+  '/jouer': typeof GameJouerRoute
+  '/partie': typeof GamePartieRoute
+  '/reglages': typeof GameReglagesRoute
+  '/signaler': typeof GameSignalerRoute
+  '/bookings': typeof StarterBookingsRoute
+  '/sign-in': typeof StarterSignInRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/bookings': typeof BookingsRoute
-  '/sign-in': typeof SignInRoute
+  '/_game': typeof GameRouteWithChildren
+  '/_starter': typeof StarterRouteWithChildren
+  '/admin': typeof AdminRoute
+  '/charte': typeof CharteRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
+  '/_game/favoris': typeof GameFavorisRoute
+  '/_game/fin': typeof GameFinRoute
+  '/_game/installer': typeof GameInstallerRoute
+  '/_game/jouer': typeof GameJouerRoute
+  '/_game/partie': typeof GamePartieRoute
+  '/_game/reglages': typeof GameReglagesRoute
+  '/_game/signaler': typeof GameSignalerRoute
+  '/_starter/bookings': typeof StarterBookingsRoute
+  '/_starter/sign-in': typeof StarterSignInRoute
+  '/_game/': typeof GameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bookings' | '/sign-in'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/charte'
+    | '/conditions'
+    | '/confidentialite'
+    | '/mentions-legales'
+    | '/favoris'
+    | '/fin'
+    | '/installer'
+    | '/jouer'
+    | '/partie'
+    | '/reglages'
+    | '/signaler'
+    | '/bookings'
+    | '/sign-in'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bookings' | '/sign-in'
-  id: '__root__' | '/' | '/bookings' | '/sign-in'
+  to:
+    | '/'
+    | '/admin'
+    | '/charte'
+    | '/conditions'
+    | '/confidentialite'
+    | '/mentions-legales'
+    | '/favoris'
+    | '/fin'
+    | '/installer'
+    | '/jouer'
+    | '/partie'
+    | '/reglages'
+    | '/signaler'
+    | '/bookings'
+    | '/sign-in'
+  id:
+    | '__root__'
+    | '/_game'
+    | '/_starter'
+    | '/admin'
+    | '/charte'
+    | '/conditions'
+    | '/confidentialite'
+    | '/mentions-legales'
+    | '/_game/favoris'
+    | '/_game/fin'
+    | '/_game/installer'
+    | '/_game/jouer'
+    | '/_game/partie'
+    | '/_game/reglages'
+    | '/_game/signaler'
+    | '/_starter/bookings'
+    | '/_starter/sign-in'
+    | '/_game/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  BookingsRoute: typeof BookingsRoute
-  SignInRoute: typeof SignInRoute
+  GameRoute: typeof GameRouteWithChildren
+  StarterRoute: typeof StarterRouteWithChildren
+  AdminRoute: typeof AdminRoute
+  CharteRoute: typeof CharteRoute
+  ConditionsRoute: typeof ConditionsRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_game': {
+      id: '/_game'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof GameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_starter': {
+      id: '/_starter'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof StarterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/charte': {
+      id: '/charte'
+      path: '/charte'
+      fullPath: '/charte'
+      preLoaderRoute: typeof CharteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conditions': {
+      id: '/conditions'
+      path: '/conditions'
+      fullPath: '/conditions'
+      preLoaderRoute: typeof ConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_game/': {
+      id: '/_game/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof GameIndexRouteImport
+      parentRoute: typeof GameRoute
     }
-    '/bookings': {
-      id: '/bookings'
+    '/_game/favoris': {
+      id: '/_game/favoris'
+      path: '/favoris'
+      fullPath: '/favoris'
+      preLoaderRoute: typeof GameFavorisRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/fin': {
+      id: '/_game/fin'
+      path: '/fin'
+      fullPath: '/fin'
+      preLoaderRoute: typeof GameFinRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/installer': {
+      id: '/_game/installer'
+      path: '/installer'
+      fullPath: '/installer'
+      preLoaderRoute: typeof GameInstallerRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/jouer': {
+      id: '/_game/jouer'
+      path: '/jouer'
+      fullPath: '/jouer'
+      preLoaderRoute: typeof GameJouerRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/partie': {
+      id: '/_game/partie'
+      path: '/partie'
+      fullPath: '/partie'
+      preLoaderRoute: typeof GamePartieRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/reglages': {
+      id: '/_game/reglages'
+      path: '/reglages'
+      fullPath: '/reglages'
+      preLoaderRoute: typeof GameReglagesRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_game/signaler': {
+      id: '/_game/signaler'
+      path: '/signaler'
+      fullPath: '/signaler'
+      preLoaderRoute: typeof GameSignalerRouteImport
+      parentRoute: typeof GameRoute
+    }
+    '/_starter/bookings': {
+      id: '/_starter/bookings'
       path: '/bookings'
       fullPath: '/bookings'
-      preLoaderRoute: typeof BookingsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof StarterBookingsRouteImport
+      parentRoute: typeof StarterRoute
     }
-    '/sign-in': {
-      id: '/sign-in'
+    '/_starter/sign-in': {
+      id: '/_starter/sign-in'
       path: '/sign-in'
       fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof StarterSignInRouteImport
+      parentRoute: typeof StarterRoute
     }
   }
 }
 
+interface GameRouteChildren {
+  GameFavorisRoute: typeof GameFavorisRoute
+  GameFinRoute: typeof GameFinRoute
+  GameInstallerRoute: typeof GameInstallerRoute
+  GameJouerRoute: typeof GameJouerRoute
+  GamePartieRoute: typeof GamePartieRoute
+  GameReglagesRoute: typeof GameReglagesRoute
+  GameSignalerRoute: typeof GameSignalerRoute
+  GameIndexRoute: typeof GameIndexRoute
+}
+
+const GameRouteChildren: GameRouteChildren = {
+  GameFavorisRoute: GameFavorisRoute,
+  GameFinRoute: GameFinRoute,
+  GameInstallerRoute: GameInstallerRoute,
+  GameJouerRoute: GameJouerRoute,
+  GamePartieRoute: GamePartieRoute,
+  GameReglagesRoute: GameReglagesRoute,
+  GameSignalerRoute: GameSignalerRoute,
+  GameIndexRoute: GameIndexRoute,
+}
+
+const GameRouteWithChildren = GameRoute._addFileChildren(GameRouteChildren)
+
+interface StarterRouteChildren {
+  StarterBookingsRoute: typeof StarterBookingsRoute
+  StarterSignInRoute: typeof StarterSignInRoute
+}
+
+const StarterRouteChildren: StarterRouteChildren = {
+  StarterBookingsRoute: StarterBookingsRoute,
+  StarterSignInRoute: StarterSignInRoute,
+}
+
+const StarterRouteWithChildren =
+  StarterRoute._addFileChildren(StarterRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  BookingsRoute: BookingsRoute,
-  SignInRoute: SignInRoute,
+  GameRoute: GameRouteWithChildren,
+  StarterRoute: StarterRouteWithChildren,
+  AdminRoute: AdminRoute,
+  CharteRoute: CharteRoute,
+  ConditionsRoute: ConditionsRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

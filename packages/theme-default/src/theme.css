@@ -1,31 +1,187 @@
 /*
- * The default brand. A customer's theme package redefines these variables and
- * nothing else: components only use the tokens (packages/ui/src/styles.css).
+ * The Zbeul brand: one display font and five themes. Components only use the
+ * tokens (packages/ui/src/styles.css); a theme redefines the variables and
+ * nothing else. "Nuit" is the default; the others apply when <html> carries
+ * data-theme (set before the first paint by apps/web/public/theme.js).
+ *
  * Keep text colours at WCAG 2.2 AA contrast (4.5:1) against their background:
- * the e2e axe checks fail otherwise.
+ * scripts/theme-contrast.test.ts checks every pair in every theme.
  */
+@import "@fontsource-variable/bricolage-grotesque/wdth.css";
+
 :root {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --radius: 0.5rem;
+  --font-display:
+    "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.875rem;
+  color-scheme: dark;
 
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  /* Nuit: almost black, vivid accents. */
+  --background: #0b0b12;
+  --foreground: #f6f5fb;
+  --card: #16161f;
+  --card-foreground: #f6f5fb;
+  --muted: #1f1f2b;
+  --muted-foreground: #a9a8bd;
+  --border: #2b2b3a;
+  --input: #68688a;
+  --ring: #ff5c9d;
+
+  --primary: #ff3d8b;
+  --primary-hover: #ff5c9d;
+  --primary-foreground: #1a0410;
+  --primary-soft: #2a1020;
+  --primary-soft-foreground: #ff8fbb;
+
+  --secondary: #1f1f2b;
+  --secondary-foreground: #f6f5fb;
+
+  --success-soft: #0f2a1f;
+  --success-soft-foreground: #6ee7b7;
+  --warning-soft: #2e2208;
+  --warning-soft-foreground: #fcd34d;
+  --destructive: #ff5470;
+  --destructive-soft: #33121a;
+  --destructive-soft-foreground: #ff9aa9;
+
+  /* A card takes its level's colour: the rising pressure shows at a glance. */
+  --level-1: #6ee7b7;
+  --level-1-foreground: #062319;
+  --level-2: #fde047;
+  --level-2-foreground: #2a2000;
+  --level-3: #fb923c;
+  --level-3-foreground: #2b1200;
+  --level-4: #d81b6a;
+  --level-4-foreground: #ffffff;
+  --level-5: #3b0f73;
+  --level-5-foreground: #f5e9ff;
+  --level-5-glow: #d946ef;
+
+  /* A mini-game family's dot, always next to its label. */
+  --family-vote: #60a5fa;
+  --family-revelations: #f472b6;
+  --family-defis: #fb923c;
+  --family-culture: #a78bfa;
+  --family-collectif: #34d399;
+}
+
+/* Tokyo Night: night blues, muted violets and cyans. */
+:root[data-theme="tokyo"] {
+  --background: #1a1b26;
+  --foreground: #c0caf5;
+  --card: #1f2335;
+  --card-foreground: #c0caf5;
+  --muted: #24283b;
+  --muted-foreground: #9aa5ce;
+  --border: #2f3549;
+  --input: #6b7399;
+  --ring: #7aa2f7;
+
+  --primary: #7aa2f7;
+  --primary-hover: #93b4fa;
+  --primary-foreground: #10131f;
+  --primary-soft: #1f2a48;
+  --primary-soft-foreground: #a9c1ff;
+
+  --secondary: #24283b;
+  --secondary-foreground: #c0caf5;
+
+  --success-soft: #1a2b2a;
+  --success-soft-foreground: #9ece6a;
+  --warning-soft: #2e2a1f;
+  --warning-soft-foreground: #e0af68;
+  --destructive: #f7768e;
+  --destructive-soft: #3b1f2b;
+  --destructive-soft-foreground: #f7a1b1;
+
+  --level-1: #73daca;
+  --level-1-foreground: #0c2420;
+  --level-2: #e0af68;
+  --level-2-foreground: #2b1e06;
+  --level-3: #ff9e64;
+  --level-3-foreground: #2e1503;
+  --level-4: #f7768e;
+  --level-4-foreground: #2d0a12;
+  --level-5: #5a3ea6;
+  --level-5-foreground: #f1eaff;
+  --level-5-glow: #bb9af7;
+
+  --family-vote: #7aa2f7;
+  --family-revelations: #f7768e;
+  --family-defis: #ff9e64;
+  --family-culture: #bb9af7;
+  --family-collectif: #73daca;
+}
+
+/* Rétro: the eighties, pink and orange neon on deep violet. */
+:root[data-theme="retro"] {
+  --background: #1b0b33;
+  --foreground: #fff3fb;
+  --card: #2a1250;
+  --card-foreground: #fff3fb;
+  --muted: #341964;
+  --muted-foreground: #cdb9ea;
+  --border: #47247f;
+  --input: #8a63cf;
+  --ring: #ff71ce;
+
+  --primary: #ff71ce;
+  --primary-hover: #ff8fd9;
+  --primary-foreground: #2a0a2a;
+  --primary-soft: #3d1560;
+  --primary-soft-foreground: #ffa8e2;
+
+  --secondary: #341964;
+  --secondary-foreground: #fff3fb;
+
+  --success-soft: #133a3a;
+  --success-soft-foreground: #5ef2d6;
+  --warning-soft: #45270f;
+  --warning-soft-foreground: #ffb86b;
+  --destructive: #ff5d73;
+  --destructive-soft: #4a1535;
+  --destructive-soft-foreground: #ffa3b3;
+
+  --level-1: #05ffa1;
+  --level-1-foreground: #00311f;
+  --level-2: #fffb96;
+  --level-2-foreground: #333000;
+  --level-3: #ff9a3c;
+  --level-3-foreground: #331500;
+  --level-4: #ff3d81;
+  --level-4-foreground: #2b0010;
+  --level-5: #7a04eb;
+  --level-5-foreground: #ffffff;
+  --level-5-glow: #ff71ce;
+
+  --family-vote: #01cdfe;
+  --family-revelations: #ff71ce;
+  --family-defis: #ff9a3c;
+  --family-culture: #b967ff;
+  --family-collectif: #05ffa1;
+}
+
+/* Clair: off-white, saturated accents. */
+:root[data-theme="clair"] {
+  color-scheme: light;
+  --background: #faf9f7;
+  --foreground: #16141f;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #475569;
-  --border: #e2e8f0;
-  --input: #cbd5e1;
-  --ring: #3b82f6;
+  --card-foreground: #16141f;
+  --muted: #f0eef2;
+  --muted-foreground: #5b5870;
+  --border: #e4e1ea;
+  --input: #8e8aa0;
+  --ring: #d6186a;
 
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
+  --primary: #d6186a;
+  --primary-hover: #b9125a;
   --primary-foreground: #ffffff;
-  --primary-soft: #eff6ff;
-  --primary-soft-foreground: #1d4ed8;
+  --primary-soft: #fde7f1;
+  --primary-soft-foreground: #a80f52;
 
   --secondary: #ffffff;
-  --secondary-foreground: #334155;
+  --secondary-foreground: #2b2838;
 
   --success-soft: #dcfce7;
   --success-soft-foreground: #15803d;
@@ -34,4 +190,71 @@
   --destructive: #dc2626;
   --destructive-soft: #fee2e2;
   --destructive-soft-foreground: #b91c1c;
+
+  --level-1: #34d399;
+  --level-1-foreground: #052e1f;
+  --level-2: #facc15;
+  --level-2-foreground: #2a2000;
+  --level-3: #fb7c1e;
+  --level-3-foreground: #2b1000;
+  --level-4: #d81b6a;
+  --level-4-foreground: #ffffff;
+  --level-5: #5b21b6;
+  --level-5-foreground: #ffffff;
+  --level-5-glow: #c026d3;
+
+  --family-vote: #2563eb;
+  --family-revelations: #db2777;
+  --family-defis: #ea580c;
+  --family-culture: #7c3aed;
+  --family-collectif: #059669;
+}
+
+/* Crème: warm paper tones, soft contrast. */
+:root[data-theme="creme"] {
+  color-scheme: light;
+  --background: #f5ecd9;
+  --foreground: #2b2118;
+  --card: #fbf5e8;
+  --card-foreground: #2b2118;
+  --muted: #ebdfc7;
+  --muted-foreground: #5f4f3c;
+  --border: #dfd0b3;
+  --input: #96815c;
+  --ring: #b4421f;
+
+  --primary: #b4421f;
+  --primary-hover: #9a3718;
+  --primary-foreground: #fff8ec;
+  --primary-soft: #f3dcc9;
+  --primary-soft-foreground: #8c3214;
+
+  --secondary: #fbf5e8;
+  --secondary-foreground: #3a2d20;
+
+  --success-soft: #dfe8c8;
+  --success-soft-foreground: #3f6212;
+  --warning-soft: #f5e1a8;
+  --warning-soft-foreground: #7c4307;
+  --destructive: #b42318;
+  --destructive-soft: #f6d5cd;
+  --destructive-soft-foreground: #9b1c12;
+
+  --level-1: #9fd8b4;
+  --level-1-foreground: #0f2e1c;
+  --level-2: #f2cf63;
+  --level-2-foreground: #332600;
+  --level-3: #eb9a5b;
+  --level-3-foreground: #331804;
+  --level-4: #c8455f;
+  --level-4-foreground: #ffffff;
+  --level-5: #5c3b7a;
+  --level-5-foreground: #fbf0ff;
+  --level-5-glow: #b4421f;
+
+  --family-vote: #3b6ea5;
+  --family-revelations: #c8455f;
+  --family-defis: #c96a1e;
+  --family-culture: #7a5199;
+  --family-collectif: #4f8a5b;
 }

@@ -1,4 +1,5 @@
 import {
+  boolean,
   customType,
   date,
   index,
@@ -10,7 +11,7 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import { BOOKING_STATUSES } from "@zbeul/core";
+import { BOOKING_STATUSES, REPORT_STATUSES } from "@zbeul/core";
 
 export const bookingStatus = pgEnum("booking_status", BOOKING_STATUSES);
 
@@ -78,6 +79,11 @@ export const users = pgTable(
     email: text().unique(),
     oidcIssuer: text("oidc_issuer"),
     oidcSubject: text("oidc_subject"),
+    // The admin signs in with a password instead of an identity provider
+    // (apps/bff/src/admin.ts). A scrypt hash, never the password; null until
+    // the admin has chosen one.
+    passwordHash: text("password_hash"),
+    isAdmin: boolean("is_admin").notNull().default(false),
   },
   (user) => [
     uniqueIndex("users_oidc_issuer_subject_idx").on(
@@ -102,4 +108,28 @@ export const userSessions = pgTable(
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   },
   (session) => [index("user_sessions_user_id_idx").on(session.userId)],
+);
+
+// What players report: a card that is wrong or out of line, or a problem with
+// the app (apps/bff/src/reports.ts). Anonymous by design: no user, no address,
+// nothing about the game being played.
+export const reportStatus = pgEnum("report_status", REPORT_STATUSES);
+
+export const reports = pgTable(
+  "reports",
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    // The card's reference, such as "TP-001"; null for a general report.
+    cardId: text("card_id"),
+    message: text().notNull().default(""),
+    // What the admin did with it: still to read, dealt with, or set aside.
+    status: reportStatus().notNull().default("open"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  // Serves the admin's list: one status, the newest first.
+  (report) => [
+    index("reports_status_created_at_idx").on(report.status, report.createdAt),
+  ],
 );

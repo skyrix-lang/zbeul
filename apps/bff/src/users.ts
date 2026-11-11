@@ -41,7 +41,16 @@ export async function upsertUser(identity: Identity): Promise<string> {
         oidcSubject: identity.subject,
         name: identity.name,
       })
-      .where(and(eq(users.email, email), isNull(users.oidcIssuer)))
+      .where(
+        and(
+          eq(users.email, email),
+          isNull(users.oidcIssuer),
+          // Never the admin's account: its only way in is its password
+          // (apps/bff/src/admin.ts), whatever a provider says about the email.
+          isNull(users.passwordHash),
+          eq(users.isAdmin, false),
+        ),
+      )
       .returning({ id: users.id });
     if (linked) return linked.id;
   }

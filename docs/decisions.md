@@ -168,3 +168,74 @@ development Keycloak, in deploy order. Keycloak is reached as
 the issuer must be one address for both.
 **Why:** the image is what ships, so there must be a one-command way to run it
 as it runs in production. Its secrets are public: it is not a deployment.
+
+## The game runs on the phone, and only there
+
+The game is plain functions on plain data (`packages/feature-game/src/engine`),
+the deck is bundled with the app, and everything a game needs or remembers is
+in `localStorage`, through Zustand's `persist`. The server is not involved in a
+game at all.
+**Why:** the spec's first promises are "nothing about the players is sent
+online" and "playable without a connection". A deck fetched from the API would
+break the second, and any server state the first. Zustand because it was
+already the recorded choice for client state, has no dependency, and its
+`persist` middleware has the `version` and `migrate` options that "a game
+saved by an older version stays playable" needs.
+**Cost:** a card changes with a release, not from the admin.
+**Revisit when:** the admin edits cards: serve the published deck from the API
+and let the service worker cache it, with the bundled deck as the fallback.
+
+## Game pages are public, without an account
+
+The game's routes don't call `requireUser`. All but the home are `noindex`,
+and all sit behind the age gate (`apps/web/src/routes/_game.tsx`); the legal
+pages are outside it.
+**Why:** the game has no accounts by design. The starter's rule (app pages
+require a user) still holds for pages that read server data.
+
+## Offline with a generated service worker (vite-plugin-pwa, Workbox)
+
+The build precaches every file of the app; `registerType: "prompt"` makes a
+new version wait until the home screen applies it (`apps/web/src/pwa.ts`).
+`/api`, `/auth` and `/admin` never come from the cache. The BFF serves
+`sw.js` and the manifest with `no-cache`.
+**Why:** precache revisions, atomic updates and cache cleanup are where a
+hand-written service worker goes wrong, and Workbox is what almost every Vite
+app uses for it. It is a build-time dependency only.
+**Cost:** `workbox-build` brings many transitive packages into the lockfile.
+**Revisit when:** the admin serves the deck: add a runtime cache for it.
+
+## One display font, self-hosted
+
+Bricolage Grotesque (variable, OFL), from `@fontsource-variable`, imported by
+the theme. Card text uses it; the interface uses the system font.
+**Why:** the strict CSP and offline play rule out a font CDN. Among the
+candidates rendered on a real card it kept the most character while staying
+compact, and its width axis lets a long card narrow its letters before it
+shrinks them.
+
+## The admin signs in with a password; an identity provider is optional
+
+One admin, named by `ADMIN_EMAIL`, with a scrypt-hashed password chosen at the
+first visit, which `ADMIN_SETUP_CODE` protects (`apps/bff/src/admin.ts`). The
+`OIDC_*` settings became optional, and production runs without them. This
+narrows "OIDC confidential client in the BFF" above: that flow is unchanged,
+but no longer the only way to a session.
+**Why:** asked for the first version: one person administers the site, and
+neither a mail server (magic links) nor a provider (Google) should be needed
+to deploy it. The setup code closes the window in which anyone finding
+`/admin` first could have claimed the account.
+**Open:** no password reset from the web (clear `password_hash` in the
+database), and no second factor.
+**Revisit when:** there is a second admin, or email is available: move to the
+spec's magic link or Google sign-in, restricted to an allowlist.
+
+## Deployed behind nginx-proxy, built on the server
+
+`yarn deploy` copies the commit over SSH, builds the image there, migrates and
+restarts (`scripts/deploy.sh`, `docker/compose.production.yaml`).
+**Why:** it fits a personal VPS that already routes its containers with
+nginx-proxy and Let's Encrypt, and needs neither a registry nor git access on
+the server.
+**Revisit when:** builds get slow or there is more than one server: build in
+CI and pull the signed image instead.

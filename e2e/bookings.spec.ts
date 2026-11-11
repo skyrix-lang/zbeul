@@ -252,11 +252,11 @@ test.describe("when a change fails", () => {
       .click();
 
     await expect(
-      page.getByRole("heading", { name: "Something went wrong" }),
+      page.getByRole("heading", { name: "Ça a planté" }),
     ).toBeVisible();
 
     failing = false;
-    await page.getByRole("button", { name: "Try again" }).click();
+    await page.getByRole("button", { name: "Réessayer" }).click();
 
     await expect(bookingCard(page, title)).toBeVisible();
   });

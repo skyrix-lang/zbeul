@@ -7,9 +7,17 @@ import { env } from "./env";
 
 let config: Promise<client.Configuration> | undefined;
 
+/** Whether an identity provider is configured: without one, nobody signs in through it. */
+export function oidcEnabled() {
+  return !!env().OIDC_ISSUER;
+}
+
 /** The provider's configuration, discovered once and then reused. */
 export function oidcConfig(): Promise<client.Configuration> {
   const { OIDC_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET } = env();
+  if (!OIDC_ISSUER || !OIDC_CLIENT_ID || !OIDC_CLIENT_SECRET) {
+    return Promise.reject(new Error("No identity provider is configured"));
+  }
   config ??= client
     .discovery(
       new URL(OIDC_ISSUER),

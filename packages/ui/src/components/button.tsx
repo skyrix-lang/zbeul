@@ -6,7 +6,7 @@ import { withBase } from "../lib/utils";
 // Also styles links as buttons: <Link className={buttonVariants()}>. A
 // <button> inside a link is invalid HTML.
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-medium rounded-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none",
+  "inline-flex items-center justify-center gap-2 font-medium rounded-md transition-[color,background-color,transform] cursor-pointer select-none touch-manipulation active:scale-[0.96] motion-reduce:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none",
   {
     variants: {
       variant: {
@@ -21,6 +21,8 @@ export const buttonVariants = cva(
         sm: "px-3 py-1.5 text-sm",
         md: "px-4 py-2 text-sm",
         lg: "px-6 py-3 text-base",
+        // The game's big, thumb-sized buttons.
+        xl: "px-6 py-4 text-lg font-display font-extrabold rounded-lg min-h-14",
         icon: "p-2",
       },
     },
