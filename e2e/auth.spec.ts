@@ -39,15 +39,13 @@ test.describe("signed out", () => {
     }
   });
 
-  test("the header offers to sign in", async ({ page }) => {
-    await gotoHydrated(page, "/");
+  test("a signed-in page sends a signed-out visitor to sign in", async ({
+    page,
+  }) => {
+    // The game's own screens have no header: only the signed-in pages do.
+    await gotoHydrated(page, "/bookings");
 
-    await page
-      .getByRole("banner")
-      .getByRole("link", { name: "Sign in" })
-      .click();
-
-    await expect(page).toHaveURL("/sign-in?returnTo=%2F");
+    await expect(page).toHaveURL("/sign-in?returnTo=%2Fbookings");
   });
 
   test("ignores a return address on another site", async ({ page }) => {
@@ -129,9 +127,9 @@ test.describe("own session", () => {
       .click();
 
     await expect(page).toHaveURL("/");
-    await expect(
-      page.getByRole("banner").getByRole("link", { name: "Sign in" }),
-    ).toBeVisible();
+    expect(await (await page.request.get("/api/me")).json()).toEqual({
+      user: null,
+    });
     // Keycloak asks for the password again: its own session ended as well.
     await page.goto("/auth/login");
     await expect(page.getByLabel("Password", { exact: true })).toBeVisible();

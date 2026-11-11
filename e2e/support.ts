@@ -56,12 +56,16 @@ export const test = base.extend<{
       await use();
       if (testInfo.status !== testInfo.expectedStatus) return;
       if (!page.url().startsWith(baseURL!)) return;
+      // A card sliding in is half transparent for a moment: axe would measure
+      // its contrast mid-animation.
+      await animationsDone(page);
       const { violations } = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
       expect(
         violations.map(
-          ({ id, nodes }) => `${id}: ${nodes.map((n) => n.target).join(", ")}`,
+          ({ id, nodes }) =>
+            `${id}: ${nodes.map((n) => `${n.target.join(" ")} ${n.html.slice(0, 120)}`).join(", ")}`,
         ),
       ).toEqual([]);
     },
@@ -70,6 +74,21 @@ export const test = base.extend<{
 });
 
 export { expect };
+
+/** Waits for the page's animations to end. Looping decorations never do. */
+export async function animationsDone(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter(
+          (animation) =>
+            animation.effect?.getComputedTiming().iterations !== Infinity,
+        )
+        .map((animation) => animation.finished.catch(() => {})),
+    ),
+  );
+}
 
 /** An address in 198.18.0.0/15, a range reserved for testing. */
 function randomIp() {
@@ -218,4 +237,162 @@ export async function logInOnKeycloak(
   await page.getByLabel("Username or email").fill(user.username);
   await page.getByLabel("Password", { exact: true }).fill(user.password);
   await page.getByRole("button", { name: "Sign In" }).click();
+}
+
+// ── The game ─────────────────────────────────────────────────────────────────
+
+/** The game keeps everything in localStorage, under these two keys. */
+const PREFS_KEY = "zbeul:prefs";
+const GAME_KEY = "zbeul:game";
+
+export interface SeedPlayer {
+  id: string;
+  name: string;
+  gender: "gars" | "fille" | "autre";
+  ceiling: number | null;
+  excluded: string[];
+  team: number | null;
+}
+
+export const somePlayers = (...names: string[]): SeedPlayer[] =>
+  names.map((name, index) => ({
+    id: `p${index}`,
+    name,
+    gender: (["gars", "fille", "autre"] as const)[index % 3]!,
+    ceiling: null,
+    excluded: [],
+    team: null,
+  }));
+
+export const defaultSettings = {
+  format: "solo",
+  teams: ["Équipe 1", "Équipe 2"],
+  level: 2,
+  pressure: false,
+  games: [
+    "tu-preferes",
+    "jamais",
+    "action-verite",
+    "qui-pourrait",
+    "tribunal",
+    "duel",
+    "culture-g",
+    "chaine",
+    "valise",
+    "montre-ou-bois",
+    "tout-le-monde",
+    "sentence",
+    "regle",
+    "partenaire",
+  ],
+  sips: false,
+  intensity: "normale",
+  progressive: true,
+  duration: 30,
+  excluded: [] as string[],
+};
+
+/**
+ * What a returning adult has on their phone: the age gate passed, and
+ * whatever the test adds. Written once, before the app loads, so a reload in
+ * the test keeps what the app saved since.
+ */
+export async function asReturningPlayer(
+  page: Page,
+  {
+    prefs = {},
+    turns,
+    game = {},
+  }: {
+    prefs?: Record<string, unknown>;
+    /** Starts a game in progress with these cards already drawn. */
+    turns?: { cardId: string; players: string[]; stake: number }[];
+    game?: Record<string, unknown>;
+  } = {},
+) {
+  const players = (prefs.players as SeedPlayer[] | undefined) ?? [];
+  const settings = { ...defaultSettings, ...(prefs.settings as object) };
+  const savedPrefs = {
+    state: {
+      ageConfirmedAt: Date.now(),
+      theme: "nuit",
+      favorites: [],
+      recent: [],
+      teamMode: "random",
+      alcoholWarned: false,
+      rotateHintClosed: false,
+      pendingReports: [],
+      ...prefs,
+      settings,
+      players,
+    },
+    version: 1,
+  };
+  const savedGame = turns && {
+    state: {
+      game: {
+        id: "seeded",
+        startedAt: Date.now(),
+        updatedAt: Date.now(),
+        settings,
+        players,
+        turns,
+        finished: false,
+        outOfCards: false,
+        scores: Object.fromEntries(
+          players.map((player) => [player.id, { won: 0, lost: 0 }]),
+        ),
+        rules: [],
+        partners: [],
+        genderSlots: [],
+        nextPauseAt: 999,
+        ...game,
+      },
+    },
+    version: 1,
+  };
+  await page.addInitScript(
+    ([prefsKey, gameKey, prefsValue, gameValue]) => {
+      if (sessionStorage.getItem("e2e-seeded")) return;
+      sessionStorage.setItem("e2e-seeded", "1");
+      localStorage.setItem(prefsKey!, prefsValue!);
+      if (gameValue) localStorage.setItem(gameKey!, gameValue);
+    },
+    [
+      PREFS_KEY,
+      GAME_KEY,
+      JSON.stringify(savedPrefs),
+      savedGame ? JSON.stringify(savedGame) : "",
+    ] as const,
+  );
+}
+
+/** What the game saved on the phone: the current game, or null. */
+export async function savedGame(page: Page) {
+  return page.evaluate((key) => {
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved).state.game : null;
+  }, GAME_KEY);
+}
+
+// ── The admin ────────────────────────────────────────────────────────────────
+
+/** Matches playwright.config.ts. */
+export const ADMIN = {
+  email: "admin@example.test",
+  setupCode: "e2e-setup-code-0123456789",
+  password: "Cactus-Volant-42",
+};
+
+/** A report as a player sends it, with a message no other test uses. */
+export async function createReport(
+  request: APIRequestContext,
+  cardId?: string,
+) {
+  const message = `E2E ${randomUUID()}`;
+  const response = await request.post("/api/reports", {
+    data: { cardId, message },
+  });
+  expect(response.status()).toBe(204);
+  return message;
 }

@@ -12,8 +12,9 @@ test.describe("home page", () => {
 
     expect(html).toContain("<title>Zbeul</title>");
     expect(html).toContain(`<link rel="canonical" href="${baseURL}/" />`);
+    expect(html).toContain('<html lang="fr">');
     expect(html).toMatch(
-      /<meta\s+name="description"\s+content="[^"]*The game for afterparties/,
+      /<meta\s+name="description"\s+content="Zbeul, the game for afterparties/,
     );
     expect(html).toContain('<meta property="og:title" content="Zbeul" />');
     expect(html).toContain(`<meta property="og:url" content="${baseURL}/" />`);
@@ -42,9 +43,26 @@ test.describe("home page", () => {
     await page.goto("/");
 
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("h2")).not.toHaveCount(0);
     await expect(page.locator("h3")).toHaveCount(0);
   });
+});
+
+test("the game's screens and the admin aren't indexed", async ({ page }) => {
+  for (const path of ["/jouer", "/reglages", "/favoris", "/admin"]) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+      "content",
+      "noindex",
+    );
+  }
+});
+
+test("the legal pages can be indexed", async ({ page }) => {
+  await page.goto("/confidentialite");
+
+  await expect(page).toHaveTitle("Confidentialité | Zbeul");
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  await expect(page.locator("h1")).toHaveCount(1);
 });
 
 test("the bookings page isn't indexed", async ({ page }) => {
@@ -78,6 +96,7 @@ test("robots.txt allows the site and points to the sitemap", async ({
 
   expect(robots).toContain("Allow: /");
   expect(robots).toContain("Disallow: /api/");
+  expect(robots).not.toContain("admin");
   expect(robots).toContain(`Sitemap: ${baseURL}/sitemap.xml`);
 });
 
@@ -87,8 +106,12 @@ test("the sitemap lists public pages only", async ({ request, baseURL }) => {
   expect(response.status()).toBe(200);
   const sitemap = await response.text();
   expect(sitemap).toContain(`<loc>${baseURL}</loc>`);
+  expect(sitemap).toContain(`<loc>${baseURL}/mentions-legales</loc>`);
   expect(sitemap).not.toContain("/bookings");
   expect(sitemap).not.toContain("/sign-in");
+  expect(sitemap).not.toContain("/jouer");
+  // Nothing public says there is an admin.
+  expect(sitemap).not.toContain("admin");
 });
 
 test("sends security headers", async ({ request }) => {
