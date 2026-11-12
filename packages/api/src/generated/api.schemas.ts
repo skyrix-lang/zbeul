@@ -25,6 +25,16 @@ export interface ApiErrorBody {
   issues?: unknown[];
 }
 
+export type CreateReportReasonsItem = typeof CreateReportReasonsItem[keyof typeof CreateReportReasonsItem];
+
+
+export const CreateReportReasonsItem = {
+  boring: 'boring',
+  'too-long': 'too-long',
+  'too-hard': 'too-hard',
+  'to-fix': 'to-fix',
+} as const;
+
 export interface CreateReport {
   /**
      * @maxLength 20
@@ -33,6 +43,18 @@ export interface CreateReport {
   cardId?: string;
   /** @maxLength 1000 */
   message?: string;
+  /** @maxItems 4 */
+  reasons?: CreateReportReasonsItem[];
+}
+
+export interface LikeCards {
+  /**
+     * @minItems 1
+     * @maxItems 50
+     * @items.maxLength 20
+     * @items.pattern ^[A-Z]+-[A-Z0-9]+$
+     */
+  cardIds: string[];
 }
 
 export type DeckPacksItem = {
@@ -147,6 +169,16 @@ export interface AdminLogin {
   password: string;
 }
 
+export type ReportReasonsItem = typeof ReportReasonsItem[keyof typeof ReportReasonsItem];
+
+
+export const ReportReasonsItem = {
+  boring: 'boring',
+  'too-long': 'too-long',
+  'too-hard': 'too-hard',
+  'to-fix': 'to-fix',
+} as const;
+
 export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
 
 
@@ -161,6 +193,7 @@ export interface Report {
   /** @nullable */
   cardId: string | null;
   message: string;
+  reasons: ReportReasonsItem[];
   status: ReportStatus;
   createdAt: string;
 }
@@ -252,6 +285,8 @@ export interface AdminCard {
   /** @nullable */
   source: string | null;
   updatedAt: string;
+  likes: number;
+  reports: number;
 }
 
 export type CardInputGame = typeof CardInputGame[keyof typeof CardInputGame];

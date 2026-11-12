@@ -69,8 +69,40 @@
             "type": "string",
             "maxLength": 1000,
             "default": ""
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "boring",
+                "too-long",
+                "too-hard",
+                "to-fix"
+              ]
+            },
+            "maxItems": 4,
+            "default": []
           }
         }
+      },
+      "LikeCards": {
+        "type": "object",
+        "properties": {
+          "cardIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 20,
+              "pattern": "^[A-Z]+-[A-Z0-9]+$"
+            },
+            "minItems": 1,
+            "maxItems": 50
+          }
+        },
+        "required": [
+          "cardIds"
+        ]
       },
       "Deck": {
         "type": "object",
@@ -307,6 +339,18 @@
           "message": {
             "type": "string"
           },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "boring",
+                "too-long",
+                "too-hard",
+                "to-fix"
+              ]
+            }
+          },
           "status": {
             "$ref": "#/components/schemas/ReportStatus"
           },
@@ -319,6 +363,7 @@
           "id",
           "cardId",
           "message",
+          "reasons",
           "status",
           "createdAt"
         ]
@@ -477,6 +522,12 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "likes": {
+            "type": "integer"
+          },
+          "reports": {
+            "type": "integer"
           }
         },
         "required": [
@@ -494,7 +545,9 @@
           "answer",
           "unit",
           "source",
-          "updatedAt"
+          "updatedAt",
+          "likes",
+          "reports"
         ]
       },
       "CardInput": {
@@ -1011,6 +1064,46 @@
           },
           "429": {
             "description": "Too many reports from this address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/likes": {
+      "post": {
+        "operationId": "likeCards",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LikeCards"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The likes are counted"
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many likes from this address",
             "content": {
               "application/json": {
                 "schema": {

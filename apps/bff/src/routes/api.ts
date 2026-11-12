@@ -16,6 +16,7 @@ import {
   bookingStatusSchema,
   createBookingSchema,
   createReportSchema,
+  likeCardsSchema,
   reportSchema,
   reportStatusSchema,
   updateBookingSchema,
@@ -44,7 +45,7 @@ import {
 import { clientIp } from "../client-ip";
 import { isDatabaseReachable } from "../health";
 import { hit } from "../rate-limit";
-import { createReport } from "../reports";
+import { createReport, likeCards } from "../reports";
 import {
   createSession,
   getSessionUser,
@@ -172,6 +173,23 @@ const createReportRoute = createRoute({
     204: { description: "The report is recorded" },
     400: errorResponse("Invalid request"),
     429: errorResponse("Too many reports from this address"),
+  },
+});
+
+const likeCardsRoute = createRoute({
+  method: "post",
+  path: "/likes",
+  operationId: "likeCards",
+  request: {
+    body: {
+      required: true,
+      content: { "application/json": { schema: likeCardsSchema } },
+    },
+  },
+  responses: {
+    204: { description: "The likes are counted" },
+    400: errorResponse("Invalid request"),
+    429: errorResponse("Too many likes from this address"),
   },
 });
 
@@ -389,6 +407,8 @@ async function hashing<T>(work: () => Promise<T>): Promise<T | typeof BUSY> {
 
 /** Reports are anonymous, so they're limited per client address instead. */
 const REPORTS_PER_CLIENT = { limit: 20, windowSeconds: 60 * 60 };
+/** Likes arrive in batches, one per game or so. */
+const LIKES_PER_CLIENT = { limit: 30, windowSeconds: 60 * 60 };
 
 const publicApi = new OpenAPIHono({
   defaultHook: (result, c) => {
@@ -428,6 +448,16 @@ const publicApi = new OpenAPIHono({
       return c.json({ error: "Too many reports" }, 429);
     }
     await createReport(c.req.valid("json"));
+    return c.body(null, 204);
+  })
+  // Public on purpose, like reports: a player likes a card without an
+  // account. Counted per card, with nothing about who liked it.
+  .openapi(likeCardsRoute, async (c) => {
+    const ip = clientIp(c.req.raw.headers) ?? "unknown";
+    if (!(await hit(`like:client:${ip}`, LIKES_PER_CLIENT))) {
+      return c.json({ error: "Too many likes" }, 429);
+    }
+    await likeCards(c.req.valid("json").cardIds);
     return c.body(null, 204);
   })
   // Public on purpose: the deck is what every player plays with. Unchanged

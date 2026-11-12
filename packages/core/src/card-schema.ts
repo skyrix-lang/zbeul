@@ -273,6 +273,9 @@ export const adminCardSchema = z
     unit: z.string().nullable(),
     source: z.string().nullable(),
     updatedAt: z.iso.datetime(),
+    /** Thumbs up from players, and reports about the card, ever. */
+    likes: z.int(),
+    reports: z.int(),
   })
   .meta({ id: "AdminCard" });
 

@@ -39,6 +39,7 @@ import type {
   Deck,
   GetHealth200,
   GetHealth503,
+  LikeCards,
   ListBookingsParams,
   ListCardChangesParams,
   ListReportsParams,
@@ -347,6 +348,88 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getCreateReportMutationOptions(options), queryClient);
+    }
+
+export const getLikeCardsUrl = () => {
+
+
+
+
+  return `/api/likes`
+}
+
+export const likeCards = async (likeCardsBody: LikeCards, options?: Parameters<typeof apiFetch>[1]): Promise<void> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<void>(getLikeCardsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(likeCardsBody)
+  }
+);}
+
+
+
+
+
+export const getLikeCardsMutationKey = () => ['likeCards'] as const;
+
+export const getLikeCardsMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof likeCards>>, TError,LikeCardsMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof likeCards>>, TError,LikeCardsMutationVariables, TContext> => {
+
+const mutationKey = getLikeCardsMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof likeCards>>, LikeCardsMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  likeCards(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type LikeCardsMutationResult = NonNullable<Awaited<ReturnType<typeof likeCards>>>
+    export type LikeCardsMutationBody = LikeCards
+    export type LikeCardsMutationError = ErrorType<ApiErrorBody>
+    export type LikeCardsMutationVariables = {data: LikeCards}
+
+    export const useLikeCards = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof likeCards>>, TError,LikeCardsMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof likeCards>>,
+        TError,
+        LikeCardsMutationVariables,
+        TContext
+      > => {
+      return useMutation(getLikeCardsMutationOptions(options), queryClient);
     }
 
 export const getGetDeckUrl = () => {

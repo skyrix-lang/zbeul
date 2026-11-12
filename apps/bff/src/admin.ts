@@ -105,6 +105,7 @@ const reportColumns = {
   id: reports.id,
   cardId: reports.cardId,
   message: reports.message,
+  reasons: reports.reasons,
   status: reports.status,
   createdAt: reports.createdAt,
 };
@@ -113,6 +114,7 @@ const toReport = (row: {
   id: string;
   cardId: string | null;
   message: string;
+  reasons: Report["reasons"];
   status: ReportStatus;
   createdAt: Date;
 }): Report => ({ ...row, createdAt: row.createdAt.toISOString() });

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { REPORT_REASONS } from "./report-schema";
 
 // The admin: one account for now, which signs in with a password. Shared by
 // the BFF (validation) and the admin's forms.
@@ -87,6 +88,7 @@ export const reportSchema = z
     id: z.uuid(),
     cardId: z.string().nullable(),
     message: z.string(),
+    reasons: z.array(z.enum(REPORT_REASONS)),
     status: reportStatusSchema,
     createdAt: z.iso.datetime(),
   })

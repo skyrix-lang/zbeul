@@ -20,6 +20,7 @@ import {
   CONTENT_THEMES,
   MINI_GAMES,
   REPORT_STATUSES,
+  type ReportReason,
 } from "@zbeul/core";
 
 export const bookingStatus = pgEnum("booking_status", BOOKING_STATUSES);
@@ -131,6 +132,8 @@ export const reports = pgTable(
     // The card's reference, such as "TP-001"; null for a general report.
     cardId: text("card_id"),
     message: text().notNull().default(""),
+    // What the player ticked under the thumb down (REPORT_REASONS).
+    reasons: text().array().$type<ReportReason[]>().notNull().default([]),
     // What the admin did with it: still to read, dealt with, or set aside.
     status: reportStatus().notNull().default("open"),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -194,6 +197,14 @@ export const cards = pgTable(
   // Serves the players' deck: the published cards.
   (card) => [index("cards_status_idx").on(card.status)],
 );
+
+// Thumbs up from players: a count per card, and nothing about who gave them.
+export const cardLikes = pgTable("card_likes", {
+  cardId: text("card_id")
+    .primaryKey()
+    .references(() => cards.id),
+  count: integer().notNull().default(0),
+});
 
 // Who changed what, and when: one row per card created or changed, with the
 // card before and after. Kept as written: never updated, never deleted.

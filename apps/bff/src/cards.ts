@@ -1,5 +1,15 @@
 import { createHash } from "node:crypto";
-import { and, asc, desc, eq, inArray, like, sql } from "drizzle-orm";
+import {
+  and,
+  asc,
+  count,
+  desc,
+  eq,
+  inArray,
+  isNotNull,
+  like,
+  sql,
+} from "drizzle-orm";
 import {
   CARD_PREFIXES,
   countTargets,
@@ -12,7 +22,7 @@ import {
   type PackInput,
   type PublishedDeck,
 } from "@zbeul/core";
-import { cardChanges, cards, packs } from "@zbeul/db";
+import { cardChanges, cardLikes, cards, packs, reports } from "@zbeul/db";
 import { getDb } from "./db";
 
 // The deck: what players receive, and what the admin manages. There is no
@@ -22,7 +32,15 @@ import { getDb } from "./db";
 
 type CardRow = typeof cards.$inferSelect;
 
-const toAdminCard = (row: CardRow): AdminCard => ({
+interface Counts {
+  likes: number;
+  reports: number;
+}
+
+const toAdminCard = (
+  row: CardRow,
+  counts: Counts = { likes: 0, reports: 0 },
+): AdminCard => ({
   id: row.id,
   game: row.game,
   level: row.level as AdminCard["level"],
@@ -38,11 +56,46 @@ const toAdminCard = (row: CardRow): AdminCard => ({
   unit: row.unit,
   source: row.source,
   updatedAt: row.updatedAt.toISOString(),
+  ...counts,
 });
+
+/** What players said of each card: its likes and its reports, ever. */
+async function feedback(ids?: string[]): Promise<Map<string, Counts>> {
+  const db = getDb();
+  const [liked, reported] = await Promise.all([
+    db
+      .select()
+      .from(cardLikes)
+      .where(ids && inArray(cardLikes.cardId, ids)),
+    db
+      .select({ cardId: reports.cardId, count: count() })
+      .from(reports)
+      .where(ids ? inArray(reports.cardId, ids) : isNotNull(reports.cardId))
+      .groupBy(reports.cardId),
+  ]);
+  const counts = new Map<string, Counts>();
+  const of = (id: string) => {
+    const found = counts.get(id) ?? { likes: 0, reports: 0 };
+    counts.set(id, found);
+    return found;
+  };
+  for (const row of liked) of(row.cardId).likes = row.count;
+  for (const row of reported)
+    if (row.cardId) of(row.cardId).reports = row.count;
+  return counts;
+}
+
+const withFeedback = async (row: CardRow) =>
+  toAdminCard(row, (await feedback([row.id])).get(row.id));
 
 /** What the history keeps of a card: everything but its dates. */
 const snapshot = (row: CardRow): Record<string, unknown> => {
-  const { updatedAt: _updatedAt, ...card } = toAdminCard(row);
+  const {
+    updatedAt: _updatedAt,
+    likes: _likes,
+    reports: _reports,
+    ...card
+  } = toAdminCard(row);
   return card;
 };
 
@@ -109,8 +162,11 @@ export async function publishedDeck(): Promise<PublishedDeck> {
 }
 
 export async function listCards(): Promise<AdminCard[]> {
-  const rows = await getDb().select().from(cards).orderBy(asc(cards.id));
-  return rows.map(toAdminCard);
+  const [rows, counts] = await Promise.all([
+    getDb().select().from(cards).orderBy(asc(cards.id)),
+    feedback(),
+  ]);
+  return rows.map((row) => toAdminCard(row, counts.get(row.id)));
 }
 
 const packExists = async (id: string) =>
@@ -200,7 +256,7 @@ export async function updateCard(
       });
     }
     forgetDeck();
-    return toAdminCard(after);
+    return withFeedback(after);
   });
 }
 
