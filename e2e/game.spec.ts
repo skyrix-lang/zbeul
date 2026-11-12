@@ -495,7 +495,21 @@ test.describe("playing", () => {
     await expect(card).not.toContainText("raconte");
     await expect(page.getByRole("button", { name: "Gagné" })).toHaveCount(0);
 
-    await page.getByRole("button", { name: "Vérité" }).click();
+    // Neither half is favoured: same size, same style.
+    const truth = page.getByRole("button", { name: "Vérité" });
+    const dare = page.getByRole("button", { name: "Action" });
+    const [truthBox, dareBox] = await Promise.all([
+      truth.boundingBox(),
+      dare.boundingBox(),
+    ]);
+    expect(Math.round(truthBox?.width ?? 0)).toBe(
+      Math.round(dareBox?.width ?? -1),
+    );
+    expect(await truth.getAttribute("class")).toBe(
+      await dare.getAttribute("class"),
+    );
+
+    await truth.click();
 
     await expect(card).toContainText("Romain, vérité : t'es-tu déjà endormi");
     await expect(card).not.toContainText("raconte ta pire galère");

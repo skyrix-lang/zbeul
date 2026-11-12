@@ -172,6 +172,9 @@ function Table({
       className={cn(
         "bg-background fixed inset-0 grid gap-3 [grid-template-areas:'top_top'_'card_card'_'lose_win'] [grid-template-columns:minmax(0,3fr)_minmax(0,2fr)] [grid-template-rows:auto_minmax(0,1fr)_auto]",
         "landscape:gap-x-4 landscape:gap-y-2 landscape:[grid-template-rows:auto_minmax(0,1fr)]",
+        // "Action" and "Vérité" weigh the same: half of the row each.
+        mode === "choose" &&
+          "[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]",
         // Landscape: the left thumb has "Perdu" and "Joker" (or "Vérité"),
         // the right one "Gagné", "Action" or "Carte suivante".
         mode === "next"
@@ -513,6 +516,7 @@ function Actions({
         <div className="flex [grid-area:win]">
           <Button
             size="xl"
+            variant="secondary"
             aria-disabled={!ready}
             onClick={tap(() => onChoose("action"))}
             className="min-w-0 flex-1 px-2"
