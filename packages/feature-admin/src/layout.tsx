@@ -46,7 +46,8 @@ export function AdminGate({
   if (!user.isAdmin) return notFound;
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-6 p-5">
+    // The admin works at a desk: its text can be selected and copied.
+    <div className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-6 p-5 select-text">
       <header className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>

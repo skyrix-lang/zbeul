@@ -59,6 +59,8 @@ const card = (overrides: Partial<AdminCard> = {}): AdminCard => ({
   unit: null,
   source: null,
   updatedAt: "2030-03-10T21:30:00.000Z",
+  likes: 0,
+  reports: 0,
   ...overrides,
 });
 
@@ -75,6 +77,7 @@ const report: Report = {
   id: "6f1c1b7e-2f0a-4c55-9b7c-1d2e3f4a5b6c",
   cardId: "TP-001",
   message: "Cette carte est fausse.",
+  reasons: ["to-fix"],
   status: "open",
   createdAt: "2030-03-10T21:30:00.000Z",
 };

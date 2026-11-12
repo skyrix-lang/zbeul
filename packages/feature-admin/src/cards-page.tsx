@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import {
   getListCardsQueryKey,
@@ -30,7 +31,17 @@ export interface CardFilters {
   status?: CardStatus;
   pack?: string;
   q?: string;
+  sort?: CardSort;
 }
+
+/** The list's orders: by reference, or by what players said of the cards. */
+export const CARD_SORTS = ["likes", "reports"] as const;
+export type CardSort = (typeof CARD_SORTS)[number];
+
+const SORT_LABELS: Record<CardSort, string> = {
+  likes: "Les plus aimées",
+  reports: "Les plus signalées",
+};
 
 const STATUS_TONES = {
   draft: "warning",
@@ -44,7 +55,8 @@ const plain = (text: string) =>
 
 export function filterCards(cards: AdminCard[], filters: CardFilters) {
   const query = filters.q ? plain(filters.q) : "";
-  return cards.filter(
+  const { sort } = filters;
+  const kept = cards.filter(
     (card) =>
       (!filters.game || card.game === filters.game) &&
       (!filters.level || card.level === filters.level) &&
@@ -54,6 +66,8 @@ export function filterCards(cards: AdminCard[], filters: CardFilters) {
         plain(card.text).includes(query) ||
         plain(card.id).includes(query)),
   );
+  // The most first; cards level with each other stay in reference order.
+  return sort ? kept.toSorted((a, b) => b[sort] - a[sort]) : kept;
 }
 
 /** Every card, filtered; several can be changed at once. */
@@ -208,6 +222,25 @@ export function CardsPage({ filters }: { filters: CardFilters }) {
             {packs.data?.map((pack) => (
               <option key={pack.id} value={pack.id}>
                 {pack.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          Ordre
+          <select
+            value={filters.sort ?? ""}
+            onChange={(event) =>
+              setFilters({
+                sort: (event.target.value || undefined) as CardSort | undefined,
+              })
+            }
+            className={selectClass}
+          >
+            <option value="">Par référence</option>
+            {CARD_SORTS.map((sort) => (
+              <option key={sort} value={sort}>
+                {SORT_LABELS[sort]}
               </option>
             ))}
           </select>
@@ -368,6 +401,33 @@ export function CardsPage({ filters }: { filters: CardFilters }) {
                     <Badge tone={STATUS_TONES[card.status]}>
                       {STATUS_LABELS[card.status]}
                     </Badge>
+                    {(card.likes > 0 || card.reports > 0) && (
+                      <span
+                        data-testid="card-feedback"
+                        className="text-muted-foreground flex items-center gap-2 tabular-nums"
+                      >
+                        {card.likes > 0 && (
+                          <span className="flex items-center gap-1">
+                            <ThumbsUp aria-hidden="true" className="size-3.5" />
+                            {card.likes}
+                            <span className="sr-only"> j'aime</span>
+                          </span>
+                        )}
+                        {card.reports > 0 && (
+                          <span className="flex items-center gap-1">
+                            <ThumbsDown
+                              aria-hidden="true"
+                              className="size-3.5"
+                            />
+                            {card.reports}
+                            <span className="sr-only">
+                              {" "}
+                              signalement{card.reports > 1 ? "s" : ""}
+                            </span>
+                          </span>
+                        )}
+                      </span>
+                    )}
                   </p>
                   <p className="mt-1 line-clamp-2 text-sm">{card.text}</p>
                 </div>

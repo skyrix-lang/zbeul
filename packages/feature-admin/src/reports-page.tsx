@@ -10,12 +10,13 @@ import {
   useUpdateReport,
 } from "@zbeul/api";
 import {
+  REPORT_REASON_LABELS,
   REPORT_STATUSES,
   type AdminCard,
   type Report,
   type ReportStatus,
 } from "@zbeul/core";
-import { Button, buttonVariants, Card } from "@zbeul/ui";
+import { Badge, Button, buttonVariants, Card } from "@zbeul/ui";
 import { dateFormat, toCard, type RenderCard } from "./labels";
 import { AdminSection, Loading } from "./layout";
 
@@ -137,6 +138,15 @@ function ReportRow({
           {report.cardId && ` · carte ${report.cardId}`}
         </p>
         {card && renderCard(toCard(card))}
+        {report.reasons.length > 0 && (
+          <ul aria-label="Raisons cochées" className="flex flex-wrap gap-1.5">
+            {report.reasons.map((reason) => (
+              <li key={reason}>
+                <Badge tone="warning">{REPORT_REASON_LABELS[reason]}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
         {report.message ? (
           <p className="whitespace-pre-wrap">{report.message}</p>
         ) : (
