@@ -777,6 +777,14 @@ test.describe("playing", () => {
     { name: "the smallest phone, in landscape", width: 667, height: 375 },
     { name: "the smallest phone, upright", width: 375, height: 667 },
     { name: "a large phone, in landscape", width: 932, height: 430 },
+    // The oldest small phones still in use.
+    { name: "a very small phone, upright", width: 320, height: 568 },
+    { name: "a very small phone, in landscape", width: 568, height: 320 },
+    // Folding phones: a narrow cover screen, and a nearly square one inside.
+    { name: "a folded phone's cover, upright", width: 344, height: 882 },
+    { name: "a folded phone's cover, in landscape", width: 882, height: 344 },
+    { name: "an unfolded phone, upright", width: 768, height: 884 },
+    { name: "an unfolded phone, in landscape", width: 884, height: 768 },
   ]) {
     test(`the longest card fits ${size.name}, without scrolling`, async ({
       page,
@@ -835,6 +843,60 @@ test.describe("playing", () => {
         expect(box.right).toBeLessThanOrEqual(size.width);
       }
     });
+  }
+
+  for (const size of [
+    { name: "a very small phone, in landscape", width: 568, height: 320 },
+    { name: "a very small phone, upright", width: 320, height: 568 },
+    { name: "a folded phone's cover, upright", width: 344, height: 882 },
+    { name: "an unfolded phone, upright", width: 768, height: 884 },
+  ]) {
+    for (const turn of [
+      // Three buttons around the card.
+      { cardId: "MOB-001", players: ["p0"], stake: 2 },
+      // The players' names to tap, under the card.
+      { cardId: "TP-001", players: [], stake: 2 },
+    ]) {
+      test(`in points, ${turn.cardId} and its buttons fit ${size.name}`, async ({
+        page,
+      }) => {
+        await page.setViewportSize(size);
+        await asReturningPlayer(page, {
+          prefs: {
+            players: somePlayers("Maximilien", "Inès", "Sacha", "Léa", "Bob"),
+            rotateHintClosed: true,
+          },
+          turns: [turn],
+        });
+        await page.goto("/partie");
+        await expect(page.getByRole("article")).toBeVisible();
+        await animationsDone(page);
+
+        const boxes = await page.evaluate(() => ({
+          scrolls:
+            document.documentElement.scrollHeight > window.innerHeight ||
+            document.documentElement.scrollWidth > window.innerWidth,
+          parts: [
+            ...document.querySelectorAll(
+              "article, header button, main ~ div button, fieldset",
+            ),
+          ].map((part) => part.getBoundingClientRect().toJSON() as DOMRect),
+          fontSize: parseFloat(
+            getComputedStyle(
+              document.querySelector('[data-testid="card-text"]')!,
+            ).fontSize,
+          ),
+        }));
+        expect(boxes.scrolls).toBe(false);
+        expect(boxes.fontSize).toBeGreaterThanOrEqual(12);
+        for (const box of boxes.parts) {
+          expect(box.left).toBeGreaterThanOrEqual(0);
+          expect(box.top).toBeGreaterThanOrEqual(0);
+          expect(box.right).toBeLessThanOrEqual(size.width);
+          expect(box.bottom).toBeLessThanOrEqual(size.height);
+        }
+      });
+    }
   }
 
   test("a thumb down says what's wrong, can be taken back, and leaves with the game", async ({
