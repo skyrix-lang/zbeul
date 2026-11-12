@@ -26,6 +26,12 @@ import { Route as GameReglagesRouteImport } from './routes/_game/reglages'
 import { Route as GameSignalerRouteImport } from './routes/_game/signaler'
 import { Route as StarterBookingsRouteImport } from './routes/_starter/bookings'
 import { Route as StarterSignInRouteImport } from './routes/_starter/sign-in'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminHistoriqueRouteImport } from './routes/admin/historique'
+import { Route as AdminPacksRouteImport } from './routes/admin/packs'
+import { Route as AdminCartesIndexRouteImport } from './routes/admin/cartes/index'
+import { Route as AdminCartesCardIdRouteImport } from './routes/admin/cartes/$cardId'
+import { Route as AdminCartesNouvelleRouteImport } from './routes/admin/cartes/nouvelle'
 
 const GameRoute = GameRouteImport.update({
   id: '/_game',
@@ -110,10 +116,40 @@ const StarterSignInRoute = StarterSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => StarterRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHistoriqueRoute = AdminHistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPacksRoute = AdminPacksRouteImport.update({
+  id: '/packs',
+  path: '/packs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCartesIndexRoute = AdminCartesIndexRouteImport.update({
+  id: '/cartes/',
+  path: '/cartes/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCartesCardIdRoute = AdminCartesCardIdRouteImport.update({
+  id: '/cartes/$cardId',
+  path: '/cartes/$cardId',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCartesNouvelleRoute = AdminCartesNouvelleRouteImport.update({
+  id: '/cartes/nouvelle',
+  path: '/cartes/nouvelle',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof GameIndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/charte': typeof CharteRoute
   '/conditions': typeof ConditionsRoute
   '/confidentialite': typeof ConfidentialiteRoute
@@ -127,10 +163,15 @@ export interface FileRoutesByFullPath {
   '/signaler': typeof GameSignalerRoute
   '/bookings': typeof StarterBookingsRoute
   '/sign-in': typeof StarterSignInRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
+  '/admin/packs': typeof AdminPacksRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/cartes/$cardId': typeof AdminCartesCardIdRoute
+  '/admin/cartes/nouvelle': typeof AdminCartesNouvelleRoute
+  '/admin/cartes/': typeof AdminCartesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof GameIndexRoute
-  '/admin': typeof AdminRoute
   '/charte': typeof CharteRoute
   '/conditions': typeof ConditionsRoute
   '/confidentialite': typeof ConfidentialiteRoute
@@ -144,12 +185,18 @@ export interface FileRoutesByTo {
   '/signaler': typeof GameSignalerRoute
   '/bookings': typeof StarterBookingsRoute
   '/sign-in': typeof StarterSignInRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
+  '/admin/packs': typeof AdminPacksRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/cartes/$cardId': typeof AdminCartesCardIdRoute
+  '/admin/cartes/nouvelle': typeof AdminCartesNouvelleRoute
+  '/admin/cartes': typeof AdminCartesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_game': typeof GameRouteWithChildren
   '/_starter': typeof StarterRouteWithChildren
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/charte': typeof CharteRoute
   '/conditions': typeof ConditionsRoute
   '/confidentialite': typeof ConfidentialiteRoute
@@ -163,7 +210,13 @@ export interface FileRoutesById {
   '/_game/signaler': typeof GameSignalerRoute
   '/_starter/bookings': typeof StarterBookingsRoute
   '/_starter/sign-in': typeof StarterSignInRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
+  '/admin/packs': typeof AdminPacksRoute
   '/_game/': typeof GameIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/cartes/$cardId': typeof AdminCartesCardIdRoute
+  '/admin/cartes/nouvelle': typeof AdminCartesNouvelleRoute
+  '/admin/cartes/': typeof AdminCartesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -183,10 +236,15 @@ export interface FileRouteTypes {
     | '/signaler'
     | '/bookings'
     | '/sign-in'
+    | '/admin/historique'
+    | '/admin/packs'
+    | '/admin/'
+    | '/admin/cartes/$cardId'
+    | '/admin/cartes/nouvelle'
+    | '/admin/cartes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/charte'
     | '/conditions'
     | '/confidentialite'
@@ -200,6 +258,12 @@ export interface FileRouteTypes {
     | '/signaler'
     | '/bookings'
     | '/sign-in'
+    | '/admin/historique'
+    | '/admin/packs'
+    | '/admin'
+    | '/admin/cartes/$cardId'
+    | '/admin/cartes/nouvelle'
+    | '/admin/cartes'
   id:
     | '__root__'
     | '/_game'
@@ -218,13 +282,19 @@ export interface FileRouteTypes {
     | '/_game/signaler'
     | '/_starter/bookings'
     | '/_starter/sign-in'
+    | '/admin/historique'
+    | '/admin/packs'
     | '/_game/'
+    | '/admin/'
+    | '/admin/cartes/$cardId'
+    | '/admin/cartes/nouvelle'
+    | '/admin/cartes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   GameRoute: typeof GameRouteWithChildren
   StarterRoute: typeof StarterRouteWithChildren
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CharteRoute: typeof CharteRoute
   ConditionsRoute: typeof ConditionsRoute
   ConfidentialiteRoute: typeof ConfidentialiteRoute
@@ -352,6 +422,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StarterSignInRouteImport
       parentRoute: typeof StarterRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/historique': {
+      id: '/admin/historique'
+      path: '/historique'
+      fullPath: '/admin/historique'
+      preLoaderRoute: typeof AdminHistoriqueRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/packs': {
+      id: '/admin/packs'
+      path: '/packs'
+      fullPath: '/admin/packs'
+      preLoaderRoute: typeof AdminPacksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cartes/': {
+      id: '/admin/cartes/'
+      path: '/cartes'
+      fullPath: '/admin/cartes/'
+      preLoaderRoute: typeof AdminCartesIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cartes/$cardId': {
+      id: '/admin/cartes/$cardId'
+      path: '/cartes/$cardId'
+      fullPath: '/admin/cartes/$cardId'
+      preLoaderRoute: typeof AdminCartesCardIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cartes/nouvelle': {
+      id: '/admin/cartes/nouvelle'
+      path: '/cartes/nouvelle'
+      fullPath: '/admin/cartes/nouvelle'
+      preLoaderRoute: typeof AdminCartesNouvelleRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
@@ -392,10 +504,30 @@ const StarterRouteChildren: StarterRouteChildren = {
 const StarterRouteWithChildren =
   StarterRoute._addFileChildren(StarterRouteChildren)
 
+interface AdminRouteChildren {
+  AdminHistoriqueRoute: typeof AdminHistoriqueRoute
+  AdminPacksRoute: typeof AdminPacksRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminCartesCardIdRoute: typeof AdminCartesCardIdRoute
+  AdminCartesNouvelleRoute: typeof AdminCartesNouvelleRoute
+  AdminCartesIndexRoute: typeof AdminCartesIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminHistoriqueRoute: AdminHistoriqueRoute,
+  AdminPacksRoute: AdminPacksRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminCartesCardIdRoute: AdminCartesCardIdRoute,
+  AdminCartesNouvelleRoute: AdminCartesNouvelleRoute,
+  AdminCartesIndexRoute: AdminCartesIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   GameRoute: GameRouteWithChildren,
   StarterRoute: StarterRouteWithChildren,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   CharteRoute: CharteRoute,
   ConditionsRoute: ConditionsRoute,
   ConfidentialiteRoute: ConfidentialiteRoute,
