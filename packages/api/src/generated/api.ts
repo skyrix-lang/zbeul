@@ -24,18 +24,27 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AdminCard,
   AdminLogin,
   AdminSetup,
   AdminStatus,
   ApiErrorBody,
   Booking,
+  BulkCards,
+  BulkCardsResult,
+  CardChange,
+  CardInput,
   CreateBooking,
   CreateReport,
+  Deck,
   GetHealth200,
   GetHealth503,
   ListBookingsParams,
+  ListCardChangesParams,
   ListReportsParams,
   Me,
+  Pack,
+  PackInput,
   Report,
   UpdateBooking,
   UpdateReport
@@ -339,6 +348,101 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
       return useMutation(getCreateReportMutationOptions(options), queryClient);
     }
+
+export const getGetDeckUrl = () => {
+
+
+
+
+  return `/api/deck`
+}
+
+export const getDeck = async ( options?: Parameters<typeof apiFetch>[1]): Promise<Deck> => {
+
+  return apiFetch<Deck>(getGetDeckUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetDeckQueryKey = () => {
+    return [
+    `/api/deck`
+    ] as const;
+    }
+
+
+export const getGetDeckQueryOptions = <TData = Awaited<ReturnType<typeof getDeck>>, TError = ErrorType<void>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDeckQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDeck>>> = ({ signal }) => getDeck({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDeckQueryResult = NonNullable<Awaited<ReturnType<typeof getDeck>>>
+export type GetDeckQueryError = ErrorType<void>
+
+
+export function useGetDeck<TData = Awaited<ReturnType<typeof getDeck>>, TError = ErrorType<void>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDeck>>,
+          TError,
+          Awaited<ReturnType<typeof getDeck>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDeck<TData = Awaited<ReturnType<typeof getDeck>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDeck>>,
+          TError,
+          Awaited<ReturnType<typeof getDeck>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetDeck<TData = Awaited<ReturnType<typeof getDeck>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetDeck<TData = Awaited<ReturnType<typeof getDeck>>, TError = ErrorType<void>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDeck>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDeckQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 export const getGetAdminStatusUrl = () => {
 
@@ -782,6 +886,710 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getUpdateReportMutationOptions(options), queryClient);
+    }
+
+export const getListCardsUrl = () => {
+
+
+
+
+  return `/api/admin/cards`
+}
+
+export const listCards = async ( options?: Parameters<typeof apiFetch>[1]): Promise<AdminCard[]> => {
+
+  return apiFetch<AdminCard[]>(getListCardsUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListCardsQueryKey = () => {
+    return [
+    `/api/admin/cards`
+    ] as const;
+    }
+
+
+export const getListCardsQueryOptions = <TData = Awaited<ReturnType<typeof listCards>>, TError = ErrorType<ApiErrorBody>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListCardsQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listCards>>> = ({ signal }) => listCards({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListCardsQueryResult = NonNullable<Awaited<ReturnType<typeof listCards>>>
+export type ListCardsQueryError = ErrorType<ApiErrorBody>
+
+
+export function useListCards<TData = Awaited<ReturnType<typeof listCards>>, TError = ErrorType<ApiErrorBody>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listCards>>,
+          TError,
+          Awaited<ReturnType<typeof listCards>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListCards<TData = Awaited<ReturnType<typeof listCards>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listCards>>,
+          TError,
+          Awaited<ReturnType<typeof listCards>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListCards<TData = Awaited<ReturnType<typeof listCards>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListCards<TData = Awaited<ReturnType<typeof listCards>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCards>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListCardsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreateCardUrl = () => {
+
+
+
+
+  return `/api/admin/cards`
+}
+
+export const createCard = async (cardInput: CardInput, options?: Parameters<typeof apiFetch>[1]): Promise<AdminCard> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<AdminCard>(getCreateCardUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(cardInput)
+  }
+);}
+
+
+
+
+
+export const getCreateCardMutationKey = () => ['createCard'] as const;
+
+export const getCreateCardMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCard>>, TError,CreateCardMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCard>>, TError,CreateCardMutationVariables, TContext> => {
+
+const mutationKey = getCreateCardMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCard>>, CreateCardMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createCard(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCardMutationResult = NonNullable<Awaited<ReturnType<typeof createCard>>>
+    export type CreateCardMutationBody = CardInput
+    export type CreateCardMutationError = ErrorType<ApiErrorBody>
+    export type CreateCardMutationVariables = {data: CardInput}
+
+    export const useCreateCard = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCard>>, TError,CreateCardMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createCard>>,
+        TError,
+        CreateCardMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateCardMutationOptions(options), queryClient);
+    }
+
+export const getUpdateCardsUrl = () => {
+
+
+
+
+  return `/api/admin/cards/bulk`
+}
+
+export const updateCards = async (bulkCards: BulkCards, options?: Parameters<typeof apiFetch>[1]): Promise<BulkCardsResult> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<BulkCardsResult>(getUpdateCardsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(bulkCards)
+  }
+);}
+
+
+
+
+
+export const getUpdateCardsMutationKey = () => ['updateCards'] as const;
+
+export const getUpdateCardsMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCards>>, TError,UpdateCardsMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCards>>, TError,UpdateCardsMutationVariables, TContext> => {
+
+const mutationKey = getUpdateCardsMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCards>>, UpdateCardsMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateCards(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCardsMutationResult = NonNullable<Awaited<ReturnType<typeof updateCards>>>
+    export type UpdateCardsMutationBody = BulkCards
+    export type UpdateCardsMutationError = ErrorType<ApiErrorBody>
+    export type UpdateCardsMutationVariables = {data: BulkCards}
+
+    export const useUpdateCards = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCards>>, TError,UpdateCardsMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateCards>>,
+        TError,
+        UpdateCardsMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateCardsMutationOptions(options), queryClient);
+    }
+
+export const getUpdateCardUrl = (id: string,) => {
+
+
+
+
+  return `/api/admin/cards/${id}`
+}
+
+export const updateCard = async (id: string,
+    cardInput: CardInput, options?: Parameters<typeof apiFetch>[1]): Promise<AdminCard> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<AdminCard>(getUpdateCardUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(cardInput)
+  }
+);}
+
+
+
+
+
+export const getUpdateCardMutationKey = () => ['updateCard'] as const;
+
+export const getUpdateCardMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCard>>, TError,UpdateCardMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCard>>, TError,UpdateCardMutationVariables, TContext> => {
+
+const mutationKey = getUpdateCardMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCard>>, UpdateCardMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateCard(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCardMutationResult = NonNullable<Awaited<ReturnType<typeof updateCard>>>
+    export type UpdateCardMutationBody = CardInput
+    export type UpdateCardMutationError = ErrorType<ApiErrorBody>
+    export type UpdateCardMutationVariables = {id: string;data: CardInput}
+
+    export const useUpdateCard = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCard>>, TError,UpdateCardMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateCard>>,
+        TError,
+        UpdateCardMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateCardMutationOptions(options), queryClient);
+    }
+
+export const getListCardChangesUrl = (params?: ListCardChangesParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/admin/changes?${stringifiedParams}` : `/api/admin/changes`
+}
+
+export const listCardChanges = async (params?: ListCardChangesParams, options?: Parameters<typeof apiFetch>[1]): Promise<CardChange[]> => {
+
+  return apiFetch<CardChange[]>(getListCardChangesUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListCardChangesQueryKey = (params?: ListCardChangesParams,) => {
+    return [
+    `/api/admin/changes`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListCardChangesQueryOptions = <TData = Awaited<ReturnType<typeof listCardChanges>>, TError = ErrorType<ApiErrorBody>>(params?: ListCardChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListCardChangesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listCardChanges>>> = ({ signal }) => listCardChanges(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListCardChangesQueryResult = NonNullable<Awaited<ReturnType<typeof listCardChanges>>>
+export type ListCardChangesQueryError = ErrorType<ApiErrorBody>
+
+
+export function useListCardChanges<TData = Awaited<ReturnType<typeof listCardChanges>>, TError = ErrorType<ApiErrorBody>>(
+ params: undefined |  ListCardChangesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listCardChanges>>,
+          TError,
+          Awaited<ReturnType<typeof listCardChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListCardChanges<TData = Awaited<ReturnType<typeof listCardChanges>>, TError = ErrorType<ApiErrorBody>>(
+ params?: ListCardChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listCardChanges>>,
+          TError,
+          Awaited<ReturnType<typeof listCardChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListCardChanges<TData = Awaited<ReturnType<typeof listCardChanges>>, TError = ErrorType<ApiErrorBody>>(
+ params?: ListCardChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListCardChanges<TData = Awaited<ReturnType<typeof listCardChanges>>, TError = ErrorType<ApiErrorBody>>(
+ params?: ListCardChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listCardChanges>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListCardChangesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getListPacksUrl = () => {
+
+
+
+
+  return `/api/admin/packs`
+}
+
+export const listPacks = async ( options?: Parameters<typeof apiFetch>[1]): Promise<Pack[]> => {
+
+  return apiFetch<Pack[]>(getListPacksUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListPacksQueryKey = () => {
+    return [
+    `/api/admin/packs`
+    ] as const;
+    }
+
+
+export const getListPacksQueryOptions = <TData = Awaited<ReturnType<typeof listPacks>>, TError = ErrorType<ApiErrorBody>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListPacksQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listPacks>>> = ({ signal }) => listPacks({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListPacksQueryResult = NonNullable<Awaited<ReturnType<typeof listPacks>>>
+export type ListPacksQueryError = ErrorType<ApiErrorBody>
+
+
+export function useListPacks<TData = Awaited<ReturnType<typeof listPacks>>, TError = ErrorType<ApiErrorBody>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listPacks>>,
+          TError,
+          Awaited<ReturnType<typeof listPacks>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListPacks<TData = Awaited<ReturnType<typeof listPacks>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listPacks>>,
+          TError,
+          Awaited<ReturnType<typeof listPacks>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useListPacks<TData = Awaited<ReturnType<typeof listPacks>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useListPacks<TData = Awaited<ReturnType<typeof listPacks>>, TError = ErrorType<ApiErrorBody>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPacks>>, TError, TData>>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListPacksQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCreatePackUrl = () => {
+
+
+
+
+  return `/api/admin/packs`
+}
+
+export const createPack = async (packInput: PackInput, options?: Parameters<typeof apiFetch>[1]): Promise<Pack> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<Pack>(getCreatePackUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(packInput)
+  }
+);}
+
+
+
+
+
+export const getCreatePackMutationKey = () => ['createPack'] as const;
+
+export const getCreatePackMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPack>>, TError,CreatePackMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createPack>>, TError,CreatePackMutationVariables, TContext> => {
+
+const mutationKey = getCreatePackMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPack>>, CreatePackMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createPack(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreatePackMutationResult = NonNullable<Awaited<ReturnType<typeof createPack>>>
+    export type CreatePackMutationBody = PackInput
+    export type CreatePackMutationError = ErrorType<ApiErrorBody>
+    export type CreatePackMutationVariables = {data: PackInput}
+
+    export const useCreatePack = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPack>>, TError,CreatePackMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createPack>>,
+        TError,
+        CreatePackMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreatePackMutationOptions(options), queryClient);
+    }
+
+export const getUpdatePackUrl = (id: string,) => {
+
+
+
+
+  return `/api/admin/packs/${id}`
+}
+
+export const updatePack = async (id: string,
+    packInput: PackInput, options?: Parameters<typeof apiFetch>[1]): Promise<Pack> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<Pack>(getUpdatePackUrl(id),
+  {
+    ...options,
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(packInput)
+  }
+);}
+
+
+
+
+
+export const getUpdatePackMutationKey = () => ['updatePack'] as const;
+
+export const getUpdatePackMutationOptions = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePack>>, TError,UpdatePackMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePack>>, TError,UpdatePackMutationVariables, TContext> => {
+
+const mutationKey = getUpdatePackMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePack>>, UpdatePackMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updatePack(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePackMutationResult = NonNullable<Awaited<ReturnType<typeof updatePack>>>
+    export type UpdatePackMutationBody = PackInput
+    export type UpdatePackMutationError = ErrorType<ApiErrorBody>
+    export type UpdatePackMutationVariables = {id: string;data: PackInput}
+
+    export const useUpdatePack = <TError = ErrorType<ApiErrorBody>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePack>>, TError,UpdatePackMutationVariables, TContext>, request?: SecondParameter<typeof apiFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updatePack>>,
+        TError,
+        UpdatePackMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdatePackMutationOptions(options), queryClient);
     }
 
 export const getListBookingsUrl = (params?: ListBookingsParams,) => {

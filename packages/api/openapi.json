@@ -72,6 +72,175 @@
           }
         }
       },
+      "Deck": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "packs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "description"
+              ]
+            }
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            }
+          }
+        },
+        "required": [
+          "version",
+          "packs",
+          "cards"
+        ]
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z]+-[A-Z0-9]+$"
+          },
+          "game": {
+            "type": "string",
+            "enum": [
+              "tu-preferes",
+              "jamais",
+              "action-verite",
+              "qui-pourrait",
+              "tribunal",
+              "duel",
+              "culture-g",
+              "chaine",
+              "valise",
+              "montre-ou-bois",
+              "tout-le-monde",
+              "sentence",
+              "regle",
+              "partenaire",
+              "pause"
+            ]
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  2
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  3
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  4
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  5
+                ]
+              }
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "sexe",
+                "ex",
+                "couple",
+                "argent",
+                "avis",
+                "secrets",
+                "transgressions"
+              ]
+            }
+          },
+          "targets": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "audience": {
+            "type": "string",
+            "enum": [
+              "gars",
+              "filles",
+              "autres"
+            ]
+          },
+          "doubleTier": {
+            "type": "boolean"
+          },
+          "witness": {
+            "type": "boolean"
+          },
+          "ruleDuration": {
+            "type": "integer",
+            "exclusiveMinimum": 0
+          },
+          "answer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unit": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pack": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "game",
+          "level",
+          "text",
+          "themes",
+          "targets"
+        ]
+      },
       "AdminStatus": {
         "type": "object",
         "properties": {
@@ -171,6 +340,485 @@
         },
         "required": [
           "status"
+        ]
+      },
+      "AdminCard": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "game": {
+            "type": "string",
+            "enum": [
+              "tu-preferes",
+              "jamais",
+              "action-verite",
+              "qui-pourrait",
+              "tribunal",
+              "duel",
+              "culture-g",
+              "chaine",
+              "valise",
+              "montre-ou-bois",
+              "tout-le-monde",
+              "sentence",
+              "regle",
+              "partenaire",
+              "pause"
+            ]
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  2
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  3
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  4
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  5
+                ]
+              }
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "sexe",
+                "ex",
+                "couple",
+                "argent",
+                "avis",
+                "secrets",
+                "transgressions"
+              ]
+            }
+          },
+          "packId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "audience": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "gars",
+              "filles",
+              "autres",
+              null
+            ]
+          },
+          "doubleTier": {
+            "type": "boolean"
+          },
+          "witness": {
+            "type": "boolean"
+          },
+          "ruleDuration": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "answer": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "game",
+          "level",
+          "text",
+          "themes",
+          "packId",
+          "status",
+          "audience",
+          "doubleTier",
+          "witness",
+          "ruleDuration",
+          "answer",
+          "unit",
+          "source",
+          "updatedAt"
+        ]
+      },
+      "CardInput": {
+        "type": "object",
+        "properties": {
+          "game": {
+            "type": "string",
+            "enum": [
+              "tu-preferes",
+              "jamais",
+              "action-verite",
+              "qui-pourrait",
+              "tribunal",
+              "duel",
+              "culture-g",
+              "chaine",
+              "valise",
+              "montre-ou-bois",
+              "tout-le-monde",
+              "sentence",
+              "regle",
+              "partenaire",
+              "pause"
+            ]
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  2
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  3
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  4
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  5
+                ]
+              }
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 600
+          },
+          "themes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "sexe",
+                "ex",
+                "couple",
+                "argent",
+                "avis",
+                "secrets",
+                "transgressions"
+              ]
+            },
+            "default": []
+          },
+          "packId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "default": "draft"
+          },
+          "audience": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "gars",
+              "filles",
+              "autres",
+              null
+            ]
+          },
+          "doubleTier": {
+            "type": "boolean",
+            "default": false
+          },
+          "witness": {
+            "type": "boolean",
+            "default": false
+          },
+          "ruleDuration": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 50
+          },
+          "answer": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 200
+          },
+          "unit": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 200
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "game",
+          "level",
+          "text",
+          "packId"
+        ]
+      },
+      "BulkCardsResult": {
+        "type": "object",
+        "properties": {
+          "changed": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "changed"
+        ]
+      },
+      "BulkCards": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 30
+            },
+            "minItems": 1,
+            "maxItems": 2000
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "number",
+                "enum": [
+                  1
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  2
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  3
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  4
+                ]
+              },
+              {
+                "type": "number",
+                "enum": [
+                  5
+                ]
+              }
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "packId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          }
+        },
+        "required": [
+          "ids"
+        ]
+      },
+      "CardChange": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "cardId": {
+            "type": "string"
+          },
+          "adminEmail": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "created",
+              "updated"
+            ]
+          },
+          "before": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": {}
+          },
+          "after": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "cardId",
+          "adminEmail",
+          "action",
+          "before",
+          "after",
+          "createdAt"
+        ]
+      },
+      "Pack": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "publishedCards": {
+            "type": "integer"
+          },
+          "cards": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "published",
+          "publishedCards",
+          "cards"
+        ]
+      },
+      "PackInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "default": ""
+          },
+          "published": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "name"
         ]
       },
       "Booking": {
@@ -370,6 +1018,26 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/deck": {
+      "get": {
+        "operationId": "getDeck",
+        "responses": {
+          "200": {
+            "description": "The published cards of the published packs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deck"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "The deck the client already has is current"
           }
         }
       }
@@ -577,6 +1245,368 @@
           },
           "400": {
             "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cards": {
+      "get": {
+        "operationId": "listCards",
+        "responses": {
+          "200": {
+            "description": "Every card, whatever its status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminCard"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createCard",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The new card, with its reference",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid card, or unknown pack",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cards/bulk": {
+      "post": {
+        "operationId": "updateCards",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkCards"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "How many cards changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkCardsResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, or unknown pack",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cards/{id}": {
+      "patch": {
+        "operationId": "updateCard",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The card, changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCard"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid card, unknown pack, or another mini-game",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/changes": {
+      "get": {
+        "operationId": "listCardChanges",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 30
+            },
+            "required": false,
+            "name": "cardId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The latest changes, newest first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CardChange"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/packs": {
+      "get": {
+        "operationId": "listPacks",
+        "responses": {
+          "200": {
+            "description": "Every pack, with its number of cards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pack"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createPack",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The new pack",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pack"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid pack",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/packs/{id}": {
+      "patch": {
+        "operationId": "updatePack",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The pack, changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pack"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid pack",
             "content": {
               "application/json": {
                 "schema": {

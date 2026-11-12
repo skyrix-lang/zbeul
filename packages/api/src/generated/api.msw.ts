@@ -23,14 +23,22 @@ import {
   ReportStatus
 } from './api.schemas';
 import type {
+  AdminCard,
   AdminLogin,
   AdminSetup,
   AdminStatus,
   Booking,
+  BulkCards,
+  BulkCardsResult,
+  CardChange,
+  CardInput,
   CreateBooking,
   CreateReport,
+  Deck,
   GetHealth200,
   Me,
+  Pack,
+  PackInput,
   Report,
   UpdateBooking,
   UpdateReport
@@ -41,11 +49,33 @@ export const getGetHealthResponseMock = (overrideResponse: Partial<Extract<GetHe
 
 export const getGetMeResponseMock = (overrideResponse: Partial<Extract<Me, object>> = {}): Me => ({user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), name: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), isAdmin: faker.datatype.boolean()},null,]), ...overrideResponse})
 
+export const getGetDeckResponseMock = (overrideResponse: Partial<Extract<Deck, object>> = {}): Deck => ({version: faker.string.alpha({length: {min: 10, max: 20}}), packs: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}})})), cards: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.helpers.fromRegExp("^[A-Z]+-[A-Z0-9]+$"), game: faker.helpers.arrayElement(['tu-preferes','jamais','action-verite','qui-pourrait','tribunal','duel','culture-g','chaine','valise','montre-ou-bois','tout-le-monde','sentence','regle','partenaire','pause'] as const), level: faker.helpers.arrayElement([faker.helpers.arrayElement([1] as const),faker.helpers.arrayElement([2] as const),faker.helpers.arrayElement([3] as const),faker.helpers.arrayElement([4] as const),faker.helpers.arrayElement([5] as const),]), text: faker.string.alpha({length: {min: 1, max: 20}}), themes: faker.helpers.arrayElements(['contact','sexe','ex','couple','argent','avis','secrets','transgressions'] as const), targets: faker.number.int({min: 0, max: 4}), audience: faker.helpers.arrayElement([faker.helpers.arrayElement(['gars','filles','autres'] as const), undefined]), doubleTier: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), witness: faker.helpers.arrayElement([faker.datatype.boolean(), undefined]), ruleDuration: faker.helpers.arrayElement([faker.number.int({min: 0}), undefined]), answer: faker.helpers.arrayElement([faker.string.alpha({length: {min: 1, max: 20}}), undefined]), unit: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 1, max: 20}}), undefined]), pack: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), undefined])})), ...overrideResponse})
+
 export const getGetAdminStatusResponseMock = (overrideResponse: Partial<Extract<AdminStatus, object>> = {}): AdminStatus => ({setupNeeded: faker.datatype.boolean(), ...overrideResponse})
 
 export const getListReportsResponseMock = (): Report[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), cardId: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), message: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(Object.values(ReportStatus)), createdAt: faker.date.past().toISOString().slice(0, 19) + 'Z'})))
 
 export const getUpdateReportResponseMock = (overrideResponse: Partial<Extract<Report, object>> = {}): Report => ({id: faker.string.uuid(), cardId: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), message: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(Object.values(ReportStatus)), createdAt: faker.date.past().toISOString().slice(0, 19) + 'Z', ...overrideResponse})
+
+export const getListCardsResponseMock = (): AdminCard[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), game: faker.helpers.arrayElement(['tu-preferes','jamais','action-verite','qui-pourrait','tribunal','duel','culture-g','chaine','valise','montre-ou-bois','tout-le-monde','sentence','regle','partenaire','pause'] as const), level: faker.helpers.arrayElement([faker.helpers.arrayElement([1] as const),faker.helpers.arrayElement([2] as const),faker.helpers.arrayElement([3] as const),faker.helpers.arrayElement([4] as const),faker.helpers.arrayElement([5] as const),]), text: faker.string.alpha({length: {min: 10, max: 20}}), themes: faker.helpers.arrayElements(['contact','sexe','ex','couple','argent','avis','secrets','transgressions'] as const), packId: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(['draft','published','archived'] as const), audience: faker.helpers.arrayElement([faker.helpers.arrayElement(['gars','filles','autres'] as const), null]), doubleTier: faker.datatype.boolean(), witness: faker.datatype.boolean(), ruleDuration: faker.helpers.arrayElement([faker.number.int(), null]), answer: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), unit: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), updatedAt: faker.date.past().toISOString().slice(0, 19) + 'Z'})))
+
+export const getCreateCardResponseMock = (overrideResponse: Partial<Extract<AdminCard, object>> = {}): AdminCard => ({id: faker.string.alpha({length: {min: 10, max: 20}}), game: faker.helpers.arrayElement(['tu-preferes','jamais','action-verite','qui-pourrait','tribunal','duel','culture-g','chaine','valise','montre-ou-bois','tout-le-monde','sentence','regle','partenaire','pause'] as const), level: faker.helpers.arrayElement([faker.helpers.arrayElement([1] as const),faker.helpers.arrayElement([2] as const),faker.helpers.arrayElement([3] as const),faker.helpers.arrayElement([4] as const),faker.helpers.arrayElement([5] as const),]), text: faker.string.alpha({length: {min: 10, max: 20}}), themes: faker.helpers.arrayElements(['contact','sexe','ex','couple','argent','avis','secrets','transgressions'] as const), packId: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(['draft','published','archived'] as const), audience: faker.helpers.arrayElement([faker.helpers.arrayElement(['gars','filles','autres'] as const), null]), doubleTier: faker.datatype.boolean(), witness: faker.datatype.boolean(), ruleDuration: faker.helpers.arrayElement([faker.number.int(), null]), answer: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), unit: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), updatedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', ...overrideResponse})
+
+export const getUpdateCardsResponseMock = (overrideResponse: Partial<Extract<BulkCardsResult, object>> = {}): BulkCardsResult => ({changed: faker.number.int(), ...overrideResponse})
+
+export const getUpdateCardResponseMock = (overrideResponse: Partial<Extract<AdminCard, object>> = {}): AdminCard => ({id: faker.string.alpha({length: {min: 10, max: 20}}), game: faker.helpers.arrayElement(['tu-preferes','jamais','action-verite','qui-pourrait','tribunal','duel','culture-g','chaine','valise','montre-ou-bois','tout-le-monde','sentence','regle','partenaire','pause'] as const), level: faker.helpers.arrayElement([faker.helpers.arrayElement([1] as const),faker.helpers.arrayElement([2] as const),faker.helpers.arrayElement([3] as const),faker.helpers.arrayElement([4] as const),faker.helpers.arrayElement([5] as const),]), text: faker.string.alpha({length: {min: 10, max: 20}}), themes: faker.helpers.arrayElements(['contact','sexe','ex','couple','argent','avis','secrets','transgressions'] as const), packId: faker.string.alpha({length: {min: 10, max: 20}}), status: faker.helpers.arrayElement(['draft','published','archived'] as const), audience: faker.helpers.arrayElement([faker.helpers.arrayElement(['gars','filles','autres'] as const), null]), doubleTier: faker.datatype.boolean(), witness: faker.datatype.boolean(), ruleDuration: faker.helpers.arrayElement([faker.number.int(), null]), answer: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), unit: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), source: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}), null]), updatedAt: faker.date.past().toISOString().slice(0, 19) + 'Z', ...overrideResponse})
+
+export const getListCardChangesResponseMock = (): CardChange[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), cardId: faker.string.alpha({length: {min: 10, max: 20}}), adminEmail: faker.string.alpha({length: {min: 10, max: 20}}), action: faker.helpers.arrayElement(['created','updated'] as const), before: faker.helpers.arrayElement([{
+        [faker.string.alphanumeric(5)]: {}
+      },null,]), after: {
+        [faker.string.alphanumeric(5)]: {}
+      }, createdAt: faker.date.past().toISOString().slice(0, 19) + 'Z'})))
+
+export const getListPacksResponseMock = (): Pack[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), published: faker.datatype.boolean(), publishedCards: faker.number.int(), cards: faker.number.int()})))
+
+export const getCreatePackResponseMock = (overrideResponse: Partial<Extract<Pack, object>> = {}): Pack => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), published: faker.datatype.boolean(), publishedCards: faker.number.int(), cards: faker.number.int(), ...overrideResponse})
+
+export const getUpdatePackResponseMock = (overrideResponse: Partial<Extract<Pack, object>> = {}): Pack => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), published: faker.datatype.boolean(), publishedCards: faker.number.int(), cards: faker.number.int(), ...overrideResponse})
 
 export const getListBookingsResponseMock = (): Booking[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), date: faker.date.past().toISOString().slice(0, 10), time: faker.string.alpha({length: {min: 10, max: 20}}), duration: faker.number.int(), status: faker.helpers.arrayElement(Object.values(BookingStatus))})))
 
@@ -84,6 +114,18 @@ export const getCreateReportMockHandler = (overrideResponse?: void | ((info: Par
 
     return new HttpResponse(null,
       { status: 204
+      })
+  }, options)
+}
+
+export const getGetDeckMockHandler = (overrideResponse?: Deck | ((info: Parameters<HttpResponseResolver>[0]) => Promise<Deck> | Deck), options?: RequestHandlerOptions) => {
+  return http.get('*/api/deck', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getGetDeckResponseMock(),
+      { status: 200
       })
   }, options)
 }
@@ -144,6 +186,102 @@ export const getUpdateReportMockHandler = (overrideResponse?: Report | ((info: P
   }, options)
 }
 
+export const getListCardsMockHandler = (overrideResponse?: AdminCard[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<AdminCard[]> | AdminCard[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/admin/cards', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getListCardsResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getCreateCardMockHandler = (overrideResponse?: AdminCard | ((info: Parameters<HttpResponseResolver<PathParams, CardInput>>[0]) => Promise<AdminCard> | AdminCard), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, CardInput>('*/api/admin/cards', async (info: Parameters<HttpResponseResolver<PathParams, CardInput>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getCreateCardResponseMock(),
+      { status: 201
+      })
+  }, options)
+}
+
+export const getUpdateCardsMockHandler = (overrideResponse?: BulkCardsResult | ((info: Parameters<HttpResponseResolver<PathParams, BulkCards>>[0]) => Promise<BulkCardsResult> | BulkCardsResult), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, BulkCards>('*/api/admin/cards/bulk', async (info: Parameters<HttpResponseResolver<PathParams, BulkCards>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUpdateCardsResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getUpdateCardMockHandler = (overrideResponse?: AdminCard | ((info: Parameters<HttpResponseResolver<{ id: string }, CardInput>>[0]) => Promise<AdminCard> | AdminCard), options?: RequestHandlerOptions) => {
+  return http.patch<{ id: string }, CardInput>('*/api/admin/cards/:id', async (info: Parameters<HttpResponseResolver<{ id: string }, CardInput>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUpdateCardResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getListCardChangesMockHandler = (overrideResponse?: CardChange[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<CardChange[]> | CardChange[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/admin/changes', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getListCardChangesResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getListPacksMockHandler = (overrideResponse?: Pack[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<Pack[]> | Pack[]), options?: RequestHandlerOptions) => {
+  return http.get('*/api/admin/packs', async (info: Parameters<HttpResponseResolver>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getListPacksResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getCreatePackMockHandler = (overrideResponse?: Pack | ((info: Parameters<HttpResponseResolver<PathParams, PackInput>>[0]) => Promise<Pack> | Pack), options?: RequestHandlerOptions) => {
+  return http.post<PathParams, PackInput>('*/api/admin/packs', async (info: Parameters<HttpResponseResolver<PathParams, PackInput>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getCreatePackResponseMock(),
+      { status: 201
+      })
+  }, options)
+}
+
+export const getUpdatePackMockHandler = (overrideResponse?: Pack | ((info: Parameters<HttpResponseResolver<{ id: string }, PackInput>>[0]) => Promise<Pack> | Pack), options?: RequestHandlerOptions) => {
+  return http.patch<{ id: string }, PackInput>('*/api/admin/packs/:id', async (info: Parameters<HttpResponseResolver<{ id: string }, PackInput>>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getUpdatePackResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
 export const getListBookingsMockHandler = (overrideResponse?: Booking[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<Booking[]> | Booking[]), options?: RequestHandlerOptions) => {
   return http.get('*/api/bookings', async (info: Parameters<HttpResponseResolver>[0]) => {
 
@@ -183,11 +321,20 @@ export const getZbeulAPIMock = () => [
   getGetHealthMockHandler(),
   getGetMeMockHandler(),
   getCreateReportMockHandler(),
+  getGetDeckMockHandler(),
   getGetAdminStatusMockHandler(),
   getSetUpAdminMockHandler(),
   getLogInAdminMockHandler(),
   getListReportsMockHandler(),
   getUpdateReportMockHandler(),
+  getListCardsMockHandler(),
+  getCreateCardMockHandler(),
+  getUpdateCardsMockHandler(),
+  getUpdateCardMockHandler(),
+  getListCardChangesMockHandler(),
+  getListPacksMockHandler(),
+  getCreatePackMockHandler(),
+  getUpdatePackMockHandler(),
   getListBookingsMockHandler(),
   getCreateBookingMockHandler(),
   getUpdateBookingMockHandler()
