@@ -211,16 +211,23 @@ function Table({
           {(game.rules.length > 0 || game.partners.length > 0) && (
             <ul
               aria-label="Règles en cours"
-              className="flex flex-wrap justify-center gap-1.5 text-xs font-semibold"
+              className="flex max-w-full min-w-0 flex-wrap justify-center gap-1.5 text-xs font-semibold"
             >
               {game.rules.map((rule, index) => (
                 <li
                   key={`${rule.playerId}-${index}`}
-                  className="bg-warning-soft text-warning-soft-foreground flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 whitespace-nowrap"
+                  className="bg-warning-soft text-warning-soft-foreground flex max-w-full min-w-0 items-center gap-1 rounded-full px-2.5 py-1 whitespace-nowrap"
                 >
-                  <ScrollText aria-hidden="true" className="size-3.5" />
-                  Règle de {nameOf(rule.playerId)}
-                  <span className="tabular-nums">
+                  <ScrollText
+                    aria-hidden="true"
+                    className="size-3.5 shrink-0"
+                  />
+                  {/* A long name is cut short before it pushes the row wider
+                      than the smallest screens. */}
+                  <span className="truncate">
+                    Règle de {nameOf(rule.playerId)}
+                  </span>
+                  <span className="shrink-0 tabular-nums">
                     · encore {rule.remaining}
                   </span>
                 </li>
@@ -228,10 +235,12 @@ function Table({
               {game.partners.map((id) => (
                 <li
                   key={id}
-                  className="bg-primary-soft text-primary-soft-foreground flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 whitespace-nowrap"
+                  className="bg-primary-soft text-primary-soft-foreground flex max-w-full min-w-0 items-center gap-1 rounded-full px-2.5 py-1 whitespace-nowrap"
                 >
-                  <Users aria-hidden="true" className="size-3.5" />
-                  {nameOf(id)} a un partenaire de boisson
+                  <Users aria-hidden="true" className="size-3.5 shrink-0" />
+                  <span className="truncate">
+                    {nameOf(id)} a un partenaire de boisson
+                  </span>
                 </li>
               ))}
             </ul>
@@ -479,7 +488,8 @@ function Actions({
           size="xl"
           aria-disabled={!ready}
           onClick={tap(() => onPlay("next"))}
-          className="flex-1"
+          // Narrow padding beside the card: the label fits the thinnest column.
+          className="min-w-0 flex-1 landscape:px-2"
         >
           {next}
         </Button>
@@ -596,7 +606,9 @@ function Judges({
           : "Qui perd ?";
 
   return (
-    <fieldset className="flex shrink-0 items-center gap-2">
+    // `min-w-0`: a fieldset is as wide as its content by default, and the
+    // names would push past a narrow screen instead of scrolling.
+    <fieldset className="flex min-w-0 shrink-0 flex-col gap-1 landscape:flex-row landscape:items-center landscape:gap-2">
       <legend className="sr-only">{legend}</legend>
       <p
         aria-hidden="true"
