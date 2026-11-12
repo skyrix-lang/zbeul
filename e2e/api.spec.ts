@@ -238,13 +238,20 @@ test("the API document lists every route", async ({ request }) => {
   const document = await (await request.get("/api/openapi.json")).json();
 
   expect(Object.keys(document.paths).sort()).toEqual([
+    "/api/admin/cards",
+    "/api/admin/cards/bulk",
+    "/api/admin/cards/{id}",
+    "/api/admin/changes",
     "/api/admin/login",
+    "/api/admin/packs",
+    "/api/admin/packs/{id}",
     "/api/admin/reports",
     "/api/admin/reports/{id}",
     "/api/admin/setup",
     "/api/admin/status",
     "/api/bookings",
     "/api/bookings/{id}",
+    "/api/deck",
     "/api/health",
     "/api/me",
     "/api/reports",

@@ -181,9 +181,14 @@ break the second, and any server state the first. Zustand because it was
 already the recorded choice for client state, has no dependency, and its
 `persist` middleware has the `version` and `migrate` options that "a game
 saved by an older version stays playable" needs.
-**Cost:** a card changes with a release, not from the admin.
-**Revisit when:** the admin edits cards: serve the published deck from the API
-and let the service worker cache it, with the bundled deck as the fallback.
+**Since then:** the admin edits cards, so the database is the deck's source of
+truth. The game still runs on the phone only: the home screen fetches the
+published deck (`GET /api/deck`), checks it and keeps it in `localStorage`,
+and the bundled deck is the fallback before the first one arrives. A deck is
+never swapped in during a game (`docs/specs/admin-cards.md`).
+**Cost:** the bundled deck and `specs/cartes-mvp.md` drift from the database
+as the admin works; they are only what a first visit without a connection
+plays.
 
 ## Game pages are public, without an account
 

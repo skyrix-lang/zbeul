@@ -11,7 +11,10 @@ a connection. For adults only.
   `specs/cartes-mvp.md` and bundled with the app (`yarn cards:generate`).
   Everything about the players stays on the phone.
 - **The hidden admin** (`packages/feature-admin`, at `/admin`): one account
-  with a password, to read what players report.
+  with a password, to write, publish and archive cards and packs, see who
+  changed what, and read what players report. Players get the published deck
+  at the home screen and keep it for offline play; the bundled deck is the
+  fallback before that (`docs/specs/admin-cards.md`).
 
 It is built from a full-stack starter, organized as **versioned packages plus
 a thin app** and shipped as one Docker image. The starter's bookings feature

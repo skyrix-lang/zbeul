@@ -290,6 +290,7 @@ export const defaultSettings = {
   progressive: true,
   duration: 30,
   excluded: [] as string[],
+  packs: [] as string[],
 };
 
 /**
@@ -303,11 +304,14 @@ export async function asReturningPlayer(
     prefs = {},
     turns,
     game = {},
+    deck,
   }: {
     prefs?: Record<string, unknown>;
     /** Starts a game in progress with these cards already drawn. */
     turns?: { cardId: string; players: string[]; stake: number }[];
     game?: Record<string, unknown>;
+    /** A deck already received from the server, with its packs. */
+    deck?: { version: string; packs: object[]; cards: object[] };
   } = {},
 ) {
   const players = (prefs.players as SeedPlayer[] | undefined) ?? [];
@@ -352,17 +356,19 @@ export async function asReturningPlayer(
     version: 1,
   };
   await page.addInitScript(
-    ([prefsKey, gameKey, prefsValue, gameValue]) => {
+    ([prefsKey, gameKey, prefsValue, gameValue, deckValue]) => {
       if (sessionStorage.getItem("e2e-seeded")) return;
       sessionStorage.setItem("e2e-seeded", "1");
       localStorage.setItem(prefsKey!, prefsValue!);
       if (gameValue) localStorage.setItem(gameKey!, gameValue);
+      if (deckValue) localStorage.setItem("zbeul:deck", deckValue);
     },
     [
       PREFS_KEY,
       GAME_KEY,
       JSON.stringify(savedPrefs),
       savedGame ? JSON.stringify(savedGame) : "",
+      deck ? JSON.stringify({ state: { received: deck }, version: 1 }) : "",
     ] as const,
   );
 }

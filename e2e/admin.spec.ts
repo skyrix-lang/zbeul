@@ -66,7 +66,7 @@ test("the first visit asks the admin to choose a strong password", async ({
   await submit.click();
 
   await expect(
-    page.getByRole("heading", { name: "Zbeul, admin" }),
+    page.getByRole("heading", { name: "Signalements" }),
   ).toBeVisible();
   await expect(page.getByText(ADMIN.email)).toBeVisible();
   // The code is gone from the address bar.
@@ -110,7 +110,7 @@ test("signs in with the password, and out again", async ({ page }) => {
   await page.getByLabel("Mot de passe").fill(ADMIN.password);
   await page.getByRole("button", { name: "Se connecter" }).click();
   await expect(
-    page.getByRole("heading", { name: "Zbeul, admin" }),
+    page.getByRole("heading", { name: "Signalements" }),
   ).toBeVisible();
 
   await page.getByRole("button", { name: "Se déconnecter" }).click();
@@ -204,6 +204,256 @@ test("reads a player's report, with its card, and files it", async ({
 
   await report.getByRole("button", { name: "Sans suite" }).click();
   await expect(report).toHaveCount(0);
+});
+
+test("writes a card, previews it, and publishes it to the players", async ({
+  page,
+  request,
+  browser,
+  baseURL,
+}) => {
+  await logIn(page);
+  await page.getByRole("link", { name: "Cartes" }).click();
+  await expect(page.getByRole("heading", { name: "Cartes" })).toBeVisible();
+  await page.getByRole("link", { name: "Nouvelle carte" }).click();
+
+  // A quiz question isn't saved without its sourced answer.
+  await page.getByLabel("Mini-jeu").selectOption("Culture G");
+  const question = `[J1], [J2], [J3] et [J4] : combien de pattes a une araignée (${Date.now()}) ?`;
+  await page.getByLabel("Texte").fill(question);
+  await page.getByRole("button", { name: "Créer la carte" }).click();
+  await expect(page.getByText("Une question a une réponse.")).toBeVisible();
+
+  await page.getByLabel("Réponse").fill("8");
+  await page.getByLabel("Unité").fill("pattes");
+  await page.getByLabel("Source").fill("Muséum national d'histoire naturelle");
+  // The preview shows the card as players will see it, at several stakes.
+  const preview = page.getByRole("region", { name: "Aperçu" });
+  await expect(preview.locator("mark").first()).toHaveText("Romain");
+  await expect(preview).toContainText(
+    "Le plus proche distribue 1 gorgée, le plus éloigné les boit",
+  );
+  await expect(preview).toContainText(
+    "Le plus proche gagne 3 points, le plus éloigné les perd",
+  );
+  await page.getByRole("button", { name: "Créer la carte" }).click();
+
+  // Saved as a draft, under the next free reference of its mini-game.
+  await expect(page).toHaveURL(/\/admin\/cartes\/CG-\d+$/);
+  const cardId = page.url().split("/").at(-1)!;
+  await expect(
+    page.getByRole("heading", { name: `Carte ${cardId}` }),
+  ).toBeVisible();
+  await expect(page.getByText("Carte créée")).toBeVisible();
+  const inDeck = async () => {
+    const deck = await (await request.get("/api/deck")).json();
+    return deck.cards.some((card: { id: string }) => card.id === cardId);
+  };
+  expect(await inDeck()).toBe(false);
+
+  await page.getByLabel("Statut").selectOption("Publiée");
+  await page.getByRole("button", { name: "Enregistrer" }).click();
+  await expect(page.getByRole("status")).toHaveText("Enregistré.");
+  await expect(page.getByText("statut : Brouillon → Publiée")).toBeVisible();
+  expect(await inDeck()).toBe(true);
+
+  // A player's phone gets it at the home screen, and keeps it.
+  const phone = await browser.newContext({
+    baseURL,
+    serviceWorkers: "block",
+  });
+  const home = await phone.newPage();
+  await home.goto("/");
+  await home.getByRole("button", { name: "J'ai 18 ans ou plus" }).click();
+  await expect
+    .poll(() => home.evaluate(() => localStorage.getItem("zbeul:deck") ?? ""))
+    .toContain(cardId);
+  await phone.close();
+
+  // Archived, it leaves the players' deck, but not the admin's list.
+  await page.getByLabel("Statut").selectOption("Archivée");
+  await page.getByRole("button", { name: "Enregistrer" }).click();
+  await expect(page.getByText("statut : Publiée → Archivée")).toBeVisible();
+  expect(await inDeck()).toBe(false);
+
+  await page.getByRole("link", { name: "Retour aux cartes" }).click();
+  await page.getByLabel("Texte ou référence").fill(cardId);
+  await page.getByRole("button", { name: "Chercher" }).click();
+  await expect(page).toHaveURL(new RegExp(`q=${cardId}`));
+  await expect(page.getByTestId("card-row")).toHaveCount(1);
+  await expect(page.getByTestId("card-row")).toContainText("Archivée");
+
+  // The history names the admin and each change.
+  await page.getByRole("link", { name: "Historique" }).click();
+  const changes = page.getByTestId("change").filter({ hasText: cardId });
+  await expect(changes).toHaveCount(3);
+  await expect(changes.first()).toContainText(ADMIN.email);
+});
+
+test("changes several cards at once, in a pack of their own", async ({
+  page,
+  request,
+}) => {
+  await logIn(page);
+  const stamp = Date.now();
+  const packName = `Pack e2e ${stamp}`;
+
+  // A new pack, published.
+  await page.getByRole("link", { name: "Packs" }).click();
+  const newPack = page
+    .getByRole("listitem")
+    .filter({ hasText: "Nouveau pack" });
+  await newPack.getByLabel("Nom").fill(packName);
+  await newPack.getByLabel("Description").fill("Pour les tests.");
+  await newPack.getByLabel("Publié : proposé aux joueurs").check();
+  await newPack.getByRole("button", { name: "Créer le pack" }).click();
+  await expect(
+    page.getByTestId("pack").filter({ hasText: packName }),
+  ).toContainText("0 carte publiée sur 0.");
+
+  // Two drafts of ours, found by their text, changed together.
+  for (const index of [1, 2]) {
+    const response = await page.request.post("/api/admin/cards", {
+      data: {
+        game: "tu-preferes",
+        level: 1,
+        text: `Tu préfères le test ${stamp} numéro ${index} ou rien ?`,
+        packId: "officiel",
+      },
+    });
+    expect(response.status()).toBe(201);
+  }
+  await page.getByRole("link", { name: "Cartes" }).click();
+  await page.getByLabel("Texte ou référence").fill(String(stamp));
+  await page.getByRole("button", { name: "Chercher" }).click();
+  await expect(page.getByTestId("card-row")).toHaveCount(2);
+  await page.getByRole("button", { name: "Tout cocher" }).click();
+  const bulk = page.getByRole("group", {
+    name: "Changer les 2 cartes cochées",
+  });
+  await bulk.getByLabel("Nouveau statut").selectOption("Publiée");
+  await bulk.getByLabel("Nouveau niveau").selectOption("3 · Piquant");
+  await bulk.getByLabel("Nouveau pack").selectOption(packName);
+  await bulk.getByRole("button", { name: "Appliquer" }).click();
+
+  await expect(page.getByText("2 cartes modifiées.")).toBeVisible();
+  for (const row of await page.getByTestId("card-row").all()) {
+    await expect(row).toContainText("niveau 3");
+    await expect(row).toContainText("Publiée");
+  }
+
+  // Players are offered the pack, with our two cards in it.
+  const deck = await (await request.get("/api/deck")).json();
+  const ours = deck.packs.find(
+    (pack: { name: string }) => pack.name === packName,
+  );
+  expect(ours).toMatchObject({ description: "Pour les tests." });
+  expect(
+    deck.cards.filter((card: { pack: string }) => card.pack === ours.id),
+  ).toHaveLength(2);
+
+  // Unpublished, the pack and its cards leave the players' deck.
+  await page.getByRole("link", { name: "Packs" }).click();
+  const pack = page.getByTestId("pack").filter({ hasText: packName });
+  await expect(pack).toContainText("2 cartes publiées sur 2.");
+  await pack.getByLabel("Publié : proposé aux joueurs").uncheck();
+  await pack.getByRole("button", { name: "Enregistrer" }).click();
+  await expect(pack.getByRole("status")).toHaveText("Enregistré.");
+  const after = await (await request.get("/api/deck")).json();
+  expect(JSON.stringify(after)).not.toContain(packName);
+  expect(JSON.stringify(after)).not.toContain(String(stamp));
+});
+
+test("the deck and the admin's cards over the API", async ({
+  page,
+  request,
+}) => {
+  // Anyone gets the deck: published cards only, with what the game needs.
+  const response = await request.get("/api/deck");
+  expect(response.status()).toBe(200);
+  const deck = await response.json();
+  expect(deck.cards.length).toBeGreaterThanOrEqual(870);
+  expect(deck.packs[0]).toMatchObject({
+    id: "officiel",
+    name: "Pack officiel",
+  });
+  expect(
+    deck.cards.find((card: { id: string }) => card.id === "CG-001"),
+  ).toEqual({
+    id: "CG-001",
+    game: "culture-g",
+    level: 1,
+    text: "[J1], [J2], [J3] et [J4] : combien mesure la tour Eiffel, antennes comprises ?",
+    themes: [],
+    targets: 4,
+    pack: "officiel",
+    answer: "330",
+    unit: "mètres",
+    source: "Société d'exploitation de la tour Eiffel",
+  });
+  // Unchanged, it isn't sent twice.
+  const again = await request.get("/api/deck", {
+    headers: { "If-None-Match": response.headers().etag! },
+  });
+  expect(again.status()).toBe(304);
+
+  // To anyone but the admin, managing cards doesn't exist.
+  for (const path of ["cards", "packs", "changes"]) {
+    expect((await request.get(`/api/admin/${path}`)).status()).toBe(404);
+  }
+  expect((await request.post("/api/admin/cards", { data: {} })).status()).toBe(
+    404,
+  );
+  expect(
+    (
+      await request.post("/api/admin/cards/bulk", {
+        data: { ids: ["TP-001"], status: "archived" },
+      })
+    ).status(),
+  ).toBe(404);
+
+  // The admin's mistakes are refused with the reason.
+  await logIn(page);
+  await expect(
+    page.getByRole("heading", { name: "Signalements" }),
+  ).toBeVisible();
+  const card = {
+    game: "duel",
+    level: 1,
+    text: "[J1] contre [J2] : duel.",
+    packId: "officiel",
+  };
+  const post = (data: object) =>
+    page.request.post("/api/admin/cards", { data });
+  expect((await post({ ...card, text: "[J1] tout seul." })).status()).toBe(400);
+  expect((await post({ ...card, packId: "nope" })).status()).toBe(400);
+  expect((await post({ ...card, level: 9 })).status()).toBe(400);
+  const created = await (await post(card)).json();
+  expect(created).toMatchObject({
+    id: expect.stringMatching(/^DUE-\d+$/),
+    status: "draft",
+  });
+  const patch = (id: string, data: object) =>
+    page.request.patch(`/api/admin/cards/${id}`, { data });
+  // A card keeps its mini-game; an unknown card is a 404.
+  expect(
+    (
+      await patch(created.id, {
+        ...card,
+        game: "tribunal",
+        text: "[J1] est coupable ?",
+      })
+    ).status(),
+  ).toBe(400);
+  expect((await patch("DUE-99999", card)).status()).toBe(404);
+  // Saving the same card again records nothing.
+  expect((await patch(created.id, card)).status()).toBe(200);
+  const changes = await (
+    await page.request.get(`/api/admin/changes?cardId=${created.id}`)
+  ).json();
+  expect(changes.map((change: { action: string }) => change.action)).toEqual([
+    "created",
+  ]);
 });
 
 test.describe("POST /api/reports", () => {

@@ -228,6 +228,89 @@ test.describe("setting up a game", () => {
   });
 });
 
+test.describe("packs", () => {
+  const duel = (id: string, pack: string, text: string) => ({
+    id,
+    game: "duel",
+    level: 1,
+    text: `[J1] contre [J2] : ${text}`,
+    themes: [],
+    targets: 2,
+    pack,
+  });
+  const deck = {
+    version: "e2e",
+    packs: [
+      { id: "officiel", name: "Pack officiel", description: "" },
+      {
+        id: "couple",
+        name: "Soirée couple",
+        description: "À deux, ou presque.",
+      },
+    ],
+    cards: [
+      duel("DUE-901", "officiel", "bras de fer."),
+      duel("DUE-902", "officiel", "concours de grimaces."),
+      duel("DUE-903", "couple", "qui connaît le mieux l'autre ?"),
+    ],
+  };
+
+  test("the group plays the deck it received, with the packs it keeps", async ({
+    page,
+    isMobile,
+  }) => {
+    await asReturningPlayer(page, {
+      prefs: { players: trio, settings: { games: ["duel"], level: 1 } },
+      deck,
+    });
+    await page.goto("/jouer");
+
+    const packs = page.getByRole("group", { name: "Packs de cartes" });
+    const couple = packs.getByRole("checkbox", { name: "Soirée couple" });
+    await expect(couple).toBeChecked();
+    await expect(packs).toContainText("À deux, ou presque.");
+    await couple.uncheck();
+    // A game needs cards: the last pack can't be unticked.
+    await packs.getByRole("checkbox", { name: "Pack officiel" }).click();
+    await expect(
+      packs.getByRole("checkbox", { name: "Pack officiel" }),
+    ).toBeChecked();
+
+    await page.getByRole("button", { name: "C'est parti" }).click();
+    await stayUpright(page, isMobile);
+
+    const seen: string[] = [];
+    for (let card = 1; card <= 2; card++) {
+      await expect(page.getByText(`Carte ${card} / 30`)).toBeVisible();
+      seen.push(await page.getByRole("article").innerText());
+      await page.getByRole("button", { name: "Carte suivante" }).click();
+    }
+    // Both cards of the pack kept, none of the other; then the deck is dry.
+    expect(seen.join()).toContain("bras de fer");
+    expect(seen.join()).toContain("concours de grimaces");
+    await expect(page).toHaveURL("/fin");
+    await expect(
+      page.getByText("Plus de cartes ? Vous êtes des machines."),
+    ).toBeVisible();
+  });
+
+  test("a saved game whose card was archived moves on to the next one", async ({
+    page,
+    isMobile,
+  }) => {
+    await asReturningPlayer(page, {
+      prefs: { players: trio, settings: { games: ["duel"], level: 1 } },
+      deck,
+      turns: [{ cardId: "DUE-000", players: ["p0", "p1"], stake: 1 }],
+    });
+    await page.goto("/partie");
+    await stayUpright(page, isMobile);
+
+    await expect(page.getByText("Carte 2 / 30")).toBeVisible();
+    await expect(page.getByRole("article")).toContainText("contre");
+  });
+});
+
 test.describe("playing", () => {
   test("has nothing to type and at most four buttons to play with", async ({
     page,
