@@ -41,8 +41,10 @@ function useInstallPrompt() {
 function Step({ icon, children }: { icon?: ReactNode; children: ReactNode }) {
   return (
     <li className="marker:text-primary-soft-foreground pl-1 marker:font-bold">
+      {/* One element for the sentence: a gap between its words and the bold
+          ones would show as stray spaces. */}
       <span className="inline-flex flex-wrap items-center gap-1.5">
-        {children}
+        <span>{children}</span>
         {icon}
       </span>
     </li>
@@ -55,6 +57,7 @@ export function InstallPage() {
   return (
     <Screen
       title="Installer l'appli"
+      previous
       intro="Zbeul se pose sur ton écran d'accueil comme une vraie appli : plein écran, et jouable sans réseau. Pas de store, pas de compte."
     >
       <p className="bg-success-soft text-success-soft-foreground hidden rounded-lg p-4 font-semibold installed:block">

@@ -25,6 +25,16 @@ export interface ApiErrorBody {
   issues?: unknown[];
 }
 
+export type CreateReportReasonsItem = typeof CreateReportReasonsItem[keyof typeof CreateReportReasonsItem];
+
+
+export const CreateReportReasonsItem = {
+  boring: 'boring',
+  'too-long': 'too-long',
+  'too-hard': 'too-hard',
+  'to-fix': 'to-fix',
+} as const;
+
 export interface CreateReport {
   /**
      * @maxLength 20
@@ -33,6 +43,106 @@ export interface CreateReport {
   cardId?: string;
   /** @maxLength 1000 */
   message?: string;
+  /** @maxItems 4 */
+  reasons?: CreateReportReasonsItem[];
+}
+
+export interface LikeCards {
+  /**
+     * @minItems 1
+     * @maxItems 50
+     * @items.maxLength 20
+     * @items.pattern ^[A-Z]+-[A-Z0-9]+$
+     */
+  cardIds: string[];
+}
+
+export type DeckPacksItem = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+export type CardGame = typeof CardGame[keyof typeof CardGame];
+
+
+export const CardGame = {
+  'tu-preferes': 'tu-preferes',
+  jamais: 'jamais',
+  'action-verite': 'action-verite',
+  'qui-pourrait': 'qui-pourrait',
+  tribunal: 'tribunal',
+  duel: 'duel',
+  'culture-g': 'culture-g',
+  chaine: 'chaine',
+  valise: 'valise',
+  'montre-ou-bois': 'montre-ou-bois',
+  'tout-le-monde': 'tout-le-monde',
+  sentence: 'sentence',
+  regle: 'regle',
+  partenaire: 'partenaire',
+  pause: 'pause',
+} as const;
+
+export type CardThemesItem = typeof CardThemesItem[keyof typeof CardThemesItem];
+
+
+export const CardThemesItem = {
+  contact: 'contact',
+  sexe: 'sexe',
+  ex: 'ex',
+  couple: 'couple',
+  argent: 'argent',
+  avis: 'avis',
+  secrets: 'secrets',
+  transgressions: 'transgressions',
+} as const;
+
+export type CardAudience = typeof CardAudience[keyof typeof CardAudience];
+
+
+export const CardAudience = {
+  gars: 'gars',
+  filles: 'filles',
+  autres: 'autres',
+} as const;
+
+export const CardLevel = {  NUMBER_1: 1,
+  NUMBER_2: 2,
+  NUMBER_3: 3,
+  NUMBER_4: 4,
+  NUMBER_5: 5,
+} as const
+export interface Card {
+  /** @pattern ^[A-Z]+-[A-Z0-9]+$ */
+  id: string;
+  game: CardGame;
+  level: typeof CardLevel[keyof typeof CardLevel];
+  /** @minLength 1 */
+  text: string;
+  themes: CardThemesItem[];
+  /**
+     * @minimum 0
+     * @maximum 4
+     */
+  targets: number;
+  audience?: CardAudience;
+  doubleTier?: boolean;
+  witness?: boolean;
+  /** @exclusiveMinimum 0 */
+  ruleDuration?: number;
+  /** @minLength 1 */
+  answer?: string;
+  unit?: string;
+  /** @minLength 1 */
+  source?: string;
+  pack?: string;
+}
+
+export interface Deck {
+  version: string;
+  packs: DeckPacksItem[];
+  cards: Card[];
 }
 
 export interface AdminStatus {
@@ -59,6 +169,16 @@ export interface AdminLogin {
   password: string;
 }
 
+export type ReportReasonsItem = typeof ReportReasonsItem[keyof typeof ReportReasonsItem];
+
+
+export const ReportReasonsItem = {
+  boring: 'boring',
+  'too-long': 'too-long',
+  'too-hard': 'too-hard',
+  'to-fix': 'to-fix',
+} as const;
+
 export type ReportStatus = typeof ReportStatus[keyof typeof ReportStatus];
 
 
@@ -73,12 +193,285 @@ export interface Report {
   /** @nullable */
   cardId: string | null;
   message: string;
+  reasons: ReportReasonsItem[];
   status: ReportStatus;
   createdAt: string;
 }
 
 export interface UpdateReport {
   status: ReportStatus;
+}
+
+export type AdminCardGame = typeof AdminCardGame[keyof typeof AdminCardGame];
+
+
+export const AdminCardGame = {
+  'tu-preferes': 'tu-preferes',
+  jamais: 'jamais',
+  'action-verite': 'action-verite',
+  'qui-pourrait': 'qui-pourrait',
+  tribunal: 'tribunal',
+  duel: 'duel',
+  'culture-g': 'culture-g',
+  chaine: 'chaine',
+  valise: 'valise',
+  'montre-ou-bois': 'montre-ou-bois',
+  'tout-le-monde': 'tout-le-monde',
+  sentence: 'sentence',
+  regle: 'regle',
+  partenaire: 'partenaire',
+  pause: 'pause',
+} as const;
+
+export const AdminCardLevel = {  NUMBER_1: 1,
+  NUMBER_2: 2,
+  NUMBER_3: 3,
+  NUMBER_4: 4,
+  NUMBER_5: 5,
+} as const
+export type AdminCardThemesItem = typeof AdminCardThemesItem[keyof typeof AdminCardThemesItem];
+
+
+export const AdminCardThemesItem = {
+  contact: 'contact',
+  sexe: 'sexe',
+  ex: 'ex',
+  couple: 'couple',
+  argent: 'argent',
+  avis: 'avis',
+  secrets: 'secrets',
+  transgressions: 'transgressions',
+} as const;
+
+export type AdminCardStatus = typeof AdminCardStatus[keyof typeof AdminCardStatus];
+
+
+export const AdminCardStatus = {
+  draft: 'draft',
+  published: 'published',
+  archived: 'archived',
+} as const;
+
+/**
+ * @nullable
+ */
+export type AdminCardAudience = typeof AdminCardAudience[keyof typeof AdminCardAudience] | null;
+
+
+export const AdminCardAudience = {
+  gars: 'gars',
+  filles: 'filles',
+  autres: 'autres',
+} as const;
+
+export interface AdminCard {
+  id: string;
+  game: AdminCardGame;
+  level: typeof AdminCardLevel[keyof typeof AdminCardLevel];
+  text: string;
+  themes: AdminCardThemesItem[];
+  packId: string;
+  status: AdminCardStatus;
+  /** @nullable */
+  audience: AdminCardAudience;
+  doubleTier: boolean;
+  witness: boolean;
+  /** @nullable */
+  ruleDuration: number | null;
+  /** @nullable */
+  answer: string | null;
+  /** @nullable */
+  unit: string | null;
+  /** @nullable */
+  source: string | null;
+  updatedAt: string;
+  likes: number;
+  reports: number;
+}
+
+export type CardInputGame = typeof CardInputGame[keyof typeof CardInputGame];
+
+
+export const CardInputGame = {
+  'tu-preferes': 'tu-preferes',
+  jamais: 'jamais',
+  'action-verite': 'action-verite',
+  'qui-pourrait': 'qui-pourrait',
+  tribunal: 'tribunal',
+  duel: 'duel',
+  'culture-g': 'culture-g',
+  chaine: 'chaine',
+  valise: 'valise',
+  'montre-ou-bois': 'montre-ou-bois',
+  'tout-le-monde': 'tout-le-monde',
+  sentence: 'sentence',
+  regle: 'regle',
+  partenaire: 'partenaire',
+  pause: 'pause',
+} as const;
+
+export const CardInputLevel = {  NUMBER_1: 1,
+  NUMBER_2: 2,
+  NUMBER_3: 3,
+  NUMBER_4: 4,
+  NUMBER_5: 5,
+} as const
+export type CardInputThemesItem = typeof CardInputThemesItem[keyof typeof CardInputThemesItem];
+
+
+export const CardInputThemesItem = {
+  contact: 'contact',
+  sexe: 'sexe',
+  ex: 'ex',
+  couple: 'couple',
+  argent: 'argent',
+  avis: 'avis',
+  secrets: 'secrets',
+  transgressions: 'transgressions',
+} as const;
+
+export type CardInputStatus = typeof CardInputStatus[keyof typeof CardInputStatus];
+
+
+export const CardInputStatus = {
+  draft: 'draft',
+  published: 'published',
+  archived: 'archived',
+} as const;
+
+/**
+ * @nullable
+ */
+export type CardInputAudience = typeof CardInputAudience[keyof typeof CardInputAudience] | null;
+
+
+export const CardInputAudience = {
+  gars: 'gars',
+  filles: 'filles',
+  autres: 'autres',
+} as const;
+
+export interface CardInput {
+  game: CardInputGame;
+  level: typeof CardInputLevel[keyof typeof CardInputLevel];
+  /**
+     * @minLength 3
+     * @maxLength 600
+     */
+  text: string;
+  themes?: CardInputThemesItem[];
+  /**
+     * @minLength 1
+     * @maxLength 60
+     */
+  packId: string;
+  status?: CardInputStatus;
+  /** @nullable */
+  audience?: CardInputAudience;
+  doubleTier?: boolean;
+  witness?: boolean;
+  /**
+     * @minimum 1
+     * @maximum 50
+     * @nullable
+     */
+  ruleDuration?: number | null;
+  /**
+     * @maxLength 200
+     * @nullable
+     */
+  answer?: string | null;
+  /**
+     * @maxLength 200
+     * @nullable
+     */
+  unit?: string | null;
+  /**
+     * @maxLength 300
+     * @nullable
+     */
+  source?: string | null;
+}
+
+export interface BulkCardsResult {
+  changed: number;
+}
+
+export const BulkCardsLevel = {  NUMBER_1: 1,
+  NUMBER_2: 2,
+  NUMBER_3: 3,
+  NUMBER_4: 4,
+  NUMBER_5: 5,
+} as const
+export type BulkCardsStatus = typeof BulkCardsStatus[keyof typeof BulkCardsStatus];
+
+
+export const BulkCardsStatus = {
+  draft: 'draft',
+  published: 'published',
+  archived: 'archived',
+} as const;
+
+export interface BulkCards {
+  /**
+     * @minItems 1
+     * @maxItems 2000
+     * @items.maxLength 30
+     */
+  ids: string[];
+  level?: typeof BulkCardsLevel[keyof typeof BulkCardsLevel];
+  status?: BulkCardsStatus;
+  /**
+     * @minLength 1
+     * @maxLength 60
+     */
+  packId?: string;
+}
+
+export type CardChangeAction = typeof CardChangeAction[keyof typeof CardChangeAction];
+
+
+export const CardChangeAction = {
+  created: 'created',
+  updated: 'updated',
+} as const;
+
+/**
+ * @nullable
+ */
+export type CardChangeBefore = {[key: string]: unknown} | null;
+
+export type CardChangeAfter = {[key: string]: unknown};
+
+export interface CardChange {
+  id: string;
+  cardId: string;
+  adminEmail: string;
+  action: CardChangeAction;
+  /** @nullable */
+  before: CardChangeBefore;
+  after: CardChangeAfter;
+  createdAt: string;
+}
+
+export interface Pack {
+  id: string;
+  name: string;
+  description: string;
+  published: boolean;
+  publishedCards: number;
+  cards: number;
+}
+
+export interface PackInput {
+  /**
+     * @minLength 1
+     * @maxLength 60
+     */
+  name: string;
+  /** @maxLength 200 */
+  description?: string;
+  published?: boolean;
 }
 
 export type BookingStatus = typeof BookingStatus[keyof typeof BookingStatus];
@@ -145,6 +538,11 @@ export type GetHealth503 = {
 
 export type ListReportsParams = {
   status?: ReportStatus;
+};
+
+export type ListCardChangesParams = {
+  /** @maxLength 30 */
+  cardId?: string;
 };
 
 export type ListBookingsParams = {

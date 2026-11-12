@@ -1,4 +1,7 @@
-import type { ContentTheme, Level, MiniGame } from "@zbeul/core";
+import { MINI_GAME_LABELS, type Level, type MiniGame } from "@zbeul/core";
+
+// The names of the levels and themes are shared with the admin.
+export { LEVEL_NAMES, THEME_LABELS } from "@zbeul/core";
 
 // The fixed rules of the game (specs/specs.md §3 to §6): what each mini-game
 // is, the levels, the stakes. Nothing here changes during a game.
@@ -16,8 +19,9 @@ export const FAMILY_LABELS: Record<Family, string> = {
 /**
  * How a card is played, which decides the buttons and the score:
  * - solo: one player wins or loses ("Gagné" / "Perdu" / "Joker");
- * - group: everyone plays, the losers are named out loud, no score;
- * - duel, closest: named players, the group referees, no score;
+ * - group: everyone plays, the losers are named out loud;
+ * - duel, closest: named players, the group referees;
+ *   (in points mode the group taps who lost on these three, see `isJudged`)
  * - sentence: the player loses the stake at once;
  * - rule, partner, pause: no winner.
  */
@@ -42,105 +46,105 @@ export interface MiniGameInfo {
 
 export const GAMES: Record<MiniGame, MiniGameInfo> = {
   "tu-preferes": {
-    label: "Tu préfères",
+    label: MINI_GAME_LABELS["tu-preferes"],
     family: "vote",
     kind: "group",
     minPlayers: 3,
     how: "Tout le monde vote. La minorité trinque.",
   },
   jamais: {
-    label: "J'ai déjà ou je n'ai jamais",
+    label: MINI_GAME_LABELS["jamais"],
     family: "revelations",
     kind: "group",
     minPlayers: 3,
     how: "Ceux qui l'ont fait trinquent.",
   },
   "action-verite": {
-    label: "Action ou vérité",
+    label: MINI_GAME_LABELS["action-verite"],
     family: "revelations",
     kind: "solo",
     minPlayers: 2,
     how: "Tu choisis. Refuser, c'est perdre.",
   },
   "qui-pourrait": {
-    label: "Qui pourrait… ?",
+    label: MINI_GAME_LABELS["qui-pourrait"],
     family: "vote",
     kind: "group",
     minPlayers: 3,
     how: "À trois, tout le monde pointe du doigt.",
   },
   tribunal: {
-    label: "Tribunal",
+    label: MINI_GAME_LABELS["tribunal"],
     family: "vote",
     kind: "solo",
     minPlayers: 4,
     how: "Le groupe vote. Coupable, c'est perdu.",
   },
   duel: {
-    label: "Duel",
+    label: MINI_GAME_LABELS["duel"],
     family: "defis",
     kind: "duel",
     minPlayers: 3,
     how: "Le groupe arbitre et désigne le perdant.",
   },
   "culture-g": {
-    label: "Culture G",
+    label: MINI_GAME_LABELS["culture-g"],
     family: "culture",
     kind: "closest",
     minPlayers: 4,
-    how: "Chacun annonce un nombre. Réponse sur la carte suivante.",
+    how: "Chacun annonce un nombre. La réponse arrive juste après.",
   },
   chaine: {
-    label: "Chaîne de thème",
+    label: MINI_GAME_LABELS["chaine"],
     family: "defis",
     kind: "group",
     minPlayers: 3,
     how: "Chacun son tour. Qui sèche ou répète a perdu.",
   },
   valise: {
-    label: "Dans ma valise",
+    label: MINI_GAME_LABELS["valise"],
     family: "defis",
     kind: "group",
     minPlayers: 3,
     how: "Répète la liste, ajoute un objet. Qui se trompe a perdu.",
   },
   "montre-ou-bois": {
-    label: "Montre ou bois",
+    label: MINI_GAME_LABELS["montre-ou-bois"],
     family: "defis",
     kind: "solo",
     minPlayers: 2,
     how: "Prouve-le tout de suite, ou c'est perdu.",
   },
   "tout-le-monde": {
-    label: "Tout le monde concerné",
+    label: MINI_GAME_LABELS["tout-le-monde"],
     family: "collectif",
     kind: "group",
     minPlayers: 2,
     how: "Les concernés se dénoncent.",
   },
   sentence: {
-    label: "Sentence gratuite",
+    label: MINI_GAME_LABELS["sentence"],
     family: "collectif",
     kind: "sentence",
     minPlayers: 2,
     how: "Sans raison. C'est le jeu.",
   },
   regle: {
-    label: "Invente une règle",
+    label: MINI_GAME_LABELS["regle"],
     family: "collectif",
     kind: "rule",
     minPlayers: 3,
     how: "Annonce ta règle à voix haute.",
   },
   partenaire: {
-    label: "Partenaire de boisson",
+    label: MINI_GAME_LABELS["partenaire"],
     family: "collectif",
     kind: "partner",
     minPlayers: 3,
     how: "Désigne ton partenaire à voix haute.",
   },
   pause: {
-    label: "Pause",
+    label: MINI_GAME_LABELS["pause"],
     family: "collectif",
     kind: "pause",
     minPlayers: 2,
@@ -155,14 +159,6 @@ export const SIPS_ONLY: readonly MiniGame[] = ["partenaire", "pause"];
 export const SELECTABLE_GAMES = (Object.keys(GAMES) as MiniGame[]).filter(
   (game) => game !== "pause",
 );
-
-export const LEVEL_NAMES: Record<Level, string> = {
-  1: "Apéro entre potes",
-  2: "Festif",
-  3: "Piquant",
-  4: "Sans filtre",
-  5: "Border",
-};
 
 export const LEVEL_TONES: Record<Level, string> = {
   1: "Facile, brise-glace",
@@ -179,17 +175,6 @@ export const PROFILES: { level: Level; label: string }[] = [
   { level: 4, label: "Chaud" },
   { level: 5, label: "Border" },
 ];
-
-export const THEME_LABELS: Record<ContentTheme, string> = {
-  contact: "Contact physique",
-  sexe: "Sexualité",
-  ex: "Ex",
-  couple: "Couple et jalousie",
-  argent: "Argent",
-  avis: "Avis sur le groupe",
-  secrets: "Secrets",
-  transgressions: "Transgressions passées",
-};
 
 export type Intensity = "douce" | "normale" | "forte" | "hardcore";
 

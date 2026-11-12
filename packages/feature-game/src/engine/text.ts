@@ -29,17 +29,43 @@ export function toPoints(text: string): string {
     .replace(/\b([Tt])u bois\b/g, "$1u perds des points");
 }
 
+/**
+ * An "action ou vérité" card holds both halves in one text:
+ * "[J1], action : … Vérité : …". Null when a card isn't written that way.
+ */
+export function actionAndTruth(text: string) {
+  const parts =
+    /^(.*?)\baction\s*:\s*([\s\S]*?)\s*Vérité\s*:\s*([\s\S]*)$/.exec(text);
+  if (!parts) return null;
+  return { lead: parts[1]!, action: parts[2]!, verite: parts[3]! };
+}
+
+/** What an "action ou vérité" card shows: the question, then the chosen half. */
+function chosenHalf(text: string, choice: Turn["choice"]) {
+  const halves = actionAndTruth(text);
+  if (!halves) return text;
+  if (choice === "action") return `${halves.lead}action : ${halves.action}`;
+  if (choice === "verite") return `${halves.lead}vérité : ${halves.verite}`;
+  return `${halves.lead}action ou vérité ?`;
+}
+
 export function cardSegments(
   card: Card,
   turn: Turn,
   players: readonly Player[],
   sips: boolean,
+  /** Both halves of an "action ou vérité" card: outside a game. */
+  whole = false,
 ): Segment[] {
   const named = turn.players.map((id) =>
     players.find((player) => player.id === id),
   );
   const gender = named[0]?.gender ?? "autre";
-  let text = card.text
+  const shown =
+    card.game === "action-verite" && !whole
+      ? chosenHalf(card.text, turn.choice)
+      : card.text;
+  let text = shown
     // [accusé/accusée/accusé·e], [il/elle/iel]: agreed with the first player.
     .replace(
       /\[([^\]/]+)\/([^\]/]+)\/([^\]/]+)\]/g,
@@ -64,8 +90,8 @@ export const segmentsText = (segments: readonly Segment[]) =>
     .map((segment) => (segment.type === "text" ? segment.text : segment.name))
     .join("");
 
-/** A card outside a game, with made-up names: for favourites and previews. */
-export function previewSegments(card: Card, sips = true): Segment[] {
+/** A card outside a game: made-up players, named as the card needs. */
+function preview(card: Card, stake = 0) {
   const names = ["Romain", "Inès", "Sacha", "Léa"];
   const players: Player[] = names.map((name, index) => ({
     id: String(index),
@@ -78,9 +104,21 @@ export function previewSegments(card: Card, sips = true): Segment[] {
   const turn: Turn = {
     cardId: card.id,
     players: players.slice(0, card.targets).map((player) => player.id),
-    stake: 0,
+    stake,
   };
-  return cardSegments(card, turn, players, sips);
+  return { players, turn };
+}
+
+/** A card outside a game, with made-up names: for favourites and previews. */
+export function previewSegments(card: Card, sips = true): Segment[] {
+  const { players, turn } = preview(card);
+  return cardSegments(card, turn, players, sips, true);
+}
+
+/** The stake line of a card outside a game, for a preview. */
+export function previewStakeLine(card: Card, stake: number, sips: boolean) {
+  const { players, turn } = preview(card, stake);
+  return stakeLine(card, turn, { settings: { sips }, players });
 }
 
 export const sipsLabel = (count: number) =>
@@ -89,7 +127,14 @@ export const pointsLabel = (count: number) =>
   `${count} ${count > 1 ? "points" : "point"}`;
 
 /** The stake, in the card's own terms: "Le perdant boit 3 gorgées". */
-export function stakeLine(card: Card, turn: Turn, state: GameState): string {
+export function stakeLine(
+  card: Card,
+  turn: Turn,
+  state: {
+    settings: Pick<GameState["settings"], "sips">;
+    players: readonly Player[];
+  },
+): string {
   const { sips } = state.settings;
   const { kind } = GAMES[card.game];
   const x = turn.stake;
@@ -115,8 +160,9 @@ export function stakeLine(card: Card, turn: Turn, state: GameState): string {
         ? `Le plus proche distribue ${amount}, le plus éloigné les boit`
         : `Le plus proche gagne ${amount}, le plus éloigné les perd`;
     case "solo":
+      // With sips nobody presses "Gagné" or "Perdu": the card says it all.
       return sips
-        ? `${amount} à distribuer ou à boire`
+        ? `Réussi : distribue ${amount}. Raté : bois-les`
         : `${amount} à gagner ou à perdre`;
     case "group":
       if (card.doubleTier) {

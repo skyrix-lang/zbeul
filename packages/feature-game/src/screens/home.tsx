@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Download, Heart, Settings2 } from "lucide-react";
 import { buttonVariants, cn } from "@zbeul/ui";
 import { Glow, SAFE_AREA, Wordmark } from "../components/screen";
+import { cardCount } from "../engine/game";
 import { PATHS } from "../paths";
 import { resumable, useGame } from "../store";
 import { enterGameMode } from "../use-game-screen";
@@ -46,7 +47,7 @@ export function HomePage() {
                 Reprendre la partie
               </Link>
               <p className="text-muted-foreground text-center text-sm">
-                Carte {game.turns.length}
+                Carte {cardCount(game)}
                 {game.settings.duration ? ` sur ${game.settings.duration}` : ""}
                 , {game.players.length} joueurs. Elle vous attend.
               </p>

@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { LEVELS, type Level, type MiniGame } from "@zbeul/core";
 import {
@@ -10,7 +11,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck, usePacks } from "../cards";
 import { Choice, ToggleRow } from "../components/choice";
 import { levelClass } from "../components/game-card";
 import { Screen, Section } from "../components/screen";
@@ -42,6 +43,23 @@ export function SetupPage() {
   const setSettings = usePrefs((prefs) => prefs.setSettings);
   const update = usePrefs((prefs) => prefs.update);
   const start = useGame((game) => game.start);
+  const deck = useDeck();
+  const packs = usePacks();
+  // No pack chosen plays them all; a pack that no longer exists is forgotten.
+  const chosenPacks = packs.filter(
+    (pack) => settings.packs.length === 0 || settings.packs.includes(pack.id),
+  );
+  const playingPacks = chosenPacks.length > 0 ? chosenPacks : packs;
+  const togglePack = (id: string) => {
+    const next = playingPacks.some((pack) => pack.id === id)
+      ? playingPacks.filter((pack) => pack.id !== id)
+      : [...playingPacks, packs.find((pack) => pack.id === id)!];
+    // At least one pack: a game needs cards.
+    if (next.length === 0) return;
+    setSettings({
+      packs: next.length === packs.length ? [] : next.map((pack) => pack.id),
+    });
+  };
   const [confirming, setConfirming] = useState<"border" | "alcohol" | null>(
     null,
   );
@@ -193,13 +211,11 @@ export function SetupPage() {
       </Section>
 
       <Section title="Options">
-        <details className="bg-card rounded-lg border">
-          <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-3 p-4 font-semibold">
-            Mini-jeux
-            <span className="text-muted-foreground text-sm font-normal">
-              {chosenGames.length} sur {SELECTABLE_GAMES.length}
-            </span>
-          </summary>
+        <details className="group bg-card rounded-lg border">
+          <OptionSummary
+            title="Mini-jeux"
+            value={`${chosenGames.length} sur ${SELECTABLE_GAMES.length}`}
+          />
           <div className="flex flex-col gap-4 px-4 pb-4">
             {FAMILIES.map((family) => (
               <fieldset key={family}>
@@ -249,15 +265,15 @@ export function SetupPage() {
           </div>
         </details>
 
-        <details className="bg-card rounded-lg border">
-          <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-3 p-4 font-semibold">
-            Thèmes à éviter
-            <span className="text-muted-foreground text-sm font-normal">
-              {settings.excluded.length === 0
+        <details className="group bg-card rounded-lg border">
+          <OptionSummary
+            title="Thèmes à éviter"
+            value={
+              settings.excluded.length === 0
                 ? "Aucun"
-                : `${settings.excluded.length} en moins`}
-            </span>
-          </summary>
+                : `${settings.excluded.length} en moins`
+            }
+          />
           <div className="px-4 pb-4">
             <ThemeChecks
               legend="Pour toute la partie"
@@ -273,9 +289,46 @@ export function SetupPage() {
           </div>
         </details>
 
-        <p className="text-muted-foreground text-sm">
-          Pack officiel : {deck.cards.length} cartes, toutes gratuites.
-        </p>
+        {packs.length > 1 ? (
+          <fieldset className="bg-card rounded-lg border p-4">
+            <legend className="sr-only">Packs de cartes</legend>
+            <p aria-hidden="true" className="font-semibold">
+              Packs
+            </p>
+            {packs.map((pack) => (
+              <div key={pack.id} className="flex min-h-12 items-center gap-3">
+                <input
+                  id={`pack-${pack.id}`}
+                  type="checkbox"
+                  aria-describedby={`pack-${pack.id}-about`}
+                  checked={playingPacks.some((other) => other.id === pack.id)}
+                  onChange={() => togglePack(pack.id)}
+                  className="accent-primary size-5 shrink-0"
+                />
+                <div>
+                  <label
+                    htmlFor={`pack-${pack.id}`}
+                    className="block cursor-pointer font-semibold"
+                  >
+                    {pack.name}
+                  </label>
+                  <p
+                    id={`pack-${pack.id}-about`}
+                    className="text-muted-foreground text-sm"
+                  >
+                    {pack.description ||
+                      "Des cartes en plus, toujours gratuites."}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </fieldset>
+        ) : (
+          <p className="text-muted-foreground text-sm">
+            {packs[0]?.name ?? "Pack officiel"} : {deck.cards.length} cartes,
+            toutes gratuites.
+          </p>
+        )}
       </Section>
 
       <Dialog
@@ -334,5 +387,28 @@ export function SetupPage() {
         </DialogActions>
       </Dialog>
     </Screen>
+  );
+}
+
+/**
+ * The line that opens an option. It says what is chosen, and shows that it
+ * opens: "Modifier" and a chevron, which turn into "Fermer" once open.
+ */
+function OptionSummary({ title, value }: { title: string; value: string }) {
+  return (
+    <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 p-4 [&::-webkit-details-marker]:hidden">
+      <span className="min-w-0 flex-1">
+        <span className="block font-semibold">{title}</span>
+        <span className="text-muted-foreground block text-sm">{value}</span>
+      </span>
+      <span className="text-primary-soft-foreground flex shrink-0 items-center gap-1 text-sm font-semibold">
+        <span className="group-open:hidden">Modifier</span>
+        <span className="hidden group-open:inline">Fermer</span>
+        <ChevronDown
+          aria-hidden="true"
+          className="size-5 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+        />
+      </span>
+    </summary>
   );
 }

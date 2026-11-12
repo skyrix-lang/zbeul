@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { HomePage, useFlushReports } from "@zbeul/feature-game";
+import { HomePage, useFlushReports, useRefreshDeck } from "@zbeul/feature-game";
 import { pageFor } from "../../overrides";
 import { usePageMeta } from "../../page-meta";
 import { applyUpdate } from "../../pwa";
@@ -14,6 +14,8 @@ export const Route = createFileRoute("/_game/")({
   component: function HomeRoute() {
     usePageMeta({});
     useFlushReports();
+    // The admin's latest deck, when there is a connection.
+    useRefreshDeck();
     // An update of the app waits for the home: never in the middle of a game.
     useEffect(applyUpdate, []);
     return <Page />;

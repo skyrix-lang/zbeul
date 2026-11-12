@@ -1,6 +1,8 @@
 import {
   boolean,
   customType,
+  jsonb,
+  smallint,
   date,
   index,
   integer,
@@ -11,7 +13,15 @@ import {
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
-import { BOOKING_STATUSES, REPORT_STATUSES } from "@zbeul/core";
+import {
+  AUDIENCES,
+  BOOKING_STATUSES,
+  CARD_STATUSES,
+  CONTENT_THEMES,
+  MINI_GAMES,
+  REPORT_STATUSES,
+  type ReportReason,
+} from "@zbeul/core";
 
 export const bookingStatus = pgEnum("booking_status", BOOKING_STATUSES);
 
@@ -122,6 +132,8 @@ export const reports = pgTable(
     // The card's reference, such as "TP-001"; null for a general report.
     cardId: text("card_id"),
     message: text().notNull().default(""),
+    // What the player ticked under the thumb down (REPORT_REASONS).
+    reasons: text().array().$type<ReportReason[]>().notNull().default([]),
     // What the admin did with it: still to read, dealt with, or set aside.
     status: reportStatus().notNull().default("open"),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -131,5 +143,88 @@ export const reports = pgTable(
   // Serves the admin's list: one status, the newest first.
   (report) => [
     index("reports_status_created_at_idx").on(report.status, report.createdAt),
+  ],
+);
+
+// The deck, managed from the admin (apps/bff/src/cards.ts). Players get the
+// published cards of the published packs; the app also bundles a deck, used
+// before the first one arrives.
+export const cardStatus = pgEnum("card_status", CARD_STATUSES);
+export const miniGame = pgEnum("mini_game", MINI_GAMES);
+export const contentTheme = pgEnum("content_theme", CONTENT_THEMES);
+export const cardAudience = pgEnum("card_audience", AUDIENCES);
+
+export const packs = pgTable("packs", {
+  // A short name, such as "officiel": cards and saved games refer to it.
+  id: text().primaryKey(),
+  name: text().notNull(),
+  description: text().notNull().default(""),
+  published: boolean().notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+export const cards = pgTable(
+  "cards",
+  {
+    // The card's reference, such as "TP-001". Never reused: a card is
+    // archived, not deleted, so reports and saved games keep meaning it.
+    id: text().primaryKey(),
+    packId: text("pack_id")
+      .notNull()
+      .references(() => packs.id),
+    game: miniGame().notNull(),
+    level: smallint().notNull(),
+    text: text().notNull(),
+    themes: contentTheme().array().notNull().default([]),
+    audience: cardAudience(),
+    doubleTier: boolean("double_tier").notNull().default(false),
+    witness: boolean().notNull().default(false),
+    ruleDuration: smallint("rule_duration"),
+    answer: text(),
+    unit: text(),
+    source: text(),
+    status: cardStatus().notNull().default("draft"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow()
+      .$onUpdate(() => new Date()),
+  },
+  // Serves the players' deck: the published cards.
+  (card) => [index("cards_status_idx").on(card.status)],
+);
+
+// Thumbs up from players: a count per card, and nothing about who gave them.
+export const cardLikes = pgTable("card_likes", {
+  cardId: text("card_id")
+    .primaryKey()
+    .references(() => cards.id),
+  count: integer().notNull().default(0),
+});
+
+// Who changed what, and when: one row per card created or changed, with the
+// card before and after. Kept as written: never updated, never deleted.
+export const cardChanges = pgTable(
+  "card_changes",
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    cardId: text("card_id")
+      .notNull()
+      .references(() => cards.id),
+    adminEmail: text("admin_email").notNull(),
+    action: text({ enum: ["created", "updated"] }).notNull(),
+    before: jsonb().$type<Record<string, unknown>>(),
+    after: jsonb().$type<Record<string, unknown>>().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (change) => [
+    index("card_changes_card_id_idx").on(change.cardId, change.createdAt),
+    index("card_changes_created_at_idx").on(change.createdAt),
   ],
 );

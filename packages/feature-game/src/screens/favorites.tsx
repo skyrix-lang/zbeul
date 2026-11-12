@@ -1,17 +1,18 @@
 import { Link } from "@tanstack/react-router";
-import { HeartOff } from "lucide-react";
+import { ThumbsUp } from "lucide-react";
 import { buttonVariants, cn } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { CardText, FamilyBadge, levelClass } from "../components/game-card";
 import { Screen } from "../components/screen";
 import { previewSegments } from "../engine/text";
 import { PATHS } from "../paths";
 import { usePrefs } from "../store";
 
-/** The cards put aside at the end of a game. They stay on this phone. */
+/** The cards that got a thumb up, during a game or at its end. */
 export function FavoritesPage() {
   const favorites = usePrefs((prefs) => prefs.favorites);
   const toggleFavorite = usePrefs((prefs) => prefs.toggleFavorite);
+  const deck = useDeck();
   // A card removed by an update simply disappears from the list.
   const cards = favorites.flatMap((id) => deck.byId.get(id) ?? []).reverse();
 
@@ -31,7 +32,8 @@ export function FavoritesPage() {
             joué.
           </p>
           <p className="text-muted-foreground text-balance">
-            À la fin d'une partie, touche le cœur des cartes à garder.
+            Pendant une partie, lève le pouce sur les cartes qui vous font rire
+            : elles arrivent ici.
           </p>
           <Link to={PATHS.setup} className={buttonVariants({ size: "xl" })}>
             Jouer
@@ -62,7 +64,7 @@ export function FavoritesPage() {
                 onClick={() => toggleFavorite(card.id)}
                 className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none active:scale-90"
               >
-                <HeartOff aria-hidden="true" className="size-5" />
+                <ThumbsUp aria-hidden="true" className="size-5 fill-current" />
               </button>
             </li>
           ))}

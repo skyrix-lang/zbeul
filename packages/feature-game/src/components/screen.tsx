@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useCanGoBack, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 import { buttonVariants, cn } from "@zbeul/ui";
@@ -15,22 +15,38 @@ export const SAFE_AREA =
 export function Screen({
   title,
   back = PATHS.home,
+  previous = false,
+  selectable = false,
   intro,
   children,
   footer,
 }: {
   title: string;
   back?: Path;
+  /**
+   * "Retour" returns to the screen the visitor came from, for a screen that
+   * several others lead to; `back` is then where a direct visit goes.
+   */
+  previous?: boolean;
+  /** The text can be selected: for pages meant to be read and quoted. */
+  selectable?: boolean;
   intro?: ReactNode;
   children: ReactNode;
   /** Stays at the bottom of the screen; the content scrolls above it. */
   footer?: ReactNode;
 }) {
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
   const content = (
     <>
       <header>
         <Link
           to={back}
+          onClick={(event) => {
+            if (!previous || !canGoBack) return;
+            event.preventDefault();
+            router.history.back();
+          }}
           className={cn(
             buttonVariants({ variant: "ghost", size: "md" }),
             "-ml-3",
@@ -45,7 +61,14 @@ export function Screen({
           {title}
         </h1>
         {intro && <p className="text-muted-foreground mt-2">{intro}</p>}
-        <div className="mt-6 flex flex-1 flex-col gap-6">{children}</div>
+        <div
+          className={cn(
+            "mt-6 flex flex-1 flex-col gap-6",
+            selectable && "select-text",
+          )}
+        >
+          {children}
+        </div>
       </main>
     </>
   );
@@ -65,11 +88,14 @@ export function Screen({
   // With a footer, the content scrolls above it: the footer never covers
   // what is being read or touched.
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-md flex-col">
-      <div className="flex flex-1 flex-col overflow-y-auto overscroll-contain pt-[max(1rem,env(safe-area-inset-top))] pr-[max(1.25rem,env(safe-area-inset-right))] pb-6 pl-[max(1.25rem,env(safe-area-inset-left))]">
+    <div className="fixed inset-0 mx-auto flex w-full max-w-md flex-col overflow-hidden">
+      {/* `relative`: the visually hidden inputs inside are positioned against
+          this scrolling area. Against the page, they made it taller than the
+          screen, and a drag on the footer moved everything. */}
+      <div className="relative flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain pt-[max(1rem,env(safe-area-inset-top))] pr-[max(1.25rem,env(safe-area-inset-right))] pb-6 pl-[max(1.25rem,env(safe-area-inset-left))]">
         {content}
       </div>
-      <div className="border-t pt-3 pr-[max(1.25rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-[max(1.25rem,env(safe-area-inset-left))]">
+      <div className="touch-none border-t pt-3 pr-[max(1.25rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))] pl-[max(1.25rem,env(safe-area-inset-left))]">
         {footer}
       </div>
     </div>

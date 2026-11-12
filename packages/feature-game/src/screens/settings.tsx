@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { GameCard, levelClass } from "../components/game-card";
 import { Screen, Section } from "../components/screen";
 import { LEVEL_NAMES } from "../engine/rules";
@@ -41,6 +41,7 @@ export function SettingsPage({ version }: { version: string }) {
   const theme = usePrefs((prefs) => prefs.theme);
   const setTheme = usePrefs((prefs) => prefs.setTheme);
   const [erasing, setErasing] = useState(false);
+  const deck = useDeck();
   const sample = deck.byId.get(SAMPLE_CARD) ?? deck.cards[0]!;
 
   const links: { to: Path; label: string }[] = [
@@ -76,18 +77,31 @@ export function SettingsPage({ version }: { version: string }) {
             </label>
           ))}
         </fieldset>
-        <div aria-label="Aperçu du thème" role="group">
-          <GameCard
-            card={sample}
-            segments={previewSegments(sample)}
-            className="h-52"
-            footer={
-              <p className="font-display text-lg font-extrabold">
-                2 gorgées à distribuer ou à boire
-              </p>
-            }
-          />
-          <ul className="mt-2 grid grid-cols-5 gap-1.5">
+        <figure aria-label="Aperçu du thème" className="flex flex-col gap-2">
+          <figcaption className="text-muted-foreground text-sm">
+            Un exemple de carte et les cinq niveaux, dans ce thème. Rien à
+            toucher ici.
+          </figcaption>
+          <div className="pointer-events-none relative select-none">
+            <GameCard
+              card={sample}
+              segments={previewSegments(sample)}
+              className="h-52"
+              footer={
+                <p className="font-display text-lg font-extrabold">
+                  2 gorgées à distribuer ou à boire
+                </p>
+              }
+            />
+            {/* A stamp across the card: it is a sample, not a game. */}
+            <p
+              aria-hidden="true"
+              className="border-foreground/80 bg-background/85 text-foreground font-display absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-12 rounded-md border-2 border-dashed px-4 py-1 text-2xl font-extrabold tracking-widest uppercase"
+            >
+              Aperçu
+            </p>
+          </div>
+          <ul className="grid grid-cols-5 gap-1.5">
             {LEVELS.map((level) => (
               <li
                 key={level}
@@ -101,7 +115,7 @@ export function SettingsPage({ version }: { version: string }) {
               </li>
             ))}
           </ul>
-        </div>
+        </figure>
       </Section>
 
       <Section title="Le reste">

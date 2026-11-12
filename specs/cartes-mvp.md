@@ -591,125 +591,125 @@ Chacun cite un élément à son tour. Le premier qui sèche ou répète boit.
 
 | Réf.   | Niv. | Texte                                                                                                                                      | Thèmes         | Remarque |
 | ------ | ---- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | -------- |
-| CH-001 | 1    | Chaîne : les pays d'Europe. [J1], tu commences.                                                                                            |                |          |
-| CH-002 | 1    | Chaîne : les marques de voiture. [J1], tu commences.                                                                                       |                |          |
-| CH-003 | 1    | Chaîne : les fruits et légumes. [J1], tu commences.                                                                                        |                |          |
-| CH-004 | 1    | Chaîne : les capitales du monde. [J1], tu commences.                                                                                       |                |          |
-| CH-005 | 1    | Chaîne : les animaux qui vivent dans l'eau. [J1], tu commences.                                                                            |                |          |
-| CH-020 | 1    | Chaîne : les sports olympiques. [J1], tu commences.                                                                                        |                |          |
-| CH-021 | 1    | Chaîne : les instruments de musique. [J1], tu commences.                                                                                   |                |          |
-| CH-022 | 1    | Chaîne : les métiers. [J1], tu commences.                                                                                                  |                |          |
-| CH-023 | 1    | Chaîne : les fromages. [J1], tu commences.                                                                                                 |                |          |
-| CH-024 | 1    | Chaîne : les desserts. [J1], tu commences.                                                                                                 |                |          |
-| CH-006 | 2    | Chaîne : les joueurs de foot. [J1], tu commences.                                                                                          |                |          |
-| CH-007 | 2    | Chaîne : les pays d'Afrique. [J1], tu commences.                                                                                           |                |          |
-| CH-008 | 2    | Chaîne : les chanteurs et chanteuses françaises. [J1], tu commences.                                                                       |                |          |
-| CH-009 | 2    | Chaîne : les marques de bière. [J1], tu commences.                                                                                         |                |          |
-| CH-010 | 2    | Chaîne : les festivals de musique en France. [J1], tu commences.                                                                           |                |          |
-| CH-025 | 2    | Chaîne : les trucs qu'on trouve au fond d'un sac ou d'une poche. [J1], tu commences.                                                       |                |          |
-| CH-026 | 2    | Chaîne : les rappeurs français. [J1], tu commences.                                                                                        |                |          |
-| CH-027 | 2    | Chaîne : les dessins animés de ton enfance. [J1], tu commences.                                                                            |                |          |
-| CH-028 | 2    | Chaîne : les émissions de téléréalité. [J1], tu commences.                                                                                 |                |          |
-| CH-029 | 2    | Chaîne : les tubes de l'été. [J1], tu commences.                                                                                           |                |          |
-| CH-052 | 2    | Chaîne : les alcools forts (vodka, rhum…). [J1], tu commences.                                                                             |                |          |
-| CH-053 | 2    | Chaîne : ce qu'on mange à 5 h du matin en sortant de soirée. [J1], tu commences.                                                           |                |          |
-| CH-054 | 2    | Chaîne : les jeux à boire (beer pong, roi des cons…). [J1], tu commences.                                                                  |                |          |
-| CH-057 | 2    | Chaîne : les DJ de musique électronique. [J1], tu commences.                                                                               |                |          |
-| CH-011 | 3    | Chaîne : les moyens de contraception. [J1], tu commences.                                                                                  | sexe           |          |
-| CH-012 | 3    | Chaîne : les couples de téléréalité. [J1], tu commences.                                                                                   | couple         |          |
-| CH-013 | 3    | Chaîne : les endroits pour un premier date. [J1], tu commences.                                                                            | couple         |          |
-| CH-030 | 3    | Chaîne : les endroits où l'on s'endort après une soirée trop arrosée (baignoire, canapé d'un inconnu, dernier métro…). [J1], tu commences. |                |          |
-| CH-031 | 3    | Chaîne : les chansons d'amour. [J1], tu commences.                                                                                         |                |          |
-| CH-032 | 3    | Chaîne : les couples célèbres, réels ou fictifs. [J1], tu commences.                                                                       |                |          |
-| CH-033 | 3    | Chaîne : les applis de rencontre. [J1], tu commences.                                                                                      | couple         |          |
-| CH-034 | 3    | Chaîne : les marques de préservatifs. [J1], tu commences.                                                                                  | sexe           |          |
-| CH-035 | 3    | Chaîne : les surnoms amoureux ringards. [J1], tu commences.                                                                                | couple         |          |
-| CH-036 | 3    | Chaîne : les cocktails. [J1], tu commences.                                                                                                |                |          |
-| CH-051 | 3    | Chaîne : ce qui ne passe pas dans l'avion. [J1], tu commences.                                                                             |                |          |
-| CH-055 | 3    | Chaîne : les shots célèbres (B-52, Jägerbomb…). [J1], tu commences.                                                                        |                |          |
-| CH-056 | 3    | Chaîne : les morceaux de techno ou de house que tout le monde connaît. [J1], tu commences.                                                 |                |          |
-| CH-014 | 4    | Chaîne : les inégalités entre hommes et femmes (salaire, tâches ménagères…). [J1], tu commences.                                           |                |          |
-| CH-015 | 4    | Chaîne : les candidats de téléréalité. [J1], tu commences.                                                                                 |                |          |
-| CH-016 | 4    | Chaîne : les prénoms des ex des gens ici. [J1], tu commences.                                                                              | ex, avis       |          |
-| CH-037 | 4    | Chaîne : les drogues, légales ou non. [J1], tu commences.                                                                                  | transgressions |          |
-| CH-038 | 4    | Chaîne : les surnoms qu'on a déjà donnés à quelqu'un ici. [J1], tu commences.                                                              | avis           |          |
-| CH-039 | 4    | Chaîne : les boîtes où quelqu'un ici a déjà travaillé. [J1], tu commences.                                                                 |                |          |
-| CH-040 | 4    | Chaîne : les marques de luxe. [J1], tu commences.                                                                                          |                |          |
-| CH-041 | 4    | Chaîne : les jeux télévisés. [J1], tu commences.                                                                                           |                |          |
-| CH-042 | 4    | Chaîne : les trucs qu'on emporte d'une chambre d'hôtel. [J1], tu commences.                                                                | transgressions |          |
-| CH-043 | 4    | Chaîne : les gens ici qui sont déjà sortis ensemble. [J1], tu commences.                                                                   | couple, avis   |          |
-| CH-017 | 5    | Chaîne : les infections sexuellement transmissibles. [J1], tu commences.                                                                   | sexe           |          |
-| CH-018 | 5    | Chaîne : les couples de stars qui se sont séparés. [J1], tu commences.                                                                     | couple         |          |
-| CH-019 | 5    | Chaîne : les sex-toys. [J1], tu commences.                                                                                                 | sexe           |          |
-| CH-044 | 5    | Chaîne : les lieux insolites pour faire l'amour. [J1], tu commences.                                                                       | sexe           |          |
-| CH-045 | 5    | Chaîne : les gens ici avec qui tu pourrais sortir. [J1], tu commences.                                                                     | couple, avis   |          |
-| CH-046 | 5    | Chaîne : les infractions du Code de la route. [J1], tu commences.                                                                          | transgressions |          |
-| CH-047 | 5    | Chaîne : les pays où le cannabis est légal. [J1], tu commences.                                                                            |                |          |
-| CH-048 | 5    | Chaîne : les expressions d'argot pour dire faire l'amour. [J1], tu commences.                                                              | sexe           |          |
-| CH-049 | 5    | Chaîne : les endroits où quelqu'un ici a déjà embrassé quelqu'un. [J1], tu commences.                                                      | couple, avis   |          |
-| CH-050 | 5    | Chaîne : les gens ici qui se sont déjà embrassés. [J1], tu commences.                                                                      | couple, avis   |          |
+| CH-001 | 1    | [J1], tu commences. Chaîne : les pays d'Europe.                                                                                            |                |          |
+| CH-002 | 1    | [J1], tu commences. Chaîne : les marques de voiture.                                                                                       |                |          |
+| CH-003 | 1    | [J1], tu commences. Chaîne : les fruits et légumes.                                                                                        |                |          |
+| CH-004 | 1    | [J1], tu commences. Chaîne : les capitales du monde.                                                                                       |                |          |
+| CH-005 | 1    | [J1], tu commences. Chaîne : les animaux qui vivent dans l'eau.                                                                            |                |          |
+| CH-020 | 1    | [J1], tu commences. Chaîne : les sports olympiques.                                                                                        |                |          |
+| CH-021 | 1    | [J1], tu commences. Chaîne : les instruments de musique.                                                                                   |                |          |
+| CH-022 | 1    | [J1], tu commences. Chaîne : les métiers.                                                                                                  |                |          |
+| CH-023 | 1    | [J1], tu commences. Chaîne : les fromages.                                                                                                 |                |          |
+| CH-024 | 1    | [J1], tu commences. Chaîne : les desserts.                                                                                                 |                |          |
+| CH-006 | 2    | [J1], tu commences. Chaîne : les joueurs de foot.                                                                                          |                |          |
+| CH-007 | 2    | [J1], tu commences. Chaîne : les pays d'Afrique.                                                                                           |                |          |
+| CH-008 | 2    | [J1], tu commences. Chaîne : les chanteurs et chanteuses françaises.                                                                       |                |          |
+| CH-009 | 2    | [J1], tu commences. Chaîne : les marques de bière.                                                                                         |                |          |
+| CH-010 | 2    | [J1], tu commences. Chaîne : les festivals de musique en France.                                                                           |                |          |
+| CH-025 | 2    | [J1], tu commences. Chaîne : les trucs qu'on trouve au fond d'un sac ou d'une poche.                                                       |                |          |
+| CH-026 | 2    | [J1], tu commences. Chaîne : les rappeurs français.                                                                                        |                |          |
+| CH-027 | 2    | [J1], tu commences. Chaîne : les dessins animés de ton enfance.                                                                            |                |          |
+| CH-028 | 2    | [J1], tu commences. Chaîne : les émissions de téléréalité.                                                                                 |                |          |
+| CH-029 | 2    | [J1], tu commences. Chaîne : les tubes de l'été.                                                                                           |                |          |
+| CH-052 | 2    | [J1], tu commences. Chaîne : les alcools forts (vodka, rhum…).                                                                             |                |          |
+| CH-053 | 2    | [J1], tu commences. Chaîne : ce qu'on mange à 5 h du matin en sortant de soirée.                                                           |                |          |
+| CH-054 | 2    | [J1], tu commences. Chaîne : les jeux à boire (beer pong, roi des cons…).                                                                  |                |          |
+| CH-057 | 2    | [J1], tu commences. Chaîne : les DJ de musique électronique.                                                                               |                |          |
+| CH-011 | 3    | [J1], tu commences. Chaîne : les moyens de contraception.                                                                                  | sexe           |          |
+| CH-012 | 3    | [J1], tu commences. Chaîne : les couples de téléréalité.                                                                                   | couple         |          |
+| CH-013 | 3    | [J1], tu commences. Chaîne : les endroits pour un premier date.                                                                            | couple         |          |
+| CH-030 | 3    | [J1], tu commences. Chaîne : les endroits où l'on s'endort après une soirée trop arrosée (baignoire, canapé d'un inconnu, dernier métro…). |                |          |
+| CH-031 | 3    | [J1], tu commences. Chaîne : les chansons d'amour.                                                                                         |                |          |
+| CH-032 | 3    | [J1], tu commences. Chaîne : les couples célèbres, réels ou fictifs.                                                                       |                |          |
+| CH-033 | 3    | [J1], tu commences. Chaîne : les applis de rencontre.                                                                                      | couple         |          |
+| CH-034 | 3    | [J1], tu commences. Chaîne : les marques de préservatifs.                                                                                  | sexe           |          |
+| CH-035 | 3    | [J1], tu commences. Chaîne : les surnoms amoureux ringards.                                                                                | couple         |          |
+| CH-036 | 3    | [J1], tu commences. Chaîne : les cocktails.                                                                                                |                |          |
+| CH-051 | 3    | [J1], tu commences. Chaîne : ce qui ne passe pas dans l'avion.                                                                             |                |          |
+| CH-055 | 3    | [J1], tu commences. Chaîne : les shots célèbres (B-52, Jägerbomb…).                                                                        |                |          |
+| CH-056 | 3    | [J1], tu commences. Chaîne : les morceaux de techno ou de house que tout le monde connaît.                                                 |                |          |
+| CH-014 | 4    | [J1], tu commences. Chaîne : les inégalités entre hommes et femmes (salaire, tâches ménagères…).                                           |                |          |
+| CH-015 | 4    | [J1], tu commences. Chaîne : les candidats de téléréalité.                                                                                 |                |          |
+| CH-016 | 4    | [J1], tu commences. Chaîne : les prénoms des ex des gens ici.                                                                              | ex, avis       |          |
+| CH-037 | 4    | [J1], tu commences. Chaîne : les drogues, légales ou non.                                                                                  | transgressions |          |
+| CH-038 | 4    | [J1], tu commences. Chaîne : les surnoms qu'on a déjà donnés à quelqu'un ici.                                                              | avis           |          |
+| CH-039 | 4    | [J1], tu commences. Chaîne : les boîtes où quelqu'un ici a déjà travaillé.                                                                 |                |          |
+| CH-040 | 4    | [J1], tu commences. Chaîne : les marques de luxe.                                                                                          |                |          |
+| CH-041 | 4    | [J1], tu commences. Chaîne : les jeux télévisés.                                                                                           |                |          |
+| CH-042 | 4    | [J1], tu commences. Chaîne : les trucs qu'on emporte d'une chambre d'hôtel.                                                                | transgressions |          |
+| CH-043 | 4    | [J1], tu commences. Chaîne : les gens ici qui sont déjà sortis ensemble.                                                                   | couple, avis   |          |
+| CH-017 | 5    | [J1], tu commences. Chaîne : les infections sexuellement transmissibles.                                                                   | sexe           |          |
+| CH-018 | 5    | [J1], tu commences. Chaîne : les couples de stars qui se sont séparés.                                                                     | couple         |          |
+| CH-019 | 5    | [J1], tu commences. Chaîne : les sex-toys.                                                                                                 | sexe           |          |
+| CH-044 | 5    | [J1], tu commences. Chaîne : les lieux insolites pour faire l'amour.                                                                       | sexe           |          |
+| CH-045 | 5    | [J1], tu commences. Chaîne : les gens ici avec qui tu pourrais sortir.                                                                     | couple, avis   |          |
+| CH-046 | 5    | [J1], tu commences. Chaîne : les infractions du Code de la route.                                                                          | transgressions |          |
+| CH-047 | 5    | [J1], tu commences. Chaîne : les pays où le cannabis est légal.                                                                            |                |          |
+| CH-048 | 5    | [J1], tu commences. Chaîne : les expressions d'argot pour dire faire l'amour.                                                              | sexe           |          |
+| CH-049 | 5    | [J1], tu commences. Chaîne : les endroits où quelqu'un ici a déjà embrassé quelqu'un.                                                      | couple, avis   |          |
+| CH-050 | 5    | [J1], tu commences. Chaîne : les gens ici qui se sont déjà embrassés.                                                                      | couple, avis   |          |
 
 ### Dans ma valise
 
 Chacun répète la liste et ajoute un objet. Le premier qui se trompe boit.
 
-| Réf.    | Niv. | Texte                                                                                                                | Thèmes         | Remarque |
-| ------- | ---- | -------------------------------------------------------------------------------------------------------------------- | -------------- | -------- |
-| VAL-001 | 1    | Dans ma valise pour une île déserte, je mets… [J1], tu commences.                                                    |                |          |
-| VAL-002 | 1    | Dans ma valise pour la plage, je mets… [J1], tu commences.                                                           |                |          |
-| VAL-003 | 1    | Dans ma valise pour un week-end à la montagne, je mets… [J1], tu commences.                                          |                |          |
-| VAL-004 | 1    | Dans ma valise pour partir sur Mars, je mets… [J1], tu commences.                                                    |                |          |
-| VAL-010 | 1    | Dans ma valise pour un pique-nique, je mets… [J1], tu commences.                                                     |                |          |
-| VAL-011 | 1    | Dans ma valise pour une colonie de vacances, je mets… [J1], tu commences.                                            |                |          |
-| VAL-012 | 1    | Dans ma valise pour un road trip, je mets… [J1], tu commences.                                                       |                |          |
-| VAL-013 | 1    | Dans ma valise pour un festival, je mets… [J1], tu commences.                                                        |                |          |
-| VAL-014 | 1    | Dans ma valise pour une soirée pyjama, je mets… [J1], tu commences.                                                  |                |          |
-| VAL-015 | 1    | Dans ma valise pour un week-end à la campagne, je mets… [J1], tu commences.                                          |                |          |
-| VAL-005 | 2    | Dans ma valise pour un enterrement de vie de célibataire raté, je mets… [J1], tu commences.                          |                |          |
-| VAL-006 | 2    | Dans ma valise pour survivre à un repas de famille, je mets… [J1], tu commences.                                     |                |          |
-| VAL-016 | 2    | Dans ma valise pour un mariage où je ne connais personne, je mets… [J1], tu commences.                               |                |          |
-| VAL-017 | 2    | Dans ma valise pour survivre à une semaine sans wifi, je mets… [J1], tu commences.                                   |                |          |
-| VAL-018 | 2    | Dans ma valise pour un camping sous la pluie, je mets… [J1], tu commences.                                           |                |          |
-| VAL-019 | 2    | Dans ma valise pour un entretien d'embauche qui va mal se passer, je mets… [J1], tu commences.                       |                |          |
-| VAL-020 | 2    | Dans ma valise pour une semaine chez mes grands-parents, je mets… [J1], tu commences.                                |                |          |
-| VAL-021 | 2    | Dans ma valise pour une soirée déguisée de dernière minute, je mets… [J1], tu commences.                             |                |          |
-| VAL-022 | 2    | Dans ma valise pour un lendemain de soirée difficile, je mets… [J1], tu commences.                                   |                |          |
-| VAL-023 | 2    | Dans ma valise pour survivre à une invasion de zombies, je mets… [J1], tu commences.                                 |                |          |
-| VAL-054 | 2    | Dans mon sac pour trois jours de festival sous la pluie, je mets… [J1], tu commences.                                |                |          |
-| VAL-007 | 3    | Dans ma valise pour un premier date, je mets… [J1], tu commences.                                                    | couple         |          |
-| VAL-024 | 3    | Dans ma valise pour un week-end en amoureux, je mets… [J1], tu commences.                                            | couple         |          |
-| VAL-025 | 3    | Dans ma valise pour une Saint-Valentin en célibataire, je mets… [J1], tu commences.                                  | couple         |          |
-| VAL-026 | 3    | Dans ma valise pour une lune de miel ratée, je mets… [J1], tu commences.                                             | couple         |          |
-| VAL-027 | 3    | Dans ma valise pour un verre avec mon ex, je mets… [J1], tu commences.                                               | ex             |          |
-| VAL-028 | 3    | Dans ma valise pour une croisière de célibataires, je mets… [J1], tu commences.                                      | couple         |          |
-| VAL-029 | 3    | Dans ma valise pour rentrer chez moi après une soirée trop arrosée, je mets… [J1], tu commences.                     |                |          |
-| VAL-030 | 3    | Dans ma valise pour un speed dating, je mets… [J1], tu commences.                                                    | couple         |          |
-| VAL-031 | 3    | Dans ma valise pour un mariage où mon ex est invité·e, je mets… [J1], tu commences.                                  | ex             |          |
-| VAL-032 | 3    | Dans ma valise pour une nuit blanche, je mets… [J1], tu commences.                                                   |                |          |
-| VAL-051 | 3    | Dans ma banane de soirée techno, je mets… [J1], tu commences.                                                        |                |          |
-| VAL-052 | 3    | Dans mes poches pour passer le videur, je mets… [J1], tu commences.                                                  |                |          |
-| VAL-053 | 3    | Dans mon sac pour un after qui finit à midi, je mets… [J1], tu commences.                                            |                |          |
-| VAL-055 | 3    | Dans ma valise pour un week-end à Berlin sans dormir, je mets… [J1], tu commences.                                   |                |          |
-| VAL-008 | 4    | Dans ma valise pour fuir le pays après une grosse bêtise, je mets… [J1], tu commences.                               | transgressions |          |
-| VAL-033 | 4    | Dans ma valise pour un séminaire d'entreprise obligatoire, je mets… [J1], tu commences.                              |                |          |
-| VAL-034 | 4    | Dans ma valise pour une semaine de vacances avec la personne la plus pénible du groupe, je mets… [J1], tu commences. | avis           |          |
-| VAL-035 | 4    | Dans ma valise pour une téléréalité où je joue le rôle du méchant, je mets… [J1], tu commences.                      | argent         |          |
-| VAL-036 | 4    | Dans ma valise pour un procès où je suis coupable, je mets… [J1], tu commences.                                      | transgressions |          |
-| VAL-037 | 4    | Dans ma valise pour un week-end où j'ai menti à tout le monde, je mets… [J1], tu commences.                          | secrets        |          |
-| VAL-038 | 4    | Dans ma valise pour un entretien avec mon pire patron, je mets… [J1], tu commences.                                  |                |          |
-| VAL-039 | 4    | Dans ma valise pour un réveillon avec toute ma belle-famille, je mets… [J1], tu commences.                           |                |          |
-| VAL-040 | 4    | Dans ma valise pour un week-end entier où je n'ai pas le droit de mentir, je mets… [J1], tu commences.               | secrets        |          |
-| VAL-041 | 4    | Dans ma valise pour un dîner chez quelqu'un que je ne supporte pas, je mets… [J1], tu commences.                     |                |          |
-| VAL-009 | 5    | Dans ma valise pour une nuit chez un·e inconnu·e, je mets… [J1], tu commences.                                       | sexe           |          |
-| VAL-042 | 5    | Dans ma valise pour une soirée dans un club libertin, je mets… [J1], tu commences.                                   | sexe           |          |
-| VAL-043 | 5    | Dans ma valise pour une nuit en garde à vue, je mets… [J1], tu commences.                                            | transgressions |          |
-| VAL-044 | 5    | Dans ma valise pour tromper sans me faire prendre, je mets… [J1], tu commences.                                      | couple         |          |
-| VAL-045 | 5    | Dans ma valise pour un week-end avec mon ex et sa nouvelle conquête, je mets… [J1], tu commences.                    | ex             |          |
-| VAL-046 | 5    | Dans ma valise pour fuir avec la cagnotte du groupe, je mets… [J1], tu commences.                                    | argent, avis   |          |
-| VAL-047 | 5    | Dans ma valise pour un plan à trois, je mets… [J1], tu commences.                                                    | sexe           |          |
-| VAL-048 | 5    | Dans ma valise pour une soirée où j'ai juré de ne pas finir chez mon ex, je mets… [J1], tu commences.                | ex, sexe       |          |
-| VAL-049 | 5    | Dans ma valise pour cacher un secret à tout le monde ici, je mets… [J1], tu commences.                               | secrets, avis  |          |
-| VAL-050 | 5    | Dans ma valise pour rentrer chez moi au petit matin avec la tenue de la veille, je mets… [J1], tu commences.         | sexe           |          |
+| Réf.    | Niv. | Texte                                                                                                                 | Thèmes         | Remarque |
+| ------- | ---- | --------------------------------------------------------------------------------------------------------------------- | -------------- | -------- |
+| VAL-001 | 1    | [J1], tu commences : dans ma valise pour une île déserte, je mets…                                                    |                |          |
+| VAL-002 | 1    | [J1], tu commences : dans ma valise pour la plage, je mets…                                                           |                |          |
+| VAL-003 | 1    | [J1], tu commences : dans ma valise pour un week-end à la montagne, je mets…                                          |                |          |
+| VAL-004 | 1    | [J1], tu commences : dans ma valise pour partir sur Mars, je mets…                                                    |                |          |
+| VAL-010 | 1    | [J1], tu commences : dans ma valise pour un pique-nique, je mets…                                                     |                |          |
+| VAL-011 | 1    | [J1], tu commences : dans ma valise pour une colonie de vacances, je mets…                                            |                |          |
+| VAL-012 | 1    | [J1], tu commences : dans ma valise pour un road trip, je mets…                                                       |                |          |
+| VAL-013 | 1    | [J1], tu commences : dans ma valise pour un festival, je mets…                                                        |                |          |
+| VAL-014 | 1    | [J1], tu commences : dans ma valise pour une soirée pyjama, je mets…                                                  |                |          |
+| VAL-015 | 1    | [J1], tu commences : dans ma valise pour un week-end à la campagne, je mets…                                          |                |          |
+| VAL-005 | 2    | [J1], tu commences : dans ma valise pour un enterrement de vie de célibataire raté, je mets…                          |                |          |
+| VAL-006 | 2    | [J1], tu commences : dans ma valise pour survivre à un repas de famille, je mets…                                     |                |          |
+| VAL-016 | 2    | [J1], tu commences : dans ma valise pour un mariage où je ne connais personne, je mets…                               |                |          |
+| VAL-017 | 2    | [J1], tu commences : dans ma valise pour survivre à une semaine sans wifi, je mets…                                   |                |          |
+| VAL-018 | 2    | [J1], tu commences : dans ma valise pour un camping sous la pluie, je mets…                                           |                |          |
+| VAL-019 | 2    | [J1], tu commences : dans ma valise pour un entretien d'embauche qui va mal se passer, je mets…                       |                |          |
+| VAL-020 | 2    | [J1], tu commences : dans ma valise pour une semaine chez mes grands-parents, je mets…                                |                |          |
+| VAL-021 | 2    | [J1], tu commences : dans ma valise pour une soirée déguisée de dernière minute, je mets…                             |                |          |
+| VAL-022 | 2    | [J1], tu commences : dans ma valise pour un lendemain de soirée difficile, je mets…                                   |                |          |
+| VAL-023 | 2    | [J1], tu commences : dans ma valise pour survivre à une invasion de zombies, je mets…                                 |                |          |
+| VAL-054 | 2    | [J1], tu commences : dans mon sac pour trois jours de festival sous la pluie, je mets…                                |                |          |
+| VAL-007 | 3    | [J1], tu commences : dans ma valise pour un premier date, je mets…                                                    | couple         |          |
+| VAL-024 | 3    | [J1], tu commences : dans ma valise pour un week-end en amoureux, je mets…                                            | couple         |          |
+| VAL-025 | 3    | [J1], tu commences : dans ma valise pour une Saint-Valentin en célibataire, je mets…                                  | couple         |          |
+| VAL-026 | 3    | [J1], tu commences : dans ma valise pour une lune de miel ratée, je mets…                                             | couple         |          |
+| VAL-027 | 3    | [J1], tu commences : dans ma valise pour un verre avec mon ex, je mets…                                               | ex             |          |
+| VAL-028 | 3    | [J1], tu commences : dans ma valise pour une croisière de célibataires, je mets…                                      | couple         |          |
+| VAL-029 | 3    | [J1], tu commences : dans ma valise pour rentrer chez moi après une soirée trop arrosée, je mets…                     |                |          |
+| VAL-030 | 3    | [J1], tu commences : dans ma valise pour un speed dating, je mets…                                                    | couple         |          |
+| VAL-031 | 3    | [J1], tu commences : dans ma valise pour un mariage où mon ex est invité·e, je mets…                                  | ex             |          |
+| VAL-032 | 3    | [J1], tu commences : dans ma valise pour une nuit blanche, je mets…                                                   |                |          |
+| VAL-051 | 3    | [J1], tu commences : dans ma banane de soirée techno, je mets…                                                        |                |          |
+| VAL-052 | 3    | [J1], tu commences : dans mes poches pour passer le videur, je mets…                                                  |                |          |
+| VAL-053 | 3    | [J1], tu commences : dans mon sac pour un after qui finit à midi, je mets…                                            |                |          |
+| VAL-055 | 3    | [J1], tu commences : dans ma valise pour un week-end à Berlin sans dormir, je mets…                                   |                |          |
+| VAL-008 | 4    | [J1], tu commences : dans ma valise pour fuir le pays après une grosse bêtise, je mets…                               | transgressions |          |
+| VAL-033 | 4    | [J1], tu commences : dans ma valise pour un séminaire d'entreprise obligatoire, je mets…                              |                |          |
+| VAL-034 | 4    | [J1], tu commences : dans ma valise pour une semaine de vacances avec la personne la plus pénible du groupe, je mets… | avis           |          |
+| VAL-035 | 4    | [J1], tu commences : dans ma valise pour une téléréalité où je joue le rôle du méchant, je mets…                      | argent         |          |
+| VAL-036 | 4    | [J1], tu commences : dans ma valise pour un procès où je suis coupable, je mets…                                      | transgressions |          |
+| VAL-037 | 4    | [J1], tu commences : dans ma valise pour un week-end où j'ai menti à tout le monde, je mets…                          | secrets        |          |
+| VAL-038 | 4    | [J1], tu commences : dans ma valise pour un entretien avec mon pire patron, je mets…                                  |                |          |
+| VAL-039 | 4    | [J1], tu commences : dans ma valise pour un réveillon avec toute ma belle-famille, je mets…                           |                |          |
+| VAL-040 | 4    | [J1], tu commences : dans ma valise pour un week-end entier où je n'ai pas le droit de mentir, je mets…               | secrets        |          |
+| VAL-041 | 4    | [J1], tu commences : dans ma valise pour un dîner chez quelqu'un que je ne supporte pas, je mets…                     |                |          |
+| VAL-009 | 5    | [J1], tu commences : dans ma valise pour une nuit chez un·e inconnu·e, je mets…                                       | sexe           |          |
+| VAL-042 | 5    | [J1], tu commences : dans ma valise pour une soirée dans un club libertin, je mets…                                   | sexe           |          |
+| VAL-043 | 5    | [J1], tu commences : dans ma valise pour une nuit en garde à vue, je mets…                                            | transgressions |          |
+| VAL-044 | 5    | [J1], tu commences : dans ma valise pour tromper sans me faire prendre, je mets…                                      | couple         |          |
+| VAL-045 | 5    | [J1], tu commences : dans ma valise pour un week-end avec mon ex et sa nouvelle conquête, je mets…                    | ex             |          |
+| VAL-046 | 5    | [J1], tu commences : dans ma valise pour fuir avec la cagnotte du groupe, je mets…                                    | argent, avis   |          |
+| VAL-047 | 5    | [J1], tu commences : dans ma valise pour un plan à trois, je mets…                                                    | sexe           |          |
+| VAL-048 | 5    | [J1], tu commences : dans ma valise pour une soirée où j'ai juré de ne pas finir chez mon ex, je mets…                | ex, sexe       |          |
+| VAL-049 | 5    | [J1], tu commences : dans ma valise pour cacher un secret à tout le monde ici, je mets…                               | secrets, avis  |          |
+| VAL-050 | 5    | [J1], tu commences : dans ma valise pour rentrer chez moi au petit matin avec la tenue de la veille, je mets…         | sexe           |          |
 
 ### Montre ou bois
 

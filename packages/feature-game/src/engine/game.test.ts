@@ -2,10 +2,12 @@ import { describe, expect, it } from "vitest";
 import type { Card, Level, MiniGame } from "@zbeul/core";
 import { deck } from "../cards";
 import {
+  cardCount,
+  choose,
   DEFAULT_SETTINGS,
   levelCap,
   nextTurn,
-  pendingAnswer,
+  missedAnswer,
   play,
   randomTeams,
   ranking,
@@ -246,6 +248,13 @@ describe("levels", () => {
         counts.get((level - 1) as Level)!,
       );
     }
+    // The game's level is about half of the cards (16 in 31), and the level
+    // below about a quarter.
+    const share = (level: Level) => counts.get(level)! / levels.length;
+    expect(share(5)).toBeGreaterThan(0.42);
+    expect(share(5)).toBeLessThan(0.6);
+    expect(share(4)).toBeGreaterThan(0.18);
+    expect(share(1)).toBeLessThan(0.08);
   });
 
   it("never goes past the game's level", () => {
@@ -253,16 +262,23 @@ describe("levels", () => {
     expect(Math.max(...cardsOf(state).map((card) => card.level))).toBe(2);
   });
 
-  it("climbs one level at a time under pressure", () => {
+  it("climbs one level at a time under pressure, and is there at half-time", () => {
     const settings = settingsWith({ level: 5, pressure: true, duration: 50 });
     expect(
-      [0, 9, 10, 25, 40, 49].map((turn) => levelCap(settings, turn)),
-    ).toEqual([1, 1, 2, 3, 5, 5]);
+      [0, 6, 7, 13, 19, 24, 25, 49].map((turn) => levelCap(settings, turn)),
+    ).toEqual([1, 1, 2, 3, 4, 4, 5, 5]);
+    // 30 cards at Border: the second half is played at Border.
+    const short = settingsWith({ level: 5, pressure: true, duration: 30 });
+    expect(levelCap(short, 14)).toBe(4);
+    expect(levelCap(short, 15)).toBe(5);
+    expect(levelCap(settingsWith({ level: 1, pressure: true }), 0)).toBe(1);
     const cards = cardsOf(playThrough(settings, somePlayers(6)));
     cards.forEach((card, turn) => {
       expect(card.level).toBeLessThanOrEqual(levelCap(settings, turn));
     });
-    expect(cards.slice(40).some((card) => card.level === 5)).toBe(true);
+    expect(
+      cards.slice(25).filter((card) => card.level === 5).length,
+    ).toBeGreaterThan(6);
   });
 
   it("keeps group cards within the most careful player's ceiling", () => {
@@ -316,7 +332,7 @@ describe("levels", () => {
 });
 
 describe("cards with their own rules", () => {
-  it("names four players for a quiz and shows the answer on the next card", () => {
+  it("names four players for a quiz, then shows its answer before the next card", () => {
     const context = contextFor(3);
     let state = startGame(
       {
@@ -327,45 +343,175 @@ describe("cards with their own rules", () => {
       context,
     );
     while (deck.byId.get(state.turns.at(-1)!.cardId)!.game !== "culture-g") {
-      expect(pendingAnswer(state, deck)).toBeNull();
       state = play(state, "next", context);
     }
     const quiz = state.turns.at(-1)!;
+    const played = state.turns.length;
     expect(new Set(quiz.players).size).toBe(4);
-    expect(pendingAnswer(state, deck)).toBeNull();
+    expect(quiz.revealed).toBeUndefined();
+    // Ended now, nobody saw the answer: the end screen shows it.
+    expect(missedAnswer(state, deck)?.id).toBe(quiz.cardId);
 
-    state = play(state, "won", context);
+    state = play(state, "next", context);
+    // The same card, with its answer: not one more card.
+    expect(state.turns).toHaveLength(played);
+    expect(state.turns.at(-1)).toMatchObject({
+      cardId: quiz.cardId,
+      revealed: true,
+    });
+    expect(missedAnswer(state, deck)).toBeNull();
 
-    expect(pendingAnswer(state, deck)?.id).toBe(quiz.cardId);
-    expect(Object.values(state.scores).every((score) => score.won === 0)).toBe(
-      true,
-    );
+    // On the answer, the group says who was closest and who was farthest.
+    const [closest, farthest] = quiz.players;
+    state = play(state, "next", context, {
+      [closest!]: quiz.stake,
+      [farthest!]: -quiz.stake,
+    });
+    expect(state.turns).toHaveLength(played + 1);
+    expect(state.scores[closest!]).toEqual({ won: quiz.stake, lost: 0 });
+    expect(state.scores[farthest!]).toEqual({ won: 0, lost: quiz.stake });
   });
 
-  it("only counts Gagné and Perdu for the player the card judges", () => {
+  it("counts Gagné and Perdu for the player the card judges", () => {
     const context = contextFor(5);
-    const settings = settingsWith({ games: ["montre-ou-bois"], duration: 3 });
+    const settings = settingsWith({ games: ["montre-ou-bois"], duration: 2 });
     let state = startGame(
       { id: "game", settings, players: somePlayers(3) },
       context,
     );
-    const [first, second, third] = [0, 1, 2].map(() => {
-      const turn = state.turns.at(-1)!;
-      const outcome = (["won", "lost", "joker"] as const)[
-        state.turns.length - 1
-      ]!;
-      state = play(state, outcome, context);
-      return { player: turn.players[0]!, stake: turn.stake };
-    });
+    const first = state.turns.at(-1)!;
+    state = play(state, "won", context);
+    const second = state.turns.at(-1)!;
+    state = play(state, "lost", context);
     expect(state.finished).toBe(true);
-    expect(state.scores[first!.player]!.won).toBe(first!.stake);
-    expect(state.scores[second!.player]!.lost).toBe(second!.stake);
-    expect(state.scores[third!.player]!.lost).toBe(third!.stake);
+    expect(state.scores[first.players[0]!]!.won).toBe(first.stake);
+    expect(state.scores[second.players[0]!]!.lost).toBe(second.stake);
     const total = Object.values(state.scores).reduce(
       (sum, score) => sum + score.won + score.lost,
       0,
     );
-    expect(total).toBe(first!.stake + second!.stake + third!.stake);
+    expect(total).toBe(first.stake + second.stake);
+  });
+
+  it("replaces a card refused with a joker, once, for the same player", () => {
+    const context = contextFor(5);
+    const settings = settingsWith({ games: ["montre-ou-bois"], duration: 2 });
+    let state = startGame(
+      { id: "game", settings, players: somePlayers(3) },
+      context,
+    );
+    const refused = state.turns.at(-1)!;
+    const player = refused.players[0]!;
+
+    state = play(state, "joker", context);
+    const replacement = state.turns.at(-1)!;
+    // The joker costs the stake, and another card comes for the same player.
+    expect(state.scores[player]).toEqual({ won: 0, lost: refused.stake });
+    expect(replacement).toMatchObject({
+      replacement: true,
+      stake: refused.stake,
+    });
+    expect(replacement.players[0]).toBe(player);
+    expect(replacement.cardId).not.toBe(refused.cardId);
+    expect(deck.byId.get(replacement.cardId)!.game).toBe("montre-ou-bois");
+    // It isn't one more card of the game.
+    expect(cardCount(state)).toBe(1);
+
+    // No joker on a replacement: it counts as lost, and the game moves on.
+    state = play(state, "joker", context);
+    expect(state.scores[player]!.lost).toBe(refused.stake * 2);
+    expect(state.turns.at(-1)!.replacement).toBeUndefined();
+    expect(cardCount(state)).toBe(2);
+    state = play(state, "won", context);
+    expect(state.finished).toBe(true);
+  });
+
+  it("counts what the group says of a group card or a duel, in points", () => {
+    const context = contextFor(2);
+    let state = startGame(
+      {
+        id: "game",
+        settings: settingsWith({ games: ["duel", "tout-le-monde"] }),
+        players: somePlayers(4),
+      },
+      context,
+    );
+    const turn = state.turns.at(-1)!;
+    state = play(state, "next", context, { Ada: -turn.stake, Bob: 0 });
+    expect(state.turns[0]!.deltas).toEqual({ Ada: -turn.stake });
+    expect(state.scores.Ada).toEqual({ won: 0, lost: turn.stake });
+    expect(state.scores.Bob).toEqual({ won: 0, lost: 0 });
+    expect(state.turns).toHaveLength(2);
+  });
+
+  it("keeps no score with sips: every card only has Carte suivante", () => {
+    const context = contextFor(4);
+    const settings = settingsWith({
+      sips: true,
+      games: ["montre-ou-bois", "sentence", "duel"],
+      duration: 12,
+    });
+    let state = startGame(
+      { id: "game", settings, players: somePlayers(4) },
+      context,
+    );
+    while (!state.finished) {
+      const turn = state.turns.at(-1)!;
+      expect(turn.outcome).toBeUndefined();
+      // Whatever is pressed, and whoever is named, nothing is counted.
+      state = play(state, "joker", context, { Ada: -3 });
+      expect(turn.replacement).toBeUndefined();
+    }
+    expect(state.turns).toHaveLength(12);
+    expect(ranking(state).every((row) => row.won + row.lost === 0)).toBe(true);
+  });
+
+  it("shows the question of an action ou vérité, then the half chosen", () => {
+    const players = somePlayers(2);
+    const turn = { cardId: "AV-001", players: ["Ada"], stake: 2 };
+    const card = deck.byId.get("AV-001")!;
+    const say = (choice?: "action" | "verite", whole = false) =>
+      segmentsText(
+        cardSegments(card, { ...turn, choice }, players, true, whole),
+      );
+    expect(say()).toBe("Ada, action ou vérité ?");
+    expect(say("action")).toMatch(/^Ada, action : raconte/);
+    expect(say("action")).not.toMatch(/Vérité/i);
+    expect(say("verite")).toMatch(/^Ada, vérité : t'es-tu déjà/);
+    // Outside a game (favourites, admin), the whole card.
+    expect(say(undefined, true)).toMatch(/action : .* Vérité : /);
+
+    const context = contextFor(1);
+    const state = startGame(
+      {
+        id: "game",
+        settings: settingsWith({ games: ["action-verite"] }),
+        players,
+      },
+      context,
+    );
+    const chosen = choose(state, "verite", 5);
+    expect(chosen.turns.at(-1)!.choice).toBe("verite");
+    // The choice is made once.
+    expect(choose(chosen, "action", 6)).toBe(chosen);
+  });
+
+  it("shows again the card stepped back from, instead of drawing one", () => {
+    const settings = settingsWith({ games: ["duel", "sentence", "tribunal"] });
+    const first = startGame(
+      { id: "game", settings, players: somePlayers(5) },
+      contextFor(8),
+    );
+    const { cardId, players, stake } = play(first, "next", contextFor(8))
+      .turns[1]!;
+    for (const seed of [20, 21, 22]) {
+      // Whatever the dice say now, the same card comes for the same players.
+      const again = play(first, "next", {
+        ...contextFor(seed),
+        redo: { cardId, players, stake },
+      });
+      expect(again.turns[1]).toMatchObject({ cardId, players, stake });
+    }
   });
 
   it("leaves the score alone for a duel or a group card", () => {
@@ -458,6 +604,9 @@ describe("cards with their own rules", () => {
       context,
     );
     const seen: number[] = [];
+    let ended = 0;
+    const announced: string[][] = [];
+    const expectedOver: string[][] = [];
     const newRules: unknown[] = [];
     const expected: unknown[] = [];
     while (!state.finished) {
@@ -469,8 +618,20 @@ describe("cards with their own rules", () => {
       }
       seen.push(...state.rules.map((rule) => rule.remaining));
       expect(state.rules.length).toBeLessThanOrEqual(3);
+      const before = state.rules;
       state = play(state, "next", context);
+      // A rule on its last card is announced as over on the next one.
+      const over = before
+        .filter((rule) => rule.remaining === 1)
+        .map((rule) => rule.playerId);
+      announced.push(
+        state.finished ? over : (state.turns.at(-1)!.endedRules ?? []),
+      );
+      expectedOver.push(over);
+      ended += over.length;
     }
+    expect(announced).toEqual(expectedOver);
+    expect(ended).toBeGreaterThan(0);
     expect(newRules.length).toBeGreaterThan(3);
     expect(newRules).toEqual(expected);
     expect(Math.min(...seen)).toBe(1);

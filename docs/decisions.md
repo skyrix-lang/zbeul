@@ -181,9 +181,19 @@ break the second, and any server state the first. Zustand because it was
 already the recorded choice for client state, has no dependency, and its
 `persist` middleware has the `version` and `migrate` options that "a game
 saved by an older version stays playable" needs.
-**Cost:** a card changes with a release, not from the admin.
-**Revisit when:** the admin edits cards: serve the published deck from the API
-and let the service worker cache it, with the bundled deck as the fallback.
+**Since then:** the admin edits cards, so the database is the deck's source of
+truth. The game still runs on the phone only: the home screen fetches the
+published deck (`GET /api/deck`), checks it and keeps it in `localStorage`,
+and the bundled deck is the fallback before the first one arrives. A deck is
+never swapped in during a game (`docs/specs/admin-cards.md`).
+**Since then (2):** a thumb up on a card sends an anonymous like
+(`POST /api/likes`), so the admin learns which cards work. It is a count per
+card and nothing else; like a report, it carries nothing about the players or
+the game, and waits on the phone until the game is paused or over. The privacy
+page says so (`docs/specs/play-feedback.md`).
+**Cost:** the bundled deck and `specs/cartes-mvp.md` drift from the database
+as the admin works; they are only what a first visit without a connection
+plays.
 
 ## Game pages are public, without an account
 
@@ -239,3 +249,27 @@ nginx-proxy and Let's Encrypt, and needs neither a registry nor git access on
 the server.
 **Revisit when:** builds get slow or there is more than one server: build in
 CI and pull the signed image instead.
+
+## The game screen names players to tap, in points mode only
+
+The first version had no player picker on the game screen: "Gagné", "Perdu",
+"Joker" and "Carte suivante" at most, and cards for the whole group left the
+score alone. The first players asked for the opposite on both sides
+(`docs/specs/play-feedback.md`): with sips, only "Carte suivante", and no
+score at all; with points, the names of the players to tap on every card the
+group judges.
+**Why:** with sips the buttons implied a score nobody read; with points a
+ranking that ignored half of the cards meant nothing.
+**Cost:** one more row on a landscape phone in points mode. Tapping nobody is
+always allowed, so the game never waits for a score.
+
+## Stepping back keeps the game before each tap
+
+The store keeps what the game was before each of the last 20 taps (scores,
+rules, the last turn: not the whole game) and restores it on "back";
+the cards stepped back from are shown again in order instead of being redrawn
+(`packages/feature-game/src/store.ts`).
+**Why:** undoing by reversing each rule (scores, active rules, partners,
+placed cards) would be a second engine to keep right. A snapshot can't be
+wrong.
+**Cost:** a few kilobytes more in `localStorage`.

@@ -1,21 +1,32 @@
+import type { Card } from "@zbeul/core";
 import { cn } from "@zbeul/ui";
-import { deck } from "../cards";
-import { previewSegments } from "../engine/text";
+import { previewSegments, previewStakeLine } from "../engine/text";
 import { CardText, FamilyBadge, levelClass } from "./game-card";
 
 /**
- * A card from its reference, with made-up names: what the admin sees next to
- * a report. Nothing when the reference isn't in the deck.
+ * A card as players see it, with made-up names: what the admin sees next to a
+ * report, and while writing a card. With a `stake`, the stake line too.
  */
-export function CardPreview({ cardId }: { cardId: string }) {
-  const card = deck.byId.get(cardId);
-  if (!card) return null;
+export function CardPreview({
+  card,
+  sips = true,
+  stake,
+}: {
+  card: Card;
+  sips?: boolean;
+  stake?: number;
+}) {
   return (
     <div className={cn("rounded-2xl p-4", levelClass(card.level))}>
       <FamilyBadge card={card} />
       <p className="font-display mt-2 leading-snug font-bold">
-        <CardText segments={previewSegments(card)} level={card.level} />
+        <CardText segments={previewSegments(card, sips)} level={card.level} />
       </p>
+      {stake !== undefined && (
+        <p className="font-display mt-3 text-sm font-extrabold">
+          {previewStakeLine(card, stake, sips)}
+        </p>
+      )}
     </div>
   );
 }
