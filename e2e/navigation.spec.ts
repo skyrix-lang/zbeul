@@ -56,6 +56,83 @@ test.describe("home page", () => {
       await expect(page).toHaveURL("/");
     }
   });
+
+  test("a screen opened from the settings goes back to the settings", async ({
+    page,
+  }) => {
+    await asReturningPlayer(page);
+    for (const link of [
+      "Signaler un problème",
+      "Installer l'appli",
+      "Mentions légales",
+    ]) {
+      await page.goto("/");
+      await page.getByRole("link", { name: "Réglages" }).click();
+      await page.getByRole("link", { name: link }).click();
+      await expect(
+        page.getByRole("heading", { name: link, level: 1 }),
+      ).toBeVisible();
+      await page.getByRole("link", { name: "Retour" }).click();
+      await expect(page).toHaveURL("/reglages");
+    }
+
+    // From one legal page to another, "Retour" still leaves them in one tap.
+    await page.getByRole("link", { name: "Mentions légales" }).click();
+    await page.getByRole("link", { name: "Confidentialité" }).click();
+    await expect(page).toHaveURL("/confidentialite");
+    await page.getByRole("link", { name: "Retour" }).click();
+    await expect(page).toHaveURL("/reglages");
+  });
+
+  test("the install steps read as sentences, without stray spaces", async ({
+    page,
+  }) => {
+    await asReturningPlayer(page);
+    await page.goto("/installer");
+
+    const steps = page.getByRole("listitem");
+    await expect(steps.first()).toHaveText(
+      "Touche Partager, en bas de l'écran",
+    );
+    // The bold words sit in the sentence: no gap is laid out around them.
+    const gaps = await steps.first().evaluate((step) => {
+      const bold = step.querySelector("strong")!;
+      return getComputedStyle(bold.parentElement!).columnGap;
+    });
+    expect(gaps).toBe("normal");
+  });
+
+  test("the setup's options show that they open", async ({ page }) => {
+    await asReturningPlayer(page);
+    await page.goto("/jouer");
+
+    const games = page.locator("details").filter({ hasText: "Mini-jeux" });
+    await expect(games.locator("summary")).toContainText("Modifier");
+    await games.locator("summary").click();
+    await expect(games.locator("summary")).toContainText("Fermer");
+    await expect(page.getByRole("checkbox", { name: "Duel" })).toBeVisible();
+  });
+
+  test("the setup has nothing below its footer to drag into view", async ({
+    page,
+  }) => {
+    await asReturningPlayer(page);
+    await page.goto("/jouer");
+    await expect(
+      page.getByRole("button", { name: "C'est parti" }),
+    ).toBeVisible();
+
+    // Neither the page nor the screen's frame is taller than the screen:
+    // only the content above the footer scrolls.
+    const overflow = await page.evaluate(() => {
+      const frame = document.querySelector("main")!.closest(".fixed")!;
+      return {
+        page: document.documentElement.scrollHeight - window.innerHeight,
+        frame: frame.scrollHeight - frame.clientHeight,
+      };
+    });
+    expect(overflow).toEqual({ page: 0, frame: 0 });
+  });
 });
 
 test.describe("the signed-in pages' header", () => {

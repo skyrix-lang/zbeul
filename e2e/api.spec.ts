@@ -253,6 +253,7 @@ test("the API document lists every route", async ({ request }) => {
     "/api/bookings/{id}",
     "/api/deck",
     "/api/health",
+    "/api/likes",
     "/api/me",
     "/api/reports",
   ]);

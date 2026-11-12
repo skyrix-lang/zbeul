@@ -308,7 +308,13 @@ export async function asReturningPlayer(
   }: {
     prefs?: Record<string, unknown>;
     /** Starts a game in progress with these cards already drawn. */
-    turns?: { cardId: string; players: string[]; stake: number }[];
+    turns?: {
+      cardId: string;
+      players: string[];
+      stake: number;
+      revealed?: true;
+      choice?: "action" | "verite";
+    }[];
     game?: Record<string, unknown>;
     /** A deck already received from the server, with its packs. */
     deck?: { version: string; packs: object[]; cards: object[] };
@@ -326,6 +332,7 @@ export async function asReturningPlayer(
       alcoholWarned: false,
       rotateHintClosed: false,
       pendingReports: [],
+      pendingLikes: [],
       ...prefs,
       settings,
       players,
@@ -352,8 +359,10 @@ export async function asReturningPlayer(
         nextPauseAt: 999,
         ...game,
       },
+      past: [],
+      redo: [],
     },
-    version: 1,
+    version: 3,
   };
   await page.addInitScript(
     ([prefsKey, gameKey, prefsValue, gameValue, deckValue]) => {

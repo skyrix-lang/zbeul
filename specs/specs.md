@@ -105,17 +105,17 @@ Chaque carte appartient à **un mini-jeu** et à **un niveau**. Les cartes sont 
 
 La partie a un **niveau plafond**, et chaque joueur a **son propre plafond**. Une carte ne vise jamais un joueur dont le plafond est inférieur au niveau de la carte, et une carte collective ne dépasse jamais le plus petit plafond des joueurs présents (voir §4).
 
-**Le niveau choisi domine la partie** : les cartes sont tirées dans tous les niveaux jusqu'au plafond, mais plus un niveau est proche du plafond, plus ses cartes sont fréquentes. Chaque niveau a un poids égal à son numéro :
+**Le niveau choisi domine la partie** : les cartes sont tirées dans tous les niveaux jusqu'au plafond, mais plus un niveau est proche du plafond, plus ses cartes sont fréquentes. Le poids d'un niveau double à chaque cran (1, 2, 4, 8, 16), pour que le niveau choisi fasse environ la moitié des cartes (retours des premiers joueurs, `docs/specs/play-feedback.md`) :
 
 | Plafond de la partie  | Niv. 1 | Niv. 2 | Niv. 3 | Niv. 4 | Niv. 5 |
 | --------------------- | ------ | ------ | ------ | ------ | ------ |
-| 5 · Border            | 7 %    | 13 %   | 20 %   | 27 %   | 33 %   |
-| 4 · Sans filtre       | 10 %   | 20 %   | 30 %   | 40 %   | —      |
-| 3 · Piquant           | 17 %   | 33 %   | 50 %   | —      | —      |
+| 5 · Border            | 3 %    | 6 %    | 13 %   | 26 %   | 52 %   |
+| 4 · Sans filtre       | 7 %    | 13 %   | 27 %   | 53 %   | —      |
+| 3 · Piquant           | 14 %   | 29 %   | 57 %   | —      | —      |
 | 2 · Festif            | 33 %   | 67 %   | —      | —      | —      |
 | 1 · Apéro entre potes | 100 %  | —      | —      | —      | —      |
 
-- avec la **montée en pression**, la même répartition s'applique au niveau atteint à ce moment de la partie ;
+- avec la **montée en pression**, la partie monte d'un cran à intervalles réguliers et atteint son niveau **à la moitié de la partie** ; la même répartition s'applique au niveau atteint à ce moment ;
 - les cartes collectives limitées par un joueur au profil plus bas réduisent un peu cette répartition : c'est voulu, le confort de chacun passe avant le niveau.
   | Niv. | Nom | Ton | Exemples | |---|---|---|---|
   | 1 | **Apéro entre potes** | Facile, brise-glace | « Quel est ton super pouvoir ? Montre-le ; si tu ne peux pas, bois. », Dans ma valise, culture G |
@@ -155,7 +155,7 @@ Le niveau **Border** nécessite une **confirmation globale unique** à son activ
 - aucune mise en danger (conduite, ingestion de produits, défis physiques risqués) ;
 - aucune incitation à filmer, photographier ou diffuser qui que ce soit ;
 - **aucune carte basée sur le téléphone des joueurs** : pas d'appel ni de message à un contact, pas de dernière photo, dernier message ou dernière recherche à montrer, pas de consultation des abonnements ou abonnés sur les réseaux sociaux ;
-- **joker** disponible à tout moment, sans justification : le joueur boit X gorgées (ou perd X points) et passe.
+- **joker** (mode points) sans justification : le joueur perd X points et reçoit une autre carte du même mini-jeu, sans joker cette fois. En mode gorgées il n'y a pas de bouton : on passe à la carte suivante.
 
 ## 6. Thèmes de contenu (exclusions)
 
@@ -177,11 +177,17 @@ Dans les options avancées de chaque joueur, ou pour toute la partie, on peut ex
 3. **Configuration** (§3).
 4. **Tour de jeu** :
    - carte **en plein écran, en mode paysage** (voir §12) : famille de mini-jeu, couleur du niveau, prénoms des joueurs **surlignés** (voir §13), **enjeu affiché** (« Les perdants boivent X gorgées » ou « Les perdants perdent X points », X calculé par le jeu) ;
-   - **actions minimales** : uniquement des boutons « Gagné » / « Perdu » quand un seul joueur ou une seule équipe est visé, « Joker », et « Carte suivante ». Pour le Duel et les cartes collectives, la carte affiche simplement « Le perdant boit X gorgées » ou « Les perdants boivent X gorgées ». Aucune sélection de joueurs, aucune saisie de nombre ni de phrase : tout se dit à voix haute ;
-   - bandeau permanent : règles actives et partenaires de boisson ;
-   - en mode points, « Gagné » / « Perdu » met à jour le score du joueur ou de l'équipe visé par la carte ; les cartes collectives ne modifient pas les scores ;
-   - bouton discret « Signaler cette carte ».
-5. **Fin** : classement (joueurs ou équipes), meilleures cartes à ajouter aux favoris, « Rejouer ».
+   - **actions minimales** (révisées après les premiers retours, `docs/specs/play-feedback.md`) :
+     - **mode gorgées** : uniquement « Carte suivante ». La carte dit qui boit ; rien n'est compté ;
+     - **mode points** : « Gagné » / « Perdu » / « Joker » quand un seul joueur est visé ; pour une carte collective, un duel ou une culture G, les prénoms s'affichent et on touche ceux qui perdent (ou gagnent) ; ne toucher personne est permis ;
+     - **Action ou vérité** : le joueur choisit d'abord, la moitié choisie s'affiche ensuite ;
+     - **Culture G** : la réponse a sa propre carte, avec la question, l'enjeu et la source ;
+     - aucune saisie de nombre ni de phrase : tout se dit à voix haute ;
+   - bandeau permanent : règles actives et partenaires de boisson ; une règle qui se termine est annoncée ;
+   - **retour en arrière** : un bouton revient à la carte précédente (score compris), jusqu'à 20 appuis ;
+   - **pouce levé / pouce baissé** sur chaque carte : le pouce levé garde la carte en favori et envoie un « j'aime » anonyme ; le pouce baissé ouvre les raisons à cocher (nulle ou ennuyeuse, trop longue, trop dure, à modifier) et un message facultatif. Un second appui annule ;
+   - la croix propose : continuer, **mettre en pause** (retour à l'accueil) ou terminer.
+5. **Fin** : classement (joueurs ou équipes) en mode points seulement, pouce levé sur les meilleures cartes, « Rejouer ».
    **Tirage des cartes** :
 
 - seules sont tirées les cartes : des mini-jeux cochés, d'un niveau compatible avec la partie et avec les joueurs visés (pour une carte collective : avec tous les joueurs présents), hors thèmes exclus, jouables avec le nombre de joueurs présents ;
@@ -384,7 +390,7 @@ Légères, rapides, jamais bloquantes : elles rendent l'appli vivante et plus pr
   - deux liens discrets en bas : **« Favoris »** et **« Réglages »** ;
 - tout le secondaire est rangé dans **Réglages** : langue, thème, effacement des données, « Signaler un problème », pages légales, version de l'app ;
 - chaque écran secondaire a un simple bouton « Retour » ; le geste retour du téléphone fonctionne partout ;
-- le seul signalement accessible hors Réglages est le bouton discret « Signaler cette carte » sur l'écran de jeu.
+- le seul signalement accessible hors Réglages est le pouce baissé sur l'écran de jeu.
   | Écran | Rôle | Accès | |---|---|---|
   | Porte d'âge | Confirmation de majorité | Première visite |
   | Accueil | Jouer, reprendre, installer | Point d'entrée |

@@ -66,9 +66,18 @@ test.describe("offline", () => {
     await page.getByRole("button", { name: "C'est parti" }).click();
     for (let card = 1; card <= 30; card++) {
       await expect(page.getByText(`Carte ${card} / 30`)).toBeVisible();
-      await page
-        .getByRole("button", { name: /^(Carte suivante|Gagné)$/ })
-        .click();
+      // A quiz shows its answer, and an action ou vérité the half chosen,
+      // before the button that moves on.
+      const button = page.getByRole("button", {
+        name: /^(Carte suivante|Gagné|Voir la réponse|Action)$/,
+      });
+      const step = await button.textContent();
+      await button.click();
+      if (step === "Voir la réponse" || step === "Action") {
+        await page
+          .getByRole("button", { name: /^(Carte suivante|Gagné)$/ })
+          .click();
+      }
     }
 
     await expect(page).toHaveURL("/fin");

@@ -206,6 +206,47 @@ test("reads a player's report, with its card, and files it", async ({
   await expect(report).toHaveCount(0);
 });
 
+test("shows what players ticked, and how often a card was liked or reported", async ({
+  page,
+  request,
+}) => {
+  // VAL-054 is this test's own card: no other test likes or reports it.
+  const message = `E2E ${crypto.randomUUID()}`;
+  const report = await request.post("/api/reports", {
+    data: { cardId: "VAL-054", message, reasons: ["too-long", "to-fix"] },
+  });
+  expect(report.status()).toBe(204);
+  // A reference that isn't a card is ignored, not counted.
+  for (const cardIds of [["VAL-054", "ZZ-999"], ["VAL-054"]]) {
+    const liked = await request.post("/api/likes", { data: { cardIds } });
+    expect(liked.status()).toBe(204);
+  }
+  expect(
+    (await request.post("/api/likes", { data: { cardIds: [] } })).status(),
+  ).toBe(400);
+
+  await logIn(page);
+  const row = page.getByTestId("report").filter({ hasText: message });
+  await expect(row.getByRole("list", { name: "Raisons cochées" })).toHaveText(
+    "Trop longueÀ modifier",
+  );
+  // The card says where its first player goes: at the start.
+  await expect(row).toContainText("tu commences : dans mon sac");
+
+  await page.goto("/admin/cartes?q=VAL-054");
+  await expect(page.getByTestId("card-feedback")).toHaveText(
+    "2 j'aime1 signalement",
+  );
+  // The most liked first: this one is ahead of a card nobody liked.
+  await page.goto("/admin/cartes?sort=likes");
+  await expect(page.getByLabel("Ordre")).toHaveValue("likes");
+  const ids = await page
+    .getByTestId("card-row")
+    .getByRole("link")
+    .allTextContents();
+  expect(ids.indexOf("VAL-054")).toBeLessThan(ids.indexOf("VAL-053"));
+});
+
 test("writes a card, previews it, and publishes it to the players", async ({
   page,
   request,
