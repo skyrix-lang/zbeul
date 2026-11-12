@@ -139,12 +139,21 @@ const PAGES = {
           </p>
         </Block>
         <Block title="Ce qui part en ligne">
+          <p>Deux choses seulement, et seulement si tu les donnes :</p>
+          <ul className={list}>
+            <li>
+              un pouce levé sur une carte : la référence de la carte, pour
+              compter combien de fois elle a plu ;
+            </li>
+            <li>
+              un pouce baissé ou un signalement : la référence de la carte, les
+              raisons cochées et ton texte, s'il y en a un.
+            </li>
+          </ul>
           <p>
-            Uniquement un signalement, si tu en envoies un : ton texte et, le
-            cas échéant, la référence de la carte. Il est anonyme : ni nom, ni
-            adresse e-mail, ni contenu de ta partie. Ton adresse IP sert un
-            court instant à limiter les abus, elle n'est pas enregistrée avec le
-            signalement.
+            Tout est anonyme : ni nom, ni adresse e-mail, ni contenu de ta
+            partie. Ton adresse IP sert un court instant à limiter les abus,
+            elle n'est enregistrée ni avec un pouce ni avec un signalement.
           </p>
         </Block>
         <Block title="Tes droits">
@@ -213,7 +222,7 @@ export type LegalPageId = keyof typeof PAGES;
 export function LegalPage({ page }: { page: LegalPageId }) {
   const { title, body } = PAGES[page];
   return (
-    <Screen title={title}>
+    <Screen title={title} previous selectable>
       {body}
       <nav
         aria-label="Informations légales"
@@ -223,6 +232,8 @@ export function LegalPage({ page }: { page: LegalPageId }) {
           <Link
             key={link.to}
             to={link.to}
+            // One step back from any of them leaves the legal pages.
+            replace
             className="text-muted-foreground py-2 underline underline-offset-4"
             activeProps={{ className: "text-foreground font-semibold" }}
           >

@@ -1,16 +1,25 @@
 import { Link, Navigate, useNavigate } from "@tanstack/react-router";
-import { Heart, Trophy } from "lucide-react";
+import { ThumbsUp, Trophy } from "lucide-react";
 import { Button, buttonVariants, cn } from "@zbeul/ui";
 import { useDeck } from "../cards";
 import { CardText, FamilyBadge, levelClass } from "../components/game-card";
 import { SAFE_AREA, Section } from "../components/screen";
-import { pendingAnswer, ranking, type RankingRow } from "../engine/game";
-import { cardSegments, pointsLabel, sipsLabel } from "../engine/text";
+import {
+  cardCount,
+  missedAnswer,
+  ranking,
+  type RankingRow,
+} from "../engine/game";
+import { cardSegments, pointsLabel } from "../engine/text";
 import { PATHS } from "../paths";
+import { useFlushOnLeave } from "../reports";
 import { useGame, usePrefs } from "../store";
 import { enterGameMode } from "../use-game-screen";
 
-/** The end of a game: the ranking, the cards worth keeping, and another round. */
+/**
+ * The end of a game: the ranking (points mode only: with sips nothing is
+ * counted), the cards worth a thumb, and another round.
+ */
 export function EndPage() {
   const navigate = useNavigate();
   const game = useGame((state) => state.game);
@@ -18,13 +27,16 @@ export function EndPage() {
   const favorites = usePrefs((prefs) => prefs.favorites);
   const toggleFavorite = usePrefs((prefs) => prefs.toggleFavorite);
   const deck = useDeck();
+  // The thumbs given here leave with those of the game.
+  useFlushOnLeave();
 
   if (!game) return <Navigate to={PATHS.home} replace />;
   if (!game.finished) return <Navigate to={PATHS.play} replace />;
 
   const { settings, players } = game;
   const rows = ranking(game);
-  const answer = pendingAnswer(game, deck);
+  const answer = missedAnswer(game, deck);
+  const count = cardCount(game);
   const everyoneLevel = rows.every((row) => row.total === 0);
   const played = game.turns.flatMap((turn) => {
     const card = deck.byId.get(turn.cardId);
@@ -47,14 +59,18 @@ export function EndPage() {
       <main className="flex flex-1 flex-col gap-6 pt-4">
         <div>
           <h1 className="font-display text-4xl font-extrabold tracking-tight">
-            {settings.format === "teams"
-              ? "Le classement des équipes"
-              : "Le classement"}
+            {settings.sips
+              ? "C'est fini"
+              : settings.format === "teams"
+                ? "Le classement des équipes"
+                : "Le classement"}
           </h1>
           <p className="text-muted-foreground mt-2">
             {game.outOfCards
               ? "Plus de cartes ? Vous êtes des machines."
-              : `${game.turns.length} cartes plus tard, voilà où vous en êtes.`}
+              : settings.sips
+                ? `${count} ${count > 1 ? "cartes" : "carte"} plus tard, tout le monde est encore là. Pensez à boire de l'eau.`
+                : `${count} ${count > 1 ? "cartes" : "carte"} plus tard, voilà où vous en êtes.`}
           </p>
         </div>
 
@@ -67,23 +83,26 @@ export function EndPage() {
           </p>
         )}
 
-        <ol className="flex flex-col gap-2">
-          {rows.map((row, index) => (
-            <RankingLine
-              key={row.id}
-              row={row}
-              sips={settings.sips}
-              winner={row.rank === 1 && !everyoneLevel}
-              // Line by line, the winner last to be believed.
-              delay={index * 110}
-            />
-          ))}
-        </ol>
-        {everyoneLevel && (
-          <p className="text-muted-foreground text-center text-sm">
-            Égalité parfaite. Personne n'a rien risqué, bravo la prise de
-            risque.
-          </p>
+        {!settings.sips && (
+          <>
+            <ol className="flex flex-col gap-2">
+              {rows.map((row, index) => (
+                <RankingLine
+                  key={row.id}
+                  row={row}
+                  winner={row.rank === 1 && !everyoneLevel}
+                  // Line by line, the winner last to be believed.
+                  delay={index * 110}
+                />
+              ))}
+            </ol>
+            {everyoneLevel && (
+              <p className="text-muted-foreground text-center text-sm">
+                Égalité parfaite. Personne n'a rien risqué, bravo la prise de
+                risque.
+              </p>
+            )}
+          </>
         )}
 
         <div className="flex flex-col gap-3">
@@ -106,7 +125,7 @@ export function EndPage() {
 
         <Section
           title="Les cartes de la partie"
-          hint="Touche le cœur pour garder les meilleures en favoris."
+          hint="Un pouce pour les meilleures : elles vont dans tes favoris, et on saura lesquelles vous font rire."
         >
           <ul className="flex flex-col gap-2">
             {played.map(({ turn, card }, index) => {
@@ -128,6 +147,8 @@ export function EndPage() {
                           turn,
                           players,
                           settings.sips,
+                          // Both halves, unless one was chosen.
+                          !turn.choice,
                         )}
                         level={card.level}
                       />
@@ -136,11 +157,11 @@ export function EndPage() {
                   <button
                     type="button"
                     aria-pressed={kept}
-                    aria-label={`Garder la carte ${card.id} en favori`}
+                    aria-label={`J'aime la carte ${card.id}`}
                     onClick={() => toggleFavorite(card.id)}
                     className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full transition-transform focus-visible:ring-2 focus-visible:ring-current focus-visible:outline-none active:scale-90"
                   >
-                    <Heart
+                    <ThumbsUp
                       aria-hidden="true"
                       className={cn("size-6", kept && "fill-current")}
                     />
@@ -157,12 +178,10 @@ export function EndPage() {
 
 function RankingLine({
   row,
-  sips,
   winner,
   delay,
 }: {
   row: RankingRow;
-  sips: boolean;
   winner: boolean;
   delay: number;
 }) {
@@ -197,17 +216,13 @@ function RankingLine({
           {row.name}
         </span>
         <span className="text-muted-foreground block truncate text-sm">
-          {row.members.length > 0 && `${row.members.join(", ")} · `}
-          {sips
-            ? `a distribué ${sipsLabel(row.won)}, en a bu ${row.lost}`
-            : `+${row.won} / −${row.lost}`}
+          {row.members.length > 0 && `${row.members.join(", ")} · `}+{row.won} /
+          −{row.lost}
         </span>
       </span>
-      {!sips && (
-        <span className="font-display text-xl font-extrabold tabular-nums">
-          {pointsLabel(row.total)}
-        </span>
-      )}
+      <span className="font-display text-xl font-extrabold tabular-nums">
+        {pointsLabel(row.total)}
+      </span>
     </li>
   );
 }

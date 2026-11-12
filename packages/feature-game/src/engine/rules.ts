@@ -19,8 +19,9 @@ export const FAMILY_LABELS: Record<Family, string> = {
 /**
  * How a card is played, which decides the buttons and the score:
  * - solo: one player wins or loses ("Gagné" / "Perdu" / "Joker");
- * - group: everyone plays, the losers are named out loud, no score;
- * - duel, closest: named players, the group referees, no score;
+ * - group: everyone plays, the losers are named out loud;
+ * - duel, closest: named players, the group referees;
+ *   (in points mode the group taps who lost on these three, see `isJudged`)
  * - sentence: the player loses the stake at once;
  * - rule, partner, pause: no winner.
  */
@@ -91,7 +92,7 @@ export const GAMES: Record<MiniGame, MiniGameInfo> = {
     family: "culture",
     kind: "closest",
     minPlayers: 4,
-    how: "Chacun annonce un nombre. Réponse sur la carte suivante.",
+    how: "Chacun annonce un nombre. La réponse arrive juste après.",
   },
   chaine: {
     label: MINI_GAME_LABELS["chaine"],

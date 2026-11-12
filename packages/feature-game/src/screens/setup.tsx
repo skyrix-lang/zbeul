@@ -1,4 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { LEVELS, type Level, type MiniGame } from "@zbeul/core";
 import {
@@ -210,13 +211,11 @@ export function SetupPage() {
       </Section>
 
       <Section title="Options">
-        <details className="bg-card rounded-lg border">
-          <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-3 p-4 font-semibold">
-            Mini-jeux
-            <span className="text-muted-foreground text-sm font-normal">
-              {chosenGames.length} sur {SELECTABLE_GAMES.length}
-            </span>
-          </summary>
+        <details className="group bg-card rounded-lg border">
+          <OptionSummary
+            title="Mini-jeux"
+            value={`${chosenGames.length} sur ${SELECTABLE_GAMES.length}`}
+          />
           <div className="flex flex-col gap-4 px-4 pb-4">
             {FAMILIES.map((family) => (
               <fieldset key={family}>
@@ -266,15 +265,15 @@ export function SetupPage() {
           </div>
         </details>
 
-        <details className="bg-card rounded-lg border">
-          <summary className="flex min-h-14 cursor-pointer items-center justify-between gap-3 p-4 font-semibold">
-            Thèmes à éviter
-            <span className="text-muted-foreground text-sm font-normal">
-              {settings.excluded.length === 0
+        <details className="group bg-card rounded-lg border">
+          <OptionSummary
+            title="Thèmes à éviter"
+            value={
+              settings.excluded.length === 0
                 ? "Aucun"
-                : `${settings.excluded.length} en moins`}
-            </span>
-          </summary>
+                : `${settings.excluded.length} en moins`
+            }
+          />
           <div className="px-4 pb-4">
             <ThemeChecks
               legend="Pour toute la partie"
@@ -388,5 +387,28 @@ export function SetupPage() {
         </DialogActions>
       </Dialog>
     </Screen>
+  );
+}
+
+/**
+ * The line that opens an option. It says what is chosen, and shows that it
+ * opens: "Modifier" and a chevron, which turn into "Fermer" once open.
+ */
+function OptionSummary({ title, value }: { title: string; value: string }) {
+  return (
+    <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 p-4 [&::-webkit-details-marker]:hidden">
+      <span className="min-w-0 flex-1">
+        <span className="block font-semibold">{title}</span>
+        <span className="text-muted-foreground block text-sm">{value}</span>
+      </span>
+      <span className="text-primary-soft-foreground flex shrink-0 items-center gap-1 text-sm font-semibold">
+        <span className="group-open:hidden">Modifier</span>
+        <span className="hidden group-open:inline">Fermer</span>
+        <ChevronDown
+          aria-hidden="true"
+          className="size-5 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+        />
+      </span>
+    </summary>
   );
 }

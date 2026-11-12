@@ -80,7 +80,25 @@ export interface Turn {
   /** Sips or points; 0 when the card has none. */
   stake: number;
   outcome?: Outcome;
+  /**
+   * Points mode: what each player won (above zero) or lost (below) on a card
+   * the group judged, by player id.
+   */
+  deltas?: Record<string, number>;
+  /** Drawn after a joker, in place of the card before: not counted, no joker. */
+  replacement?: true;
+  /** Culture G: the answer is on screen. */
+  revealed?: true;
+  /** Action ou vérité: the half the player chose. */
+  choice?: Choice;
+  /** The players whose rule ended as this card came. */
+  endedRules?: string[];
 }
+
+export type Choice = "action" | "verite";
+
+/** The part of a turn that says which card it was, for whom. */
+export type Draw = Pick<Turn, "cardId" | "players" | "stake">;
 
 export interface Score {
   /** Stakes won: sips handed out, or points gained. */
@@ -189,12 +207,23 @@ export function startProblems(
 const horizonOf = (settings: Settings) =>
   settings.duration ?? UNLIMITED_HORIZON;
 
-/** The highest level a card may have at this turn. */
+/**
+ * The highest level a card may have at this turn. With "montée en pression"
+ * the game climbs one level at a time and reaches its own at half-time, so
+ * the second half is played at the level that was chosen.
+ */
 export function levelCap(settings: Settings, turn: number): Level {
-  if (!settings.pressure) return settings.level;
-  const step = horizonOf(settings) / settings.level;
+  if (!settings.pressure || settings.level === 1) return settings.level;
+  const step = horizonOf(settings) / 2 / (settings.level - 1);
   return Math.min(settings.level, 1 + Math.floor(turn / step)) as Level;
 }
+
+/** How much more often a level comes up than the one below: twice. */
+export const levelWeight = (level: Level) => 2 ** (level - 1);
+
+/** The cards played so far: a joker's replacement isn't one more. */
+export const cardCount = (state: Pick<GameState, "turns">) =>
+  state.turns.filter((turn) => !turn.replacement).length;
 
 /**
  * The stake of the card at `turn`. Flat: any value of the intensity's range.
@@ -255,12 +284,17 @@ function chooseTargets(
   card: Card,
   state: GameState,
   rng: Rng,
+  /** The player the card must name first: a joker's replacement. */
+  firstId?: string,
 ): string[] | null {
   if (card.targets === 0) return [];
   const counts = timesNamed(state);
   const order = shuffle(rng, suitedPlayers(card, state)).sort(
-    (a, b) => counts.get(a.id)! - counts.get(b.id)!,
+    (a, b) =>
+      Number(b.id === firstId) - Number(a.id === firstId) ||
+      counts.get(a.id)! - counts.get(b.id)!,
   );
+  if (firstId && order[0]?.id !== firstId) return null;
   if (card.game === "duel" && state.settings.format === "teams") {
     // Two teams face each other.
     const first = order[0];
@@ -317,7 +351,7 @@ function placedCard(
   deck: Deck,
   rng: Rng,
 ): { card: Card; patch: Partial<GameState> } | null {
-  const turn = state.turns.length;
+  const turn = cardCount(state);
   if (!state.settings.sips) return null;
 
   if (turn >= state.nextPauseAt) {
@@ -355,9 +389,19 @@ function drawnCard(
   deck: Deck,
   rng: Rng,
   recent: ReadonlySet<string>,
+  /** A joker's replacement: the same mini-game, for the same player. */
+  only?: { game: MiniGame; playerId: string },
 ): Card | null {
-  const cap = levelCap(state.settings, state.turns.length);
-  const pool = deck.cards.filter((card) => playable(card, state, cap));
+  const cap = levelCap(state.settings, cardCount(state));
+  const pool = deck.cards.filter(
+    (card) =>
+      playable(card, state, cap) &&
+      (!only ||
+        (card.game === only.game &&
+          suitedPlayers(card, state).some(
+            (player) => player.id === only.playerId,
+          ))),
+  );
   if (pool.length === 0) return null;
 
   const all = [...new Set(pool.map((card) => card.game))];
@@ -374,10 +418,11 @@ function drawnCard(
   if (games.length === 0) games = all;
   const game = pick(rng, games);
 
-  // The closer a level is to the ceiling, the more often it comes up.
+  // The game's level dominates: each level comes up twice as often as the
+  // one below it.
   const ofGame = pool.filter((card) => card.game === game);
   const levels = [...new Set(ofGame.map((card) => card.level))];
-  const level = weightedPick(rng, levels, (level) => level);
+  const level = weightedPick(rng, levels, levelWeight);
   const candidates = ofGame.filter((card) => card.level === level);
   // Cards seen in the last games on this phone wait their turn.
   const fresh = candidates.filter((card) => !recent.has(card.id));
@@ -388,20 +433,20 @@ function drawnCard(
 
 const emptyScore = (): Score => ({ won: 0, lost: 0 });
 
+/** Adds `points` to a player's score: won when above zero, lost when below. */
 function addScore(
   scores: GameState["scores"],
   playerId: string | undefined,
-  outcome: Outcome,
-  stake: number,
+  points: number,
 ): GameState["scores"] {
-  if (!playerId) return scores;
+  if (!playerId || points === 0) return scores;
   const score = scores[playerId] ?? emptyScore();
   return {
     ...scores,
     [playerId]:
-      outcome === "won"
-        ? { ...score, won: score.won + stake }
-        : { ...score, lost: score.lost + stake },
+      points > 0
+        ? { ...score, won: score.won + points }
+        : { ...score, lost: score.lost - points },
   };
 }
 
@@ -411,42 +456,76 @@ export interface Context {
   now: number;
   /** Cards seen in the last games on this phone. */
   recent?: ReadonlySet<string>;
+  /**
+   * The card to show next instead of drawing one: after stepping back, the
+   * game shows the same cards again.
+   */
+  redo?: Draw;
 }
 
 /** Moves to the next card, or ends the game when there is none. */
 export function nextTurn(state: GameState, context: Context): GameState {
   const { deck, rng, now, recent = new Set<string>() } = context;
   const { settings } = state;
-  const turn = state.turns.length;
+  const turn = cardCount(state);
   const base = { ...state, updatedAt: now };
   if (state.finished) return state;
   if (settings.duration !== null && turn >= settings.duration) {
     return { ...base, finished: true };
   }
 
-  const placed = placedCard(state, deck, rng);
-  const card = placed?.card ?? drawnCard(state, deck, rng, recent);
-  const players = card && chooseTargets(card, state, rng);
+  const again = context.redo && deck.byId.get(context.redo.cardId);
+  const placed = again ? null : placedCard(state, deck, rng);
+  const card = again ?? placed?.card ?? drawnCard(state, deck, rng, recent);
+  const players =
+    card && (again ? context.redo!.players : chooseTargets(card, state, rng));
   if (!card || !players) return { ...base, finished: true, outOfCards: true };
 
   const kind = GAMES[card.game].kind;
   const noStake = kind === "pause" || kind === "partner";
-  const stake = noStake ? 0 : stakeAt(settings, turn, rng);
+  const stake = again
+    ? context.redo!.stake
+    : noStake
+      ? 0
+      : stakeAt(settings, turn, rng);
+  // A rule made on an earlier card has one card fewer to live.
+  const rules = state.rules.map((rule) => ({
+    ...rule,
+    remaining: rule.remaining - 1,
+  }));
+  const ended = rules.filter((rule) => rule.remaining <= 0);
+  const drawn: Turn = {
+    cardId: card.id,
+    players,
+    stake,
+    ...(ended.length > 0 && {
+      endedRules: ended.map((rule) => rule.playerId),
+    }),
+  };
   const next: GameState = {
     ...base,
     ...placed?.patch,
-    turns: [...state.turns, { cardId: card.id, players, stake }],
-    // A rule made on an earlier card has one card fewer to live.
-    rules: state.rules
-      .map((rule) => ({ ...rule, remaining: rule.remaining - 1 }))
-      .filter((rule) => rule.remaining > 0),
+    turns: [...state.turns, drawn],
+    rules: rules.filter((rule) => rule.remaining > 0),
   };
+  if (again) {
+    // The moments of the placed cards were settled the first time round.
+    if (card.game === "pause") {
+      next.nextPauseAt = turn + randomInt(rng, 45, 55);
+    }
+    if (card.audience) {
+      const slot = state.genderSlots.find(
+        (slot) => slot.audience === card.audience,
+      );
+      next.genderSlots = state.genderSlots.filter((other) => other !== slot);
+    }
+  }
 
   const [first] = players;
-  if (kind === "sentence") {
+  if (kind === "sentence" && !settings.sips) {
     // No button: the player loses the stake as the card appears.
-    next.turns[turn] = { ...next.turns[turn]!, outcome: "lost" };
-    next.scores = addScore(state.scores, first, "lost", stake);
+    drawn.outcome = "lost";
+    next.scores = addScore(state.scores, first, -stake);
   }
   if (kind === "rule" && first) {
     // Shown on its own card, then for `ruleDuration` more.
@@ -459,6 +538,36 @@ export function nextTurn(state: GameState, context: Context): GameState {
     next.partners = [...state.partners, first];
   }
   return next;
+}
+
+/**
+ * After a joker: another card of the same mini-game for the same player, in
+ * place of the one refused. Null when there is none left for them.
+ */
+function replacementTurn(
+  state: GameState,
+  refused: Turn,
+  card: Card,
+  context: Context,
+): GameState | null {
+  const { deck, rng, now, recent = new Set<string>() } = context;
+  const playerId = refused.players[0];
+  if (!playerId) return null;
+  const again = context.redo && deck.byId.get(context.redo.cardId);
+  const next =
+    again ?? drawnCard(state, deck, rng, recent, { game: card.game, playerId });
+  const players =
+    next &&
+    (again ? context.redo!.players : chooseTargets(next, state, rng, playerId));
+  if (!next || !players) return null;
+  return {
+    ...state,
+    updatedAt: now,
+    turns: [
+      ...state.turns,
+      { cardId: next.id, players, stake: refused.stake, replacement: true },
+    ],
+  };
 }
 
 /** Starts a game and draws its first card. */
@@ -506,33 +615,96 @@ export function startGame(
   return nextTurn(state, context);
 }
 
-/** Whether the card on screen is settled with "Gagné" / "Perdu" / "Joker". */
-export function isSettled(card: Card) {
-  return GAMES[card.game].kind === "solo";
+/**
+ * Whether the card on screen is settled with "Gagné" / "Perdu": it names one
+ * player to judge, and the game counts points. With sips there is no score,
+ * so every card only has "Carte suivante".
+ */
+export function isSettled(card: Card, settings: Pick<Settings, "sips">) {
+  return !settings.sips && GAMES[card.game].kind === "solo";
+}
+
+/** Whether the group says who lost this card: points mode, several players. */
+export function isJudged(card: Card, settings: Pick<Settings, "sips">) {
+  const { kind } = GAMES[card.game];
+  return (
+    !settings.sips &&
+    (kind === "group" || kind === "duel" || kind === "closest")
+  );
+}
+
+/** Whether the card has an answer to show before the next card. */
+export const hasAnswer = (card: Card) => GAMES[card.game].kind === "closest";
+
+const replaceLast = (state: GameState, turn: Turn): GameState => ({
+  ...state,
+  turns: [...state.turns.slice(0, -1), turn],
+});
+
+/** Action ou vérité: the player says which, and the card shows that half. */
+export function choose(state: GameState, choice: Choice, now: number) {
+  const turn = state.turns.at(-1);
+  if (!turn || state.finished || turn.choice) return state;
+  return { ...replaceLast(state, { ...turn, choice }), updatedAt: now };
 }
 
 /**
- * Settles the card on screen, then moves on. "Gagné" and "Perdu" only count
- * for a card that names one player to judge; "Joker" costs them the stake.
+ * Settles the card on screen, then moves on.
+ * - "Gagné" and "Perdu" count for a card that names one player to judge.
+ * - "Joker" costs them the stake and brings another card of the same
+ *   mini-game for them; that one has no joker.
+ * - `deltas` are the points the group gave on a card it judged.
+ * - A quiz shows its answer first: the next call moves on.
  */
 export function play(
   state: GameState,
   outcome: Outcome | "next",
   context: Context,
+  deltas: Record<string, number> = {},
 ): GameState {
   const turn = state.turns.at(-1);
   if (!turn || state.finished) return state;
   const card = context.deck.byId.get(turn.cardId);
   // A card that an update removed from the deck can't be settled: the game
   // moves on, so a saved game stays playable.
-  if (!card || outcome === "next" || !isSettled(card) || turn.outcome) {
+  if (!card) return nextTurn(state, context);
+  const { settings } = state;
+
+  if (hasAnswer(card) && !turn.revealed) {
+    return {
+      ...replaceLast(state, { ...turn, revealed: true }),
+      updatedAt: context.now,
+    };
+  }
+  if (isJudged(card, settings) && !turn.deltas) {
+    const given = Object.entries(deltas).filter(([, points]) => points !== 0);
+    if (given.length > 0) {
+      const judged: GameState = {
+        ...replaceLast(state, { ...turn, deltas: Object.fromEntries(given) }),
+        scores: given.reduce(
+          (scores, [id, points]) => addScore(scores, id, points),
+          state.scores,
+        ),
+      };
+      return nextTurn(judged, context);
+    }
+  }
+  if (outcome === "next" || !isSettled(card, settings) || turn.outcome) {
     return nextTurn(state, context);
   }
+  // A replacement can't be refused in turn: its joker counts as lost.
   const settled: GameState = {
-    ...state,
-    turns: [...state.turns.slice(0, -1), { ...turn, outcome }],
-    scores: addScore(state.scores, turn.players[0], outcome, turn.stake),
+    ...replaceLast(state, { ...turn, outcome }),
+    scores: addScore(
+      state.scores,
+      turn.players[0],
+      outcome === "won" ? turn.stake : -turn.stake,
+    ),
   };
+  if (outcome === "joker" && !turn.replacement) {
+    const replaced = replacementTurn(settled, turn, card, context);
+    if (replaced) return replaced;
+  }
   return nextTurn(settled, context);
 }
 
@@ -598,9 +770,9 @@ export function ranking(state: GameState): RankingRow[] {
   }));
 }
 
-/** The answer to show above the card on screen: the previous card's, if it was a quiz. */
-export function pendingAnswer(state: GameState, deck: Deck): Card | null {
-  const previous = state.turns.at(state.finished ? -1 : -2);
-  const card = previous && deck.byId.get(previous.cardId);
-  return card?.game === "culture-g" ? card : null;
+/** The answer nobody saw: the game ended on a quiz before it was shown. */
+export function missedAnswer(state: GameState, deck: Deck): Card | null {
+  const last = state.turns.at(-1);
+  const card = last && deck.byId.get(last.cardId);
+  return card && hasAnswer(card) && !last.revealed ? card : null;
 }

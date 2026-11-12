@@ -114,11 +114,9 @@ export function FitText({
 export function CardText({
   segments,
   level,
-  animated = false,
 }: {
   segments: readonly Segment[];
   level: Level;
-  animated?: boolean;
 }) {
   return (
     <>
@@ -131,7 +129,6 @@ export function CardText({
             className={cn(
               "rounded-[0.3em] box-decoration-clone px-[0.22em] font-extrabold",
               LEVEL_STYLE[level].mark,
-              animated && "animate-mark motion-reduce:animate-none",
             )}
           >
             {segment.name}
@@ -176,7 +173,7 @@ export function GameCard({
   top?: ReactNode;
   /** Below the text: the stake. */
   footer?: ReactNode;
-  /** Slides in, and highlights the names just after. */
+  /** Slides in. */
   animated?: boolean;
   className?: string;
 }) {
@@ -203,19 +200,16 @@ export function GameCard({
       {top}
       <FitText fitKey={`${card.id}:${length}`}>
         <p
+          data-testid="card-text"
           className={cn(
-            "font-display leading-[1.12] font-extrabold text-balance",
+            "font-display leading-[1.12] font-extrabold text-balance select-text",
             // A long card narrows its letters, and may break its words, before it
             // shrinks them.
             length > 180 &&
               "leading-[1.16] font-bold hyphens-auto [font-stretch:82%]",
           )}
         >
-          <CardText
-            segments={segments}
-            level={card.level}
-            animated={animated}
-          />
+          <CardText segments={segments} level={card.level} />
         </p>
       </FitText>
       {footer}

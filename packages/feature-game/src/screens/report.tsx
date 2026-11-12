@@ -47,6 +47,7 @@ export function ReportPage() {
     <Screen
       title="Signaler un problème"
       back={PATHS.settings}
+      previous
       intro="Une carte fausse ou déplacée, un bouton qui boude : raconte. C'est anonyme, rien sur toi ni sur ta partie ne part avec."
     >
       {done ? (
