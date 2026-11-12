@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { deck } from "./cards";
+import { getDeck } from "./cards";
 import {
   DEFAULT_SETTINGS,
   endGame,
@@ -171,7 +171,8 @@ interface GameStore {
 
 function context(): Context {
   return {
-    deck,
+    // Read at each card: the deck only changes at the home screen.
+    deck: getDeck(),
     rng: Math.random,
     now: Date.now(),
     recent: new Set(usePrefs.getState().recent),
@@ -208,12 +209,17 @@ export const useGame = create<GameStore>()(
     }),
     {
       name: GAME_KEY,
-      version: 1,
+      version: 2,
       storage: safeStorage,
       partialize: ({ game }) => ({ game }),
-      // The first version: nothing to migrate yet. A later version converts
-      // the saved game here rather than dropping it.
-      migrate: (saved) => saved as { game: GameState | null },
+      // A saved game stays playable after an update: an older one is
+      // converted here rather than dropped.
+      migrate: (saved, version) => {
+        const { game } = saved as { game: GameState | null };
+        // Version 1 had no packs: it played every card there was.
+        if (game && version < 2) game.settings.packs ??= [];
+        return { game };
+      },
     },
   ),
 );

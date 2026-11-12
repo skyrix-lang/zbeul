@@ -10,7 +10,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck, usePacks } from "../cards";
 import { Choice, ToggleRow } from "../components/choice";
 import { levelClass } from "../components/game-card";
 import { Screen, Section } from "../components/screen";
@@ -42,6 +42,23 @@ export function SetupPage() {
   const setSettings = usePrefs((prefs) => prefs.setSettings);
   const update = usePrefs((prefs) => prefs.update);
   const start = useGame((game) => game.start);
+  const deck = useDeck();
+  const packs = usePacks();
+  // No pack chosen plays them all; a pack that no longer exists is forgotten.
+  const chosenPacks = packs.filter(
+    (pack) => settings.packs.length === 0 || settings.packs.includes(pack.id),
+  );
+  const playingPacks = chosenPacks.length > 0 ? chosenPacks : packs;
+  const togglePack = (id: string) => {
+    const next = playingPacks.some((pack) => pack.id === id)
+      ? playingPacks.filter((pack) => pack.id !== id)
+      : [...playingPacks, packs.find((pack) => pack.id === id)!];
+    // At least one pack: a game needs cards.
+    if (next.length === 0) return;
+    setSettings({
+      packs: next.length === packs.length ? [] : next.map((pack) => pack.id),
+    });
+  };
   const [confirming, setConfirming] = useState<"border" | "alcohol" | null>(
     null,
   );
@@ -273,9 +290,46 @@ export function SetupPage() {
           </div>
         </details>
 
-        <p className="text-muted-foreground text-sm">
-          Pack officiel : {deck.cards.length} cartes, toutes gratuites.
-        </p>
+        {packs.length > 1 ? (
+          <fieldset className="bg-card rounded-lg border p-4">
+            <legend className="sr-only">Packs de cartes</legend>
+            <p aria-hidden="true" className="font-semibold">
+              Packs
+            </p>
+            {packs.map((pack) => (
+              <div key={pack.id} className="flex min-h-12 items-center gap-3">
+                <input
+                  id={`pack-${pack.id}`}
+                  type="checkbox"
+                  aria-describedby={`pack-${pack.id}-about`}
+                  checked={playingPacks.some((other) => other.id === pack.id)}
+                  onChange={() => togglePack(pack.id)}
+                  className="accent-primary size-5 shrink-0"
+                />
+                <div>
+                  <label
+                    htmlFor={`pack-${pack.id}`}
+                    className="block cursor-pointer font-semibold"
+                  >
+                    {pack.name}
+                  </label>
+                  <p
+                    id={`pack-${pack.id}-about`}
+                    className="text-muted-foreground text-sm"
+                  >
+                    {pack.description ||
+                      "Des cartes en plus, toujours gratuites."}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </fieldset>
+        ) : (
+          <p className="text-muted-foreground text-sm">
+            {packs[0]?.name ?? "Pack officiel"} : {deck.cards.length} cartes,
+            toutes gratuites.
+          </p>
+        )}
       </Section>
 
       <Dialog

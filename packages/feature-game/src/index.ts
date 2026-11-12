@@ -11,4 +11,5 @@ export { ReportPage } from "./screens/report";
 export { SettingsPage, useTheme } from "./screens/settings";
 export { SetupPage } from "./screens/setup";
 export { useFlushReports } from "./reports";
+export { useRefreshDeck } from "./use-refresh-deck";
 export { resumable, useGame } from "./store";

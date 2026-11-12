@@ -53,6 +53,8 @@ export interface Settings {
   duration: number | null;
   /** Themes nobody wants tonight. */
   excluded: ContentTheme[];
+  /** The packs to play with; empty plays them all. */
+  packs: string[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -66,6 +68,7 @@ export const DEFAULT_SETTINGS: Settings = {
   progressive: true,
   duration: 50,
   excluded: [],
+  packs: [],
 };
 
 export type Outcome = "won" | "lost" | "joker";
@@ -277,6 +280,9 @@ function playable(card: Card, state: GameState, cap: Level): boolean {
   if (!settings.sips && SIPS_ONLY.includes(card.game)) return false;
   if (card.level > cap || players.length < info.minPlayers) return false;
   if (overlaps(card.themes, settings.excluded)) return false;
+  // A card without a pack (the bundled deck) is in every game.
+  const packs = settings.packs ?? [];
+  if (packs.length > 0 && card.pack && !packs.includes(card.pack)) return false;
   if (state.turns.some((turn) => turn.cardId === card.id)) return false;
 
   if (info.kind === "group") {

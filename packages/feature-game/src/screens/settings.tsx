@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { GameCard, levelClass } from "../components/game-card";
 import { Screen, Section } from "../components/screen";
 import { LEVEL_NAMES } from "../engine/rules";
@@ -41,6 +41,7 @@ export function SettingsPage({ version }: { version: string }) {
   const theme = usePrefs((prefs) => prefs.theme);
   const setTheme = usePrefs((prefs) => prefs.setTheme);
   const [erasing, setErasing] = useState(false);
+  const deck = useDeck();
   const sample = deck.byId.get(SAMPLE_CARD) ?? deck.cards[0]!;
 
   const links: { to: Path; label: string }[] = [

@@ -64,8 +64,8 @@ export const segmentsText = (segments: readonly Segment[]) =>
     .map((segment) => (segment.type === "text" ? segment.text : segment.name))
     .join("");
 
-/** A card outside a game, with made-up names: for favourites and previews. */
-export function previewSegments(card: Card, sips = true): Segment[] {
+/** A card outside a game: made-up players, named as the card needs. */
+function preview(card: Card, stake = 0) {
   const names = ["Romain", "Inès", "Sacha", "Léa"];
   const players: Player[] = names.map((name, index) => ({
     id: String(index),
@@ -78,9 +78,21 @@ export function previewSegments(card: Card, sips = true): Segment[] {
   const turn: Turn = {
     cardId: card.id,
     players: players.slice(0, card.targets).map((player) => player.id),
-    stake: 0,
+    stake,
   };
+  return { players, turn };
+}
+
+/** A card outside a game, with made-up names: for favourites and previews. */
+export function previewSegments(card: Card, sips = true): Segment[] {
+  const { players, turn } = preview(card);
   return cardSegments(card, turn, players, sips);
+}
+
+/** The stake line of a card outside a game, for a preview. */
+export function previewStakeLine(card: Card, stake: number, sips: boolean) {
+  const { players, turn } = preview(card, stake);
+  return stakeLine(card, turn, { settings: { sips }, players });
 }
 
 export const sipsLabel = (count: number) =>
@@ -89,7 +101,14 @@ export const pointsLabel = (count: number) =>
   `${count} ${count > 1 ? "points" : "point"}`;
 
 /** The stake, in the card's own terms: "Le perdant boit 3 gorgées". */
-export function stakeLine(card: Card, turn: Turn, state: GameState): string {
+export function stakeLine(
+  card: Card,
+  turn: Turn,
+  state: {
+    settings: Pick<GameState["settings"], "sips">;
+    players: readonly Player[];
+  },
+): string {
   const { sips } = state.settings;
   const { kind } = GAMES[card.game];
   const x = turn.stake;

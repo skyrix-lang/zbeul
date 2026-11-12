@@ -11,7 +11,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { GameCard } from "../components/game-card";
 import {
   isSettled,
@@ -36,6 +36,7 @@ import { leaveGameMode, useScreenAwake } from "../use-game-screen";
 export function PlayPage() {
   const game = useGame((state) => state.game);
   const play = useGame((state) => state.play);
+  const deck = useDeck();
   useScreenAwake();
   useEffect(() => leaveGameMode, []);
   const current = game?.turns.at(-1);
@@ -58,6 +59,7 @@ export function PlayPage() {
 function Table({ game, card }: { game: GameState; card: Card }) {
   const play = useGame((state) => state.play);
   const end = useGame((state) => state.end);
+  const deck = useDeck();
   const rotateHintClosed = usePrefs((prefs) => prefs.rotateHintClosed);
   const update = usePrefs((prefs) => prefs.update);
   const [dialog, setDialog] = useState<"quit" | "report" | null>(null);

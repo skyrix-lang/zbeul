@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { HeartOff } from "lucide-react";
 import { buttonVariants, cn } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { CardText, FamilyBadge, levelClass } from "../components/game-card";
 import { Screen } from "../components/screen";
 import { previewSegments } from "../engine/text";
@@ -12,6 +12,7 @@ import { usePrefs } from "../store";
 export function FavoritesPage() {
   const favorites = usePrefs((prefs) => prefs.favorites);
   const toggleFavorite = usePrefs((prefs) => prefs.toggleFavorite);
+  const deck = useDeck();
   // A card removed by an update simply disappears from the list.
   const cards = favorites.flatMap((id) => deck.byId.get(id) ?? []).reverse();
 

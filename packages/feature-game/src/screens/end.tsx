@@ -1,7 +1,7 @@
 import { Link, Navigate, useNavigate } from "@tanstack/react-router";
 import { Heart, Trophy } from "lucide-react";
 import { Button, buttonVariants, cn } from "@zbeul/ui";
-import { deck } from "../cards";
+import { useDeck } from "../cards";
 import { CardText, FamilyBadge, levelClass } from "../components/game-card";
 import { SAFE_AREA, Section } from "../components/screen";
 import { pendingAnswer, ranking, type RankingRow } from "../engine/game";
@@ -17,6 +17,7 @@ export function EndPage() {
   const start = useGame((state) => state.start);
   const favorites = usePrefs((prefs) => prefs.favorites);
   const toggleFavorite = usePrefs((prefs) => prefs.toggleFavorite);
+  const deck = useDeck();
 
   if (!game) return <Navigate to={PATHS.home} replace />;
   if (!game.finished) return <Navigate to={PATHS.play} replace />;
