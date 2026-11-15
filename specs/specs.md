@@ -80,7 +80,7 @@ Chaque carte appartient à **un mini-jeu** et à **un niveau**. Les cartes sont 
   | **Tout le monde concerné** | Distribution collective : « Tous les gars boivent », « Toutes les filles boivent », « Tous ceux qui ne sont ni gars ni fille boivent », « Ceux qui ont un ex dans la salle boivent » | 2+ | MVP |
   | **Sentence gratuite** | Un joueur tiré au sort boit sans raison particulière, avec une phrase de roast ; en mode points, il perd X points automatiquement, sans bouton | 2+ | MVP |
   | **Invente une règle** | Le joueur annonce une règle à voix haute, valable pendant N cartes ; le bandeau rappelle « Règle de Romain » jusqu'à expiration | 3+ | MVP |
-  | **Partenaire de boisson** | Le joueur désigne un partenaire à voix haute ; jusqu'à la fin de la partie, dès que l'un boit, l'autre boit autant | 3+ | MVP |
+  | **Partenaire de boisson** | Le joueur désigne un partenaire à voix haute ; jusqu'à la fin de la partie, dès que l'un boit, l'autre boit autant | 5+ | MVP |
   | **Pause** | Carte « pause / hydratation » : tout le monde boit un verre d'eau ; aucun enjeu | 2+ | MVP |
   | **Paranoïa** | Question montrée en secret à un joueur, qui nomme quelqu'un ; la personne désignée peut boire 5 gorgées pour révéler la question (en mode sans gorgées : pile ou face) | 3+ | V1 |
 
@@ -90,7 +90,7 @@ Chaque carte appartient à **un mini-jeu** et à **un niveau**. Les cartes sont 
 
 **Règles particulières** :
 
-- **Partenaire de boisson** : 1 fois maximum par partie aux niveaux 1 et 2, 2 fois aux niveaux 3 à 5. Un joueur ne peut tirer cette carte qu'une fois. Le bandeau rappelle en permanence « Romain a un partenaire de boisson ». Carte retirée si les gorgées sont désactivées.
+- **Partenaire de boisson** : 1 carte par tranche de 5 joueurs (1 dès 5 joueurs, 2 dès 10, etc.), aucune en dessous de 5. Une carte déjà jouée peut revenir quand le paquet n'en a plus d'autre. Un joueur ne peut tirer cette carte qu'une fois. Le bandeau rappelle en permanence « Romain a un partenaire de boisson ». Carte retirée si les gorgées sont désactivées.
 - **Ordre de jeu libre** : pour les jeux à tour de rôle, la carte indique seulement qui commence. Le sens, l'ordre et le droit de passer son tour sont laissés au groupe ; l'écran ne change pas pendant le tour et affiche « Les perdants boivent X gorgées ».
 - **Cartes de genre** (gars / filles / autres) : **réservées au mode gorgées** (sans effet sur le score, elles sont retirées en mode points). En mode gorgées, **les trois cartes tombent à chaque partie**, par équité, à des moments aléatoires. Une carte est sautée si aucun joueur de la partie n'est concerné.
 - **Pause** : mini-jeu de la famille Collectif et règles, **réservé au mode gorgées**, **impossible à décocher** (il n'apparaît pas dans la liste des mini-jeux), environ une carte toutes les 50 cartes.
@@ -196,7 +196,7 @@ Dans les options avancées de chaque joueur, ou pour toute la partie, on peut ex
 - en mode gorgées, une carte Pause est insérée environ toutes les 50 cartes ;
 - en mode gorgées, les trois cartes de genre tombent à des moments aléatoires, et une carte est sautée si personne n'est concerné ;
 - **mélange équilibré** : le jeu choisit d'abord un mini-jeu parmi ceux cochés, puis une carte de ce mini-jeu. Chaque mini-jeu a la même chance de sortir, quel que soit son nombre de cartes. Jamais deux cartes du même mini-jeu d'affilée, et pas plus d'une culture G toutes les 5 cartes ;
-- quotas : partenaire de boisson limité selon le niveau, 3 règles actives au maximum ;
+- quotas : partenaire de boisson limité selon le nombre de joueurs, 3 règles actives au maximum ;
 - **pas de répétition** : les cartes vues lors des dernières parties sur ce téléphone ne reviennent pas tout de suite ;
 - tous les joueurs sont visés à peu près aussi souvent.
   **Sauvegarde et reprise** :
@@ -421,7 +421,7 @@ Légères, rapides, jamais bloquantes : elles rendent l'appli vivante et plus pr
 - **Identité visuelle** : thème Nuit par défaut ; dans Réglages, toucher un thème l'applique immédiatement avec la carte d'exemple, et le choix reste actif à la visite suivante ; prénoms cités surlignés ; animations réduites si demandé.
 - **Accueil** : seulement « Jouer » (ou « Reprendre »), « Installer l'appli », « Favoris » et « Réglages » ; bouton d'installation absent une fois l'app installée ; aucun menu.
 - **Langue** : français par défaut même avec un téléphone en anglais ; le passage en EN est mémorisé.
-- **Partenaire de boisson** : absent sans gorgées, une seule fois au niveau 2.
+- **Partenaire de boisson** : absent sans gorgées ou à moins de 5 joueurs, une fois par tranche de 5 joueurs.
 - **Cartes de genre** : absentes en mode points ; en mode gorgées, les trois tombent dans chaque partie ; une carte est sautée si personne n'est concerné.
 - **Pause** : absente de la liste des mini-jeux ; en mode gorgées, environ une carte toutes les 50 ; absente en mode points.
 - **Cartes collectives** : avec un joueur Tranquille dans la partie, aucune carte collective de niveau 3 ou plus n'apparaît.

@@ -175,8 +175,8 @@ function Table({
         // "Action" and "Vérité" weigh the same: half of the row each.
         mode === "choose" &&
           "[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]",
-        // Landscape: the left thumb has "Perdu" and "Joker" (or "Vérité"),
-        // the right one "Gagné", "Action" or "Carte suivante".
+        // Landscape: the left thumb has "Perdu" and "Joker" (or "Action"),
+        // the right one "Gagné", "Vérité" or "Carte suivante".
         mode === "next"
           ? "landscape:[grid-template-areas:'top_win'_'card_win'] landscape:[grid-template-columns:minmax(0,1fr)_minmax(7rem,19vw)]"
           : "landscape:[grid-template-areas:'lose_top_win'_'lose_card_win'] landscape:[grid-template-columns:minmax(6.5rem,17vw)_minmax(0,1fr)_minmax(6.5rem,17vw)]",
@@ -507,10 +507,10 @@ function Actions({
             size="xl"
             variant="secondary"
             aria-disabled={!ready}
-            onClick={tap(() => onChoose("verite"))}
+            onClick={tap(() => onChoose("action"))}
             className="min-w-0 flex-1 px-2"
           >
-            Vérité
+            Action
           </Button>
         </div>
         <div className="flex [grid-area:win]">
@@ -518,10 +518,10 @@ function Actions({
             size="xl"
             variant="secondary"
             aria-disabled={!ready}
-            onClick={tap(() => onChoose("action"))}
+            onClick={tap(() => onChoose("verite"))}
             className="min-w-0 flex-1 px-2"
           >
-            Action
+            Vérité
           </Button>
         </div>
       </>

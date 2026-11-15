@@ -305,6 +305,9 @@ function chooseTargets(
   return order.slice(0, card.targets).map((player) => player.id);
 }
 
+/** Drinking partners in a game: one per five players (none under five). */
+export const partnerQuota = (players: number) => Math.floor(players / 5);
+
 /** Whether this card can be drawn now, whoever it ends up naming. */
 function playable(card: Card, state: GameState, cap: Level): boolean {
   const { settings, players } = state;
@@ -317,7 +320,13 @@ function playable(card: Card, state: GameState, cap: Level): boolean {
   // A card without a pack (the bundled deck) is in every game.
   const packs = settings.packs ?? [];
   if (packs.length > 0 && card.pack && !packs.includes(card.pack)) return false;
-  if (state.turns.some((turn) => turn.cardId === card.id)) return false;
+  // The deck has fewer partner cards than a big group's quota: they come back.
+  if (
+    info.kind !== "partner" &&
+    state.turns.some((turn) => turn.cardId === card.id)
+  ) {
+    return false;
+  }
 
   if (info.kind === "group") {
     // A card for the whole group never goes past the most careful player.
@@ -331,9 +340,7 @@ function playable(card: Card, state: GameState, cap: Level): boolean {
     return false;
   }
   if (info.kind === "partner") {
-    // Once per game at levels 1 and 2, twice above.
-    const quota = settings.level <= 2 ? 1 : 2;
-    if (state.partners.length >= quota) return false;
+    if (state.partners.length >= partnerQuota(players.length)) return false;
   }
   const suited = suitedPlayers(card, state);
   if (card.game === "duel" && settings.format === "teams") {
