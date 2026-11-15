@@ -28,7 +28,11 @@ const NAMES = ["Ada", "Bob", "Cléo", "Dan", "Eve", "Fay", "Gus", "Hugo"];
 const GENDERS: Gender[] = ["fille", "gars", "autre"];
 
 function somePlayers(count: number, overrides: Partial<Player> = {}): Player[] {
-  return NAMES.slice(0, count).map((name, index) => ({
+  const names = Array.from(
+    { length: count },
+    (_, index) => NAMES[index] ?? `Joueur ${index + 1}`,
+  );
+  return names.map((name, index) => ({
     id: name,
     name,
     gender: GENDERS[index % 3]!,
@@ -682,23 +686,35 @@ describe("sips only", () => {
     expect(audiences).toEqual(["filles"]);
   });
 
-  it("plays a drinking partner once at level 2, and once per player", () => {
-    for (const seed of [1, 2, 3, 4, 5]) {
-      const low = playThrough(sips({ level: 2 }), somePlayers(6), seed);
-      expect(
-        cardsOf(low).filter((card) => card.game === "partenaire").length,
-      ).toBeLessThanOrEqual(1);
-      expect(low.partners.length).toBeLessThanOrEqual(1);
+  it("plays one drinking partner per five players, once per player", () => {
+    const partnersFor = (count: number) =>
+      [1, 2, 3].map((seed) =>
+        playThrough(
+          sips({ level: 4, duration: null }),
+          somePlayers(count),
+          seed,
+          300,
+        ),
+      );
+    for (const [count, quota] of [
+      [4, 0],
+      [9, 1],
+      [10, 2],
+      [20, 4],
+    ] as const) {
+      const all = partnersFor(count);
+      // Big groups draw every partner card they are allowed, even beyond the
+      // three in the deck.
+      expect(all.some((state) => state.partners.length === quota)).toBe(true);
+      for (const state of all) {
+        expect(state.partners.length).toBeLessThanOrEqual(quota);
+        expect(new Set(state.partners).size).toBe(state.partners.length);
+        expect(
+          cardsOf(state).filter((card) => card.game === "partenaire").length,
+        ).toBe(state.partners.length);
+      }
     }
-    const all = [1, 2, 3, 4, 5, 6].map((seed) =>
-      playThrough(sips({ level: 4 }), somePlayers(6), seed),
-    );
-    expect(all.some((state) => state.partners.length === 2)).toBe(true);
-    for (const state of all) {
-      expect(state.partners.length).toBeLessThanOrEqual(2);
-      expect(new Set(state.partners).size).toBe(state.partners.length);
-    }
-  });
+  }, 20_000); // Twelve long games.
 
   it("takes a water break about every 50 cards", () => {
     const state = playThrough(

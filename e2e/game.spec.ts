@@ -508,6 +508,8 @@ test.describe("playing", () => {
     expect(await truth.getAttribute("class")).toBe(
       await dare.getAttribute("class"),
     );
+    // Action on the left, Vérité on the right.
+    expect(dareBox?.x ?? 0).toBeLessThan(truthBox?.x ?? -1);
 
     await truth.click();
 

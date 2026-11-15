@@ -140,7 +140,7 @@ export const GAMES: Record<MiniGame, MiniGameInfo> = {
     label: MINI_GAME_LABELS["partenaire"],
     family: "collectif",
     kind: "partner",
-    minPlayers: 3,
+    minPlayers: 5,
     how: "Désigne ton partenaire à voix haute.",
   },
   pause: {
