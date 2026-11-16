@@ -273,3 +273,22 @@ the cards stepped back from are shown again in order instead of being redrawn
 placed cards) would be a second engine to keep right. A snapshot can't be
 wrong.
 **Cost:** a few kilobytes more in `localStorage`.
+
+## Players' thumbs change which cards come up first
+
+Each card's thumbs up (likes) and down (every report on it) give it a weight,
+sent with the deck: the last step of a draw, between the cards of the chosen
+mini-game and level, picks by that weight (`packages/core/src/vote-weight.ts`).
+A card counts as if it had one vote in the middle already; it ranges from
+×0.25 (voted down by all) to ×2 (voted up by all). One thumb down gives ×0.5,
+three give ×0.35. Mini-games and levels keep their balance, and no card is
+ever left out: only the admin removes one. As a card is played once per game,
+a short game mostly holds liked cards, and disliked ones come late, once the
+others are used. The deck picks up votes when its cache expires (a minute):
+a vote never forces every phone to download it again.
+**Why:** few players vote, so two or three thumbs down must be enough to tell
+a bad card (the owner's choice, 2026-11-16). Bounded, so one person can only
+move a card so far.
+**Cost:** reports filed "sans suite" or about a card since fixed still count.
+With more players, raise `NEUTRAL_VOTES` (3 to 5) so a card needs more votes
+to move.

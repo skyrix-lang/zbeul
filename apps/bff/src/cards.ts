@@ -21,6 +21,7 @@ import {
   type Pack,
   type PackInput,
   type PublishedDeck,
+  voteWeight,
 } from "@zbeul/core";
 import { cardChanges, cardLikes, cards, packs, reports } from "@zbeul/db";
 import { getDb } from "./db";
@@ -99,8 +100,11 @@ const snapshot = (row: CardRow): Record<string, unknown> => {
   return card;
 };
 
-/** A card as the game plays it: only what is set, and how many players it names. */
-const toCard = (row: CardRow): Card => ({
+/**
+ * A card as the game plays it: only what is set, how many players it names,
+ * and how its votes change its chance (every report counts as a thumb down).
+ */
+const toCard = (row: CardRow, counts?: Counts): Card => ({
   id: row.id,
   game: row.game,
   level: row.level as Card["level"],
@@ -115,11 +119,17 @@ const toCard = (row: CardRow): Card => ({
   ...(row.answer && { answer: row.answer }),
   ...(row.unit && { unit: row.unit }),
   ...(row.source && { source: row.source }),
+  ...weightOf(counts),
 });
 
+const weightOf = (counts?: Counts) => {
+  const weight = counts ? voteWeight(counts.likes, counts.reports) : 1;
+  return weight === 1 ? {} : { weight };
+};
+
 // Every player asks for the deck at the home screen, and it only changes when
-// the admin saves something: built once, then reused until then (or for a
-// minute, should another instance have changed it).
+// the admin saves something or players vote: built once, then reused until
+// the admin saves (or for a minute, for votes and other instances).
 const DECK_TTL_MS = 60_000;
 let cachedDeck: { deck: PublishedDeck; at: number } | undefined;
 
@@ -133,13 +143,16 @@ export async function publishedDeck(): Promise<PublishedDeck> {
     return cachedDeck.deck;
   }
   const db = getDb();
-  const rows = await db
-    .select({ card: cards })
-    .from(cards)
-    .innerJoin(packs, eq(packs.id, cards.packId))
-    .where(and(eq(cards.status, "published"), eq(packs.published, true)))
-    .orderBy(asc(cards.id));
-  const deckCards = rows.map(({ card }) => toCard(card));
+  const [rows, counts] = await Promise.all([
+    db
+      .select({ card: cards })
+      .from(cards)
+      .innerJoin(packs, eq(packs.id, cards.packId))
+      .where(and(eq(cards.status, "published"), eq(packs.published, true)))
+      .orderBy(asc(cards.id)),
+    feedback(),
+  ]);
+  const deckCards = rows.map(({ card }) => toCard(card, counts.get(card.id)));
   const used = new Set(deckCards.map((card) => card.pack));
   const deckPacks = (
     await db

@@ -5,7 +5,9 @@ import { getDb } from "./db";
 
 // Reports and likes are write-only for players; the admin reads them
 // (apps/bff/src/admin.ts, apps/bff/src/cards.ts). They hold no personal
-// data, so there is no user to filter by.
+// data, so there is no user to filter by. Votes change a card's chance of
+// being drawn (voteWeight): the deck picks them up when its cache expires,
+// within a minute, so a vote never forces every phone to download it again.
 
 export async function createReport(input: CreateReportInput): Promise<void> {
   await getDb()

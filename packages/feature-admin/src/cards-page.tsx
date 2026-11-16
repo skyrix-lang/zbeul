@@ -19,6 +19,7 @@ import {
   type CardStatus,
   type Level,
   type MiniGame,
+  voteWeight,
 } from "@zbeul/core";
 import { Badge, Button, buttonVariants, Input } from "@zbeul/ui";
 import { STATUS_LABELS } from "./labels";
@@ -426,6 +427,9 @@ export function CardsPage({ filters }: { filters: CardFilters }) {
                             </span>
                           </span>
                         )}
+                        <Chances
+                          weight={voteWeight(card.likes, card.reports)}
+                        />
                       </span>
                     )}
                   </p>
@@ -437,5 +441,16 @@ export function CardsPage({ filters }: { filters: CardFilters }) {
         </>
       )}
     </AdminSection>
+  );
+}
+
+/** How the votes change a card's chance of being drawn, against an unvoted one. */
+function Chances({ weight }: { weight: number }) {
+  const value = weight.toLocaleString("fr-FR");
+  return (
+    <span>
+      <span aria-hidden="true">chances ×{value}</span>
+      <span className="sr-only">chances de sortir multipliées par {value}</span>
+    </span>
   );
 }

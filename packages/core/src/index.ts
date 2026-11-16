@@ -5,3 +5,4 @@ export * from "./report-schema";
 export * from "./return-to";
 export * from "./site";
 export * from "./types";
+export * from "./vote-weight";

@@ -210,6 +210,8 @@ test("shows what players ticked, and how often a card was liked or reported", as
   page,
   request,
 }) => {
+  // The deck can take a minute to show the votes.
+  test.slow();
   // VAL-054 is this test's own card: no other test likes or reports it.
   const message = `E2E ${crypto.randomUUID()}`;
   const report = await request.post("/api/reports", {
@@ -224,6 +226,18 @@ test("shows what players ticked, and how often a card was liked or reported", as
   expect(
     (await request.post("/api/likes", { data: { cardIds: [] } })).status(),
   ).toBe(400);
+  // The votes reach the players' deck within a minute (its cache): more up
+  // than down make the card more likely than an unvoted one.
+  await expect
+    .poll(
+      async () => {
+        const deck = await (await request.get("/api/deck")).json();
+        return deck.cards.find((card: { id: string }) => card.id === "VAL-054")
+          ?.weight;
+      },
+      { timeout: 70_000, intervals: [2_000] },
+    )
+    .toBeGreaterThan(1);
 
   await logIn(page);
   const row = page.getByTestId("report").filter({ hasText: message });
@@ -234,9 +248,9 @@ test("shows what players ticked, and how often a card was liked or reported", as
   await expect(row).toContainText("tu commences : dans mon sac");
 
   await page.goto("/admin/cartes?q=VAL-054");
-  await expect(page.getByTestId("card-feedback")).toHaveText(
-    "2 j'aime1 signalement",
-  );
+  const feedback = page.getByTestId("card-feedback");
+  await expect(feedback).toContainText("2 j'aime1 signalement");
+  await expect(feedback).toContainText("chances ×1,19");
   // The most liked first: this one is ahead of a card nobody liked.
   await page.goto("/admin/cartes?sort=likes");
   await expect(page.getByLabel("Ordre")).toHaveValue("likes");

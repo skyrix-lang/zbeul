@@ -431,9 +431,14 @@ function drawnCard(
   const levels = [...new Set(ofGame.map((card) => card.level))];
   const level = weightedPick(rng, levels, levelWeight);
   const candidates = ofGame.filter((card) => card.level === level);
-  // Cards seen in the last games on this phone wait their turn.
+  // Cards seen in the last games on this phone wait their turn; among the
+  // others, players' thumbs make a card more or less likely, never excluded.
   const fresh = candidates.filter((card) => !recent.has(card.id));
-  return pick(rng, fresh.length > 0 ? fresh : candidates);
+  return weightedPick(
+    rng,
+    fresh.length > 0 ? fresh : candidates,
+    (card) => card.weight ?? 1,
+  );
 }
 
 // ── Playing ──────────────────────────────────────────────────────────────────

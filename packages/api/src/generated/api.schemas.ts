@@ -137,6 +137,8 @@ export interface Card {
   /** @minLength 1 */
   source?: string;
   pack?: string;
+  /** @exclusiveMinimum 0 */
+  weight?: number;
 }
 
 export interface Deck {
