@@ -716,6 +716,43 @@ describe("sips only", () => {
     }
   }, 20_000); // Twelve long games.
 
+  it("draws liked cards more often, and disliked ones still", () => {
+    // One mini-game at level 1: half the cards liked, half disliked.
+    const pool = deck.cards.filter(
+      (card) => card.game === "tu-preferes" && card.level === 1,
+    );
+    const liked = new Set(
+      pool.filter((_, index) => index % 2 === 0).map((card) => card.id),
+    );
+    const voted = {
+      ...deck,
+      cards: pool.map((card) => ({
+        ...card,
+        weight: liked.has(card.id) ? 2 : 0.25,
+      })),
+    };
+    const settings = sips({ level: 1, duration: null, games: ["tu-preferes"] });
+    const games = Array.from({ length: 200 }, (_, seed) => {
+      const context = { ...contextFor(seed), deck: voted };
+      let state = startGame(
+        { id: "game", settings, players: somePlayers(4) },
+        context,
+      );
+      while (!state.finished && state.turns.length < 500) {
+        state = play(state, "next", context);
+      }
+      return state;
+    });
+    // About 2 / 2.25 of the first cards: far above the half without votes.
+    const firstLiked = games.filter((state) =>
+      liked.has(state.turns[0]!.cardId),
+    ).length;
+    expect(firstLiked).toBeGreaterThan(150);
+    // A game that goes on long enough plays the disliked cards too.
+    const played = new Set(games[0]!.turns.map((turn) => turn.cardId));
+    for (const card of pool) expect(played).toContain(card.id);
+  });
+
   it("takes a water break about every 50 cards", () => {
     const state = playThrough(
       sips({ duration: null, level: 5 }),

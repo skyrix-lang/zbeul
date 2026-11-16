@@ -185,7 +185,7 @@ Dans les options avancées de chaque joueur, ou pour toute la partie, on peut ex
      - aucune saisie de nombre ni de phrase : tout se dit à voix haute ;
    - bandeau permanent : règles actives et partenaires de boisson ; une règle qui se termine est annoncée ;
    - **retour en arrière** : un bouton revient à la carte précédente (score compris), jusqu'à 20 appuis ;
-   - **pouce levé / pouce baissé** sur chaque carte : le pouce levé garde la carte en favori et envoie un « j'aime » anonyme ; le pouce baissé ouvre les raisons à cocher (nulle ou ennuyeuse, trop longue, trop dure, à modifier) et un message facultatif. Un second appui annule ;
+   - **pouce levé / pouce baissé** sur chaque carte : le pouce levé garde la carte en favori et envoie un « j'aime » anonyme ; le pouce baissé ouvre les raisons à cocher (nulle ou ennuyeuse, trop longue, trop dure, à modifier) et un message facultatif. Un second appui annule. Les votes de tous les joueurs font sortir une carte plus ou moins tôt (chances de ×0,25 à ×2), sans jamais la retirer ;
    - la croix propose : continuer, **mettre en pause** (retour à l'accueil) ou terminer.
 5. **Fin** : classement (joueurs ou équipes) en mode points seulement, pouce levé sur les meilleures cartes, « Rejouer ».
    **Tirage des cartes** :

@@ -106,6 +106,11 @@ export const cardSchema = z
     source: z.string().min(1).optional(),
     /** The pack the card belongs to. Absent in the deck bundled with the app. */
     pack: z.string().optional(),
+    /**
+     * How likely it is drawn against its neighbours, from players' thumbs
+     * (voteWeight). Absent: 1.
+     */
+    weight: z.number().positive().optional(),
   })
   .refine(
     (card) =>

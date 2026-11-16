@@ -262,6 +262,10 @@
           },
           "pack": {
             "type": "string"
+          },
+          "weight": {
+            "type": "number",
+            "exclusiveMinimum": 0
           }
         },
         "required": [
