@@ -30,6 +30,9 @@ Object.assign(process.env, {
   // The admin of e2e/admin.spec.ts, who chooses a password in the first test.
   ADMIN_EMAIL: "admin@example.test",
   ADMIN_SETUP_CODE: "e2e-setup-code-0123456789",
+  // Tests never send real mail, even with SMTP settings in .env: an empty
+  // SMTP_HOST wins over the file and means mail is only logged (src/mail.ts).
+  SMTP_HOST: "",
 });
 
 export default defineConfig({

@@ -48,6 +48,7 @@ apps/
     src/routes/auth.ts      /auth/login, /auth/callback, /auth/logout
     src/session.ts          server-side sessions (HttpOnly cookie)
     src/env.ts              settings, checked at startup
+    src/mail.ts             mail over SMTP (logged when unconfigured)
 packages/
   core/                     Zod schemas and types shared by web and BFF
   db/                       Drizzle schema, migrations (drizzle/), seed data
@@ -87,6 +88,10 @@ commit it, it's where `yarn sync-from-starter` starts from.
   `yarn sync-from-starter --dry-run`, then `yarn sync-from-starter`. It merges
   what changed in the starter since the commit in `.starter.json` with the
   project's own changes, as `git merge` would. Review, `yarn verify`, commit.
+- **Automatically:** a workflow does that every Monday (or on demand from the
+  Actions tab) and opens a pull request, with Claude resolving conflicts.
+  `@claude` in an issue or pull request asks Claude for any other work. Both
+  need a few secrets: see the guide.
 
 The whole process, conflicts and the rules for changing the starter:
 [docs/starter-sync.md](docs/starter-sync.md).
@@ -136,17 +141,19 @@ The BFF reads its settings from the environment when it starts
 every problem. Nothing is baked in at build time, so one image serves any
 customer and any domain.
 
-| Variable                                              | Meaning                                                                                               |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `PUBLIC_URL`                                          | the address people use; used for the OIDC callback, the CSRF check, the canonical URL and the sitemap |
-| `DATABASE_URL`                                        | Postgres                                                                                              |
-| `SESSION_SECRET`                                      | signs the short-lived sign-in cookie (32+ random characters in production)                            |
-| `ADMIN_EMAIL`                                         | the admin's account; unset, there is no admin                                                         |
-| `ADMIN_SETUP_CODE`                                    | lets the admin choose their password, the first time only (16+ characters)                            |
-| `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET` | an identity provider and its confidential client; optional, all three or none                         |
-| `PORT`, `HOST`                                        | where the BFF listens (3000 and 0.0.0.0 in the image)                                                 |
-| `LOG_LEVEL`                                           | `debug`, `info` (default), `warn`, `error` or `silent`                                                |
-| `STATIC_DIR`                                          | the built SPA (set in the image)                                                                      |
+| Variable                                               | Meaning                                                                                               |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `PUBLIC_URL`                                           | the address people use; used for the OIDC callback, the CSRF check, the canonical URL and the sitemap |
+| `DATABASE_URL`                                         | Postgres                                                                                              |
+| `SESSION_SECRET`                                       | signs the short-lived sign-in cookie (32+ random characters in production)                            |
+| `ADMIN_EMAIL`                                          | the admin's account; unset, there is no admin                                                         |
+| `ADMIN_SETUP_CODE`                                     | lets the admin choose their password, the first time only (16+ characters)                            |
+| `OIDC_ISSUER`, `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`  | an identity provider and its confidential client; optional, all three or none                         |
+| `PORT`, `HOST`                                         | where the BFF listens (3000 and 0.0.0.0 in the image)                                                 |
+| `LOG_LEVEL`                                            | `debug`, `info` (default), `warn`, `error` or `silent`                                                |
+| `STATIC_DIR`                                           | the built SPA (set in the image)                                                                      |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` | the SMTP server mail goes through; unset, mail is only logged (see [Mail](#mail))                     |
+| `MAIL_FROM`                                            | the sender, on a domain the SMTP server may send for                                                  |
 
 ## Authentication
 
@@ -193,6 +200,33 @@ Who may sign in is decided by the provider: every account it accepts gets in.
 Use the customer's own provider, or restrict a shared one to their users,
 groups or domain. Never point `OIDC_ISSUER` at a public provider without such a
 restriction.
+
+## Mail
+
+`mailer().send({ to, subject, text, html? })` (`apps/bff/src/mail.ts`) sends
+through any SMTP server with Nodemailer, such as Scaleway Transactional Email:
+
+```bash
+SMTP_HOST=smtp.tem.scaleway.com
+SMTP_PORT=465                       # TLS: 465, 2465. STARTTLS: 587, 2587, 25
+SMTP_USER=<project id>
+SMTP_PASSWORD=<API secret key>
+MAIL_FROM="Acme <no-reply@acme.example>"   # on a domain verified in TEM
+```
+
+Credentials never travel unencrypted: ports other than 465 and 2465 must
+upgrade with STARTTLS, or the mail isn't sent. A refused mail throws.
+
+**No real mail in tests.** Without `SMTP_HOST`, nothing is sent: the mail is
+logged (recipient and subject in development, a bare warning in production).
+`vitest.config.ts` and `playwright.config.ts` both empty `SMTP_HOST`, which
+wins over `.env` and the shell. In production a sent mail is logged by its
+message id only, and a refusal by its SMTP codes, without the server's reply
+(it often quotes the recipient). `yarn dev`
+does send when `.env` has SMTP settings, so use addresses you own there.
+
+Anything that sends mail because of a request must be rate limited with
+`hit()` from `apps/bff/src/rate-limit.ts`.
 
 ## API
 
