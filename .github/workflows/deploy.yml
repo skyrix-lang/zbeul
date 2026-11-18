@@ -1,0 +1,74 @@
+name: Deploy
+
+# Deploys main to the server once CI has passed on it: the same `yarn deploy`
+# as from a laptop (scripts/deploy.sh). It ships the commit over SSH, builds
+# the image there, applies the migrations, and restarts the app once the new
+# version is healthy; a failed migration or health check leaves the old
+# version running. Also from the Actions tab ("Run workflow"), to redeploy.
+# Does nothing until the DEPLOY_SSH variable is set.
+# Setup: README, "Deploying automatically".
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time, in order: a newer one waits, it never cancels one in
+# the middle of a migration.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # A CI run on main after a push (a merge), that passed. Not a CI run on a
+    # pull request whose branch happens to be called main.
+    if: >-
+      vars.DEPLOY_SSH != '' && (github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Settings → Environments → production: where the secrets live, and where
+    # you can require an approval or limit deploys to main.
+    environment: production
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The commit CI passed on, not whatever main is now.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      # A key for this purpose only, and the server's host key pinned: no
+      # trust-on-first-use, so a spoofed server gets nothing.
+      - name: SSH key and known host
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$DEPLOY_SSH_KEY" ] || [ -z "$DEPLOY_KNOWN_HOSTS" ]; then
+            echo "::error::Set the DEPLOY_SSH_KEY and DEPLOY_KNOWN_HOSTS secrets in the production environment (README, \"Deploying automatically\")."
+            exit 1
+          fi
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_deploy ~/.ssh/known_hosts
+
+      - name: yarn deploy
+        env:
+          DEPLOY_SSH: ${{ vars.DEPLOY_SSH }}
+          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+          DEPLOY_DIR: ${{ vars.DEPLOY_DIR || 'apps/zbeul' }}
+        # The script needs only git, ssh and tar, not Node or Yarn.
+        run: |
+          export DEPLOY_SSH_OPTIONS="-i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes"
+          sh scripts/deploy.sh
+
+      - name: Clean up the key
+        if: always()
+        run: rm -f ~/.ssh/id_deploy

@@ -334,6 +334,61 @@ still builds, more slowly: `sudo apt install docker-buildx` fixes that. The
 proxy sets `x-forwarded-for`, which the rate limits read. The app sets its own
 cache headers: the proxy needs no rule for the service worker.
 
+### Deploying automatically
+
+`.github/workflows/deploy.yml` runs the same `yarn deploy` on GitHub each time
+CI passes on `main`, so a merged pull request is live a few minutes later. A
+failed migration or health check stops it with the old version still running,
+and the run fails, so you get GitHub's failure notification. **Run workflow**
+in the Actions tab redeploys `main` by hand. It does nothing until
+`DEPLOY_SSH` is set.
+
+One-time setup:
+
+1. **A key for GitHub only**, on your machine. No passphrase, since nobody
+   types it; it never leaves this machine except into the secret below:
+
+   ```bash
+   ssh-keygen -t ed25519 -N "" -C "zbeul deploy from GitHub" -f ~/.ssh/zbeul_deploy
+   ```
+
+   Add `~/.ssh/zbeul_deploy.pub` to `~/.ssh/authorized_keys` of the server
+   user that runs `yarn deploy` today (it needs Docker access and the deploy
+   directory, nothing more). `ssh-copy-id -i ~/.ssh/zbeul_deploy.pub -p 22 user@host`
+   does it.
+
+2. **The environment:** Settings → Environments → **New environment**,
+   `production`. Under "Deployment branches and tags", choose "Selected
+   branches" and add `main`. Tick "Required reviewers" only if you want to
+   approve each deploy.
+3. **Its secrets and variables**, from a terminal (each `secret set` reads the
+   value from the file or command, so it never shows on screen):
+
+   ```bash
+   gh secret set DEPLOY_SSH_KEY --env production -R skyrix-lang/zbeul < ~/.ssh/zbeul_deploy
+   ```
+
+   ```bash
+   ssh-keyscan -p 22 host | gh secret set DEPLOY_KNOWN_HOSTS --env production -R skyrix-lang/zbeul
+   ```
+
+   ```bash
+   gh variable set DEPLOY_SSH -R skyrix-lang/zbeul --body "user@host"
+   ```
+
+   The secrets belong to the environment, so only a job deploying `main` can
+   read them; `DEPLOY_SSH` is a repository variable, since the workflow reads it
+   to decide whether to run at all. Compare the host key `ssh-keyscan` printed with the one your own
+   `~/.ssh/known_hosts` has for the server (`ssh-keygen -F host`): the secret
+   pins it, so the workflow refuses a server that answers with another key.
+   Set `DEPLOY_PORT` (default 22) and `DEPLOY_DIR` (default `apps/zbeul`) the
+   same way if yours differ.
+
+4. **Try it:** Actions → Deploy → **Run workflow**.
+
+To stop automatic deploys, delete the `DEPLOY_SSH` variable. If the key is
+ever exposed, remove its line from the server's `authorized_keys`.
+
 ### Logs
 
 The BFF writes one line per event to stdout, and warnings and errors to

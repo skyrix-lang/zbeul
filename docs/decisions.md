@@ -293,6 +293,20 @@ move a card so far.
 With more players, raise `NEUTRAL_VOTES` (3 to 5) so a card needs more votes
 to move.
 
+## Main deploys itself
+
+Once CI passes on `main`, `.github/workflows/deploy.yml` runs `yarn deploy`
+from GitHub with a key used for nothing else, against a pinned host key; the
+secrets live in a `production` environment limited to `main`. Since auto-merge,
+anything merged into `main` (Renovate's updates and the starter's clean syncs
+included) reaches players minutes later.
+**Why:** one person maintains it; `main` is already guarded by required CI,
+and the deploy itself stops with the old version running when a migration or
+the health check fails. Building on the server keeps the existing script and
+needs no registry access there.
+**Revisit when:** a bad release reaches players despite CI: add a staging
+server, or require an approval on the `production` environment.
+
 ## Projects follow the starter
 
 Projects are copies of the starter (`yarn rename`), not forks or packages.
