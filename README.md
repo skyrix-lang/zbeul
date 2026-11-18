@@ -329,7 +329,21 @@ DEPLOY_SSH=user@host DEPLOY_PORT=22 yarn deploy
 
 It copies the commit to the server (no git access is needed there), then
 `scripts/deploy-remote.sh` builds the image there, applies the migrations,
-restarts the app and prunes old images. A server whose Docker has no BuildKit
+restarts the app and prunes old images. Then it checks the public address
+(the server's `PUBLIC_URL`, or `DEPLOY_URL` if set): `/api/health` and `/` must
+answer over https within about a minute.
+
+**Rollback.** Each deploy keeps the version it replaces as
+`zbeul-app:previous`. When the new version fails its health check, or the
+public address doesn't answer, `scripts/rollback-remote.sh` starts the
+previous version again and the deploy fails, saying so. A failed migration
+stops earlier, with the old version never stopped. A rollback doesn't undo
+migrations: the previous version runs on the database as the new one left it,
+so a migration only adds in one release (a column, a table) and removes what
+the old code still reads in a later one. To roll back by hand:
+`ssh <user>@<server> 'cd apps/zbeul/src && sh scripts/rollback-remote.sh'`.
+
+A server whose Docker has no BuildKit
 still builds, more slowly: `sudo apt install docker-buildx` fixes that. The
 proxy sets `x-forwarded-for`, which the rate limits read. The app sets its own
 cache headers: the proxy needs no rule for the service worker.
@@ -337,9 +351,10 @@ cache headers: the proxy needs no rule for the service worker.
 ### Deploying automatically
 
 `.github/workflows/deploy.yml` runs the same `yarn deploy` on GitHub each time
-CI passes on `main`, so a merged pull request is live a few minutes later. A
-failed migration or health check stops it with the old version still running,
-and the run fails, so you get GitHub's failure notification. **Run workflow**
+CI passes on `main`, so a merged pull request is live a few minutes later.
+When something fails (a migration, the health check, the public address), the
+previous version stays or is put back (see "Rollback" above) and the run
+fails, so you get GitHub's failure notification. **Run workflow**
 in the Actions tab redeploys `main` by hand. It does nothing until
 `DEPLOY_SSH` is set.
 

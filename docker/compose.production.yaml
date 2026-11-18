@@ -27,6 +27,9 @@ services:
       - deploy
 
   app:
+    # A fixed name: each deploy keeps the version it replaces as
+    # zbeul-app:previous, which scripts/rollback-remote.sh starts again.
+    image: zbeul-app:current
     build:
       context: ..
       dockerfile: docker/Dockerfile
