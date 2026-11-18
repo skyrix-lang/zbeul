@@ -7,8 +7,10 @@
 # or absolute, without a tilde) holds
 # .env.production, which this never touches, and `src`, the deployed commit.
 # The image is built on the server, the migrations run, then the app restarts:
-# the order that keeps a failed migration from reaching users.
-# See "Deploying" in the README for the one-time setup.
+# the order that keeps a failed migration from reaching users. Then the public
+# address (PUBLIC_URL, or DEPLOY_URL) must answer over https, or the previous
+# version is started again (scripts/rollback-remote.sh).
+# Needs git, ssh, tar and curl. See "Deploying" in the README.
 set -eu
 
 : "${DEPLOY_SSH:?Set DEPLOY_SSH to user@host}"
@@ -45,4 +47,36 @@ remote "set -e; cd '$dir'; rm -rf src.new; mkdir src.new; tar -x -C src.new; ln 
 
 remote "cd '$dir/src' && sh scripts/deploy-remote.sh"
 
-echo "Deployed $commit."
+# From outside, as players reach it: DNS, the proxy, the certificate, the app
+# and its database. The address is the server's own PUBLIC_URL unless
+# DEPLOY_URL says otherwise. No answer within about a minute: roll back.
+url=${DEPLOY_URL:-$(remote "sed -n 's/^PUBLIC_URL=//p' '$dir/.env.production'" | tr -d '"\r')}
+if [ -z "$url" ]; then
+  echo "No PUBLIC_URL in $dir/.env.production and no DEPLOY_URL: can't check the public address." >&2
+  exit 1
+fi
+url=${url%/}
+
+answers() {
+  curl -fsS --max-time 10 -o /dev/null "$url/api/health" &&
+    curl -fsS --max-time 10 -o /dev/null "$url/"
+}
+
+echo "Checking $url…"
+tries=0
+until answers; do
+  tries=$((tries + 1))
+  if [ "$tries" -ge 6 ]; then
+    echo "$url doesn't answer after the deploy: rolling back." >&2
+    remote "cd '$dir/src' && sh scripts/rollback-remote.sh" || true
+    if answers; then
+      echo "$url answers again, with the previous version. $commit is NOT deployed." >&2
+    else
+      echo "$url still doesn't answer after the rollback: look at the server now." >&2
+    fi
+    exit 1
+  fi
+  sleep 10
+done
+
+echo "Deployed $commit: $url answers."

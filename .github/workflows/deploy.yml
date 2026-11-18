@@ -2,9 +2,10 @@ name: Deploy
 
 # Deploys main to the server once CI has passed on it: the same `yarn deploy`
 # as from a laptop (scripts/deploy.sh). It ships the commit over SSH, builds
-# the image there, applies the migrations, and restarts the app once the new
-# version is healthy; a failed migration or health check leaves the old
-# version running. Also from the Actions tab ("Run workflow"), to redeploy.
+# the image there, applies the migrations, restarts the app once the new
+# version is healthy, then checks the public https address. A failed migration
+# leaves the old version running; a failed health check or public check starts
+# the previous version again (scripts/rollback-remote.sh). Also from the Actions tab ("Run workflow"), to redeploy.
 # Does nothing until the DEPLOY_SSH variable is set.
 # Setup: README, "Deploying automatically".
 
@@ -64,7 +65,11 @@ jobs:
           DEPLOY_SSH: ${{ vars.DEPLOY_SSH }}
           DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
           DEPLOY_DIR: ${{ vars.DEPLOY_DIR || 'apps/zbeul' }}
-        # The script needs only git, ssh and tar, not Node or Yarn.
+          # The address to check; empty means the server's PUBLIC_URL.
+          DEPLOY_URL: ${{ vars.DEPLOY_URL }}
+        # The script needs only git, ssh, tar and curl, not Node or Yarn. It
+        # ends by checking the public address, and rolls back if it doesn't
+        # answer.
         run: |
           export DEPLOY_SSH_OPTIONS="-i $HOME/.ssh/id_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o BatchMode=yes"
           sh scripts/deploy.sh

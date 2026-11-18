@@ -301,8 +301,11 @@ secrets live in a `production` environment limited to `main`. Since auto-merge,
 anything merged into `main` (Renovate's updates and the starter's clean syncs
 included) reaches players minutes later.
 **Why:** one person maintains it; `main` is already guarded by required CI,
-and the deploy itself stops with the old version running when a migration or
-the health check fails. Building on the server keeps the existing script and
+and the deploy stops with the old version running when a migration fails,
+and starts the previous image again (kept as `zbeul-app:previous`) when the
+new one fails its health check or the public https address doesn't answer.
+Migrations aren't rolled back, so each one only adds, and removes in a later
+release. Building on the server keeps the existing script and
 needs no registry access there.
 **Revisit when:** a bad release reaches players despite CI: add a staging
 server, or require an approval on the `production` environment.
