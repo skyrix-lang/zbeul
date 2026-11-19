@@ -24,7 +24,7 @@ test.describe("signed out", () => {
       "/sign-in?returnTo=%2Fbookings%3Fstatus%3Dconfirmed",
     );
     await expect(
-      page.getByRole("heading", { name: "Se connecter" }),
+      page.getByRole("heading", { name: "Connexion" }),
     ).toBeVisible();
 
     await page
@@ -77,7 +77,7 @@ test.describe("signed out", () => {
     await page.goto("/auth/callback?code=forged&state=forged");
 
     await expect(page).toHaveURL("/sign-in?error=Expired");
-    await expect(page.getByRole("alert")).toContainText("took too long");
+    await expect(page.getByRole("alert")).toContainText("a pris trop de temps");
   });
 
   test("the session cookie is HttpOnly and SameSite", async ({
