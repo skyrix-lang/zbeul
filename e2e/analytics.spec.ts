@@ -1,7 +1,7 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { createServer } from "node:net";
 import type { Page } from "@playwright/test";
-import { expect, gotoHydrated, test as base } from "./support";
+import { asReturningPlayer, expect, test as base } from "./support";
 
 // Google Analytics is off unless the server has a measurement id. The main
 // test server has none; these tests start a second one, from the same build,
@@ -84,6 +84,12 @@ const test = base.extend<
 });
 
 const banner = (page: Page) => page.getByRole("region", { name: "Cookies" });
+// Zbeul's screens have no header to wait for: a returning player (past the
+// age gate) sees the screen's heading once the app has rendered.
+async function open(page: Page, url: string) {
+  await page.goto(url);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+}
 const libraryLoaded = (page: Page) =>
   page.evaluate(() => "gaStandIn" in window);
 
@@ -91,11 +97,12 @@ test("asks first, and loads nothing from Google until then", async ({
   page,
   libraryRequests,
 }) => {
-  await gotoHydrated(page, "/");
+  await asReturningPlayer(page);
+  await open(page, "/");
 
   await expect(banner(page)).toBeVisible();
   await expect(banner(page)).toContainText("Google Analytics");
-  await expect(page.getByRole("button", { name: "Decline" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Refuser" })).toBeVisible();
   expect(libraryRequests).toEqual([]);
   expect(await page.evaluate(() => document.cookie)).not.toContain("_ga");
   // The test ends with the banner open: axe checks it.
@@ -105,14 +112,15 @@ test("a refusal loads nothing, and is remembered", async ({
   page,
   libraryRequests,
 }) => {
-  await gotoHydrated(page, "/");
-  await page.getByRole("button", { name: "Decline" }).click();
+  await asReturningPlayer(page);
+  await open(page, "/reglages");
+  await page.getByRole("button", { name: "Refuser" }).click();
 
   await expect(banner(page)).toBeHidden();
   await expect(
-    page.getByRole("button", { name: "Cookie settings" }),
+    page.getByRole("button", { name: "Gérer les cookies" }),
   ).toBeFocused();
-  await gotoHydrated(page, "/");
+  await open(page, "/");
   await expect(banner(page)).toBeHidden();
   expect(libraryRequests).toEqual([]);
 });
@@ -121,8 +129,9 @@ test("accepting loads Google's library, with consent denied by default", async (
   page,
   libraryRequests,
 }) => {
-  await gotoHydrated(page, "/");
-  await page.getByRole("button", { name: "Accept" }).click();
+  await asReturningPlayer(page);
+  await open(page, "/");
+  await page.getByRole("button", { name: "Accepter" }).click();
 
   await expect(banner(page)).toBeHidden();
   await expect.poll(() => libraryLoaded(page)).toBe(true);
@@ -158,11 +167,12 @@ test("cookie settings changes the answer, by keyboard", async ({
   page,
   libraryRequests,
 }) => {
-  await gotoHydrated(page, "/");
-  await page.getByRole("button", { name: "Accept" }).click();
+  await asReturningPlayer(page);
+  await open(page, "/reglages");
+  await page.getByRole("button", { name: "Accepter" }).click();
   await expect.poll(() => libraryLoaded(page)).toBe(true);
 
-  const settings = page.getByRole("button", { name: "Cookie settings" });
+  const settings = page.getByRole("button", { name: "Gérer les cookies" });
   await settings.focus();
   await page.keyboard.press("Enter");
   await expect(banner(page)).toBeFocused();
@@ -172,7 +182,7 @@ test("cookie settings changes the answer, by keyboard", async ({
 
   await page.keyboard.press("Enter");
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("button", { name: "Decline" })).toBeFocused();
+  await expect(page.getByRole("button", { name: "Refuser" })).toBeFocused();
   await page.keyboard.press("Enter");
 
   await expect(banner(page)).toBeHidden();
@@ -184,7 +194,7 @@ test("cookie settings changes the answer, by keyboard", async ({
     ),
   ).toBe(true);
   libraryRequests.length = 0;
-  await gotoHydrated(page, "/");
+  await open(page, "/");
   expect(libraryRequests).toEqual([]);
 });
 
@@ -192,12 +202,13 @@ base.describe("without a measurement id", () => {
   base(
     "there is no banner, no cookie settings, and no Google in the CSP",
     async ({ page }) => {
-      await gotoHydrated(page, "/");
+      await asReturningPlayer(page);
+      await open(page, "/");
       const response = await page.request.get("/");
 
       await expect(banner(page)).toHaveCount(0);
       await expect(
-        page.getByRole("button", { name: "Cookie settings" }),
+        page.getByRole("button", { name: "Gérer les cookies" }),
       ).toHaveCount(0);
       expect(response.headers()["content-security-policy"]).not.toContain(
         "google",

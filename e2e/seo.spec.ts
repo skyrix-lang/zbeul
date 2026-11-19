@@ -236,7 +236,7 @@ test("an unknown address answers 404, with the app's not-found page", async ({
 
   expect(response!.status()).toBe(404);
   await expect(
-    page.getByRole("heading", { level: 1, name: "Page not found" }),
+    page.getByRole("heading", { level: 1, name: "Page introuvable" }),
   ).toBeVisible();
 });
 

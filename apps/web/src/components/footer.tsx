@@ -37,7 +37,7 @@ export function Footer() {
                 onClick={openConsentSettings}
                 className="text-sm text-muted-foreground hover:text-foreground cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                Cookie settings
+                Gérer les cookies
               </button>
             )}
           </div>

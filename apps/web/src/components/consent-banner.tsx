@@ -7,7 +7,10 @@ import {
   type Choice,
 } from "../analytics";
 
-/** The footer's "Cookie settings" button, where focus goes when the banner closes. */
+/**
+ * The "Gérer les cookies" button (in Réglages, or the signed-in pages'
+ * footer), where focus goes when the banner closes.
+ */
 export const CONSENT_SETTINGS_ID = "cookie-settings";
 
 /**
@@ -82,17 +85,17 @@ export function ConsentBanner() {
           id="consent-description"
           className="mt-1 text-sm text-muted-foreground"
         >
-          May we measure how this site is used, with Google Analytics? It sets
-          cookies and sends Google your visit. Nothing is measured unless you
-          accept, and you can change your mind any time from “Cookie settings”
-          at the bottom of the page.
+          On peut mesurer comment l'appli est utilisée, avec Google Analytics ?
+          Ça dépose des cookies et envoie ta visite à Google. Rien n'est mesuré
+          sans ton accord, et tu peux changer d'avis quand tu veux dans
+          Réglages, « Gérer les cookies ».
         </p>
         <div className="mt-4 flex flex-wrap justify-end gap-3">
           <Button variant="secondary" onClick={() => choose("denied")}>
-            Decline
+            Refuser
           </Button>
           <Button variant="secondary" onClick={() => choose("granted")}>
-            Accept
+            Accepter
           </Button>
         </div>
       </section>

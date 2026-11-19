@@ -84,7 +84,7 @@ export function usePageMeta({
   title,
   description = site.description,
   image = DEFAULT_IMAGE,
-  imageAlt = `The ${site.name} logo`,
+  imageAlt = `Le logo de ${site.name}`,
   type = "website",
   noindex = false,
   jsonLd,
