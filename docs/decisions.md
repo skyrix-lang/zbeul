@@ -453,6 +453,13 @@ though no page needs it yet.
 the admin now shows every layer of a feature.
 Their starter paths are in `.starter.json`'s `ignore`, so a sync doesn't
 bring them back.
+`ignore` only covers files that are wholly bookings: the starter's bookings
+code also lives in files Zbeul keeps (the table in `packages/db/src/schema.ts`,
+the routes in `apps/bff/src/routes/api.ts`, the exports in
+`packages/core/src/index.ts`, `packages/api/openapi.json`, the messages
+files), and a sync merges changes to it back in. Review every sync PR for
+those and delete them there: the schema must not define the table again,
+or the next `db:generate` would recreate what `0006` dropped.
 **Revisit when:** a sync still brings bookings code in (a new file elsewhere):
 delete it in the sync PR, and add its path to `ignore`.
 
