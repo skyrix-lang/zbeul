@@ -12,7 +12,10 @@ import type { Page } from "@playwright/test";
 // password is chosen once, by the first test: the tests run in order, in one
 // browser (the "admin" project in playwright.config.ts).
 
-test.describe.configure({ mode: "serial" });
+// No retries: a retry starts this file again from its first test, which can't
+// choose the password a second time, so it would only hide the real failure
+// behind a misleading one. A flaky test here must be fixed, not retried.
+test.describe.configure({ mode: "serial", retries: 0 });
 // A refused password is a 403, which the browser logs as an error.
 test.use({ ...signedOut, allowConsoleErrors: true });
 
@@ -258,10 +261,13 @@ test("shows what players ticked, and how often a card was liked or reported", as
   });
   await page.goto("/admin/cartes?sort=likes");
   await expect(page.getByLabel("Ordre")).toHaveValue("likes");
-  const ids = await page
-    .getByTestId("card-row")
-    .getByRole("link")
-    .allTextContents();
+  // allTextContents() doesn't wait: read the list only once both rows are
+  // there, or it may read it while the cards are still loading (both -1).
+  const cardLinks = page.getByTestId("card-row").getByRole("link");
+  for (const id of ["VAL-054", "VAL-053"]) {
+    await expect(cardLinks.getByText(id, { exact: true })).toBeVisible();
+  }
+  const ids = await cardLinks.allTextContents();
   expect(ids.indexOf("VAL-054")).toBeLessThan(ids.indexOf("VAL-053"));
 });
 
