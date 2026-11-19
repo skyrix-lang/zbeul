@@ -1,4 +1,4 @@
-# Zbeul in production, behind an nginx-proxy that routes by VIRTUAL_HOST and
+# The app in production, behind an nginx-proxy that routes by VIRTUAL_HOST and
 # gets its certificates from Let's Encrypt (the usual jwilder/nginx-proxy +
 # companion setup). `yarn deploy` (scripts/deploy.sh) copies the repository to
 # the server and runs this file there.

@@ -48,7 +48,7 @@ remote "set -e; cd '$dir'; rm -rf src.new; mkdir src.new; tar -x -C src.new; ln 
 
 remote "cd '$dir/src' && sh scripts/deploy-remote.sh"
 
-# From outside, as players reach it: DNS, the proxy, the certificate, the app
+# From outside, as people reach it: DNS, the proxy, the certificate, the app
 # and its database. The address is the server's own PUBLIC_URL unless
 # DEPLOY_URL says otherwise. No answer within about a minute: roll back.
 url=${DEPLOY_URL:-$(remote "sed -n 's/^PUBLIC_URL=//p' '$dir/.env.production'" | tr -d '"\r')}
