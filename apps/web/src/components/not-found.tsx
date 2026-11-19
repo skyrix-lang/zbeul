@@ -21,8 +21,9 @@ export function Message({
   );
 }
 
-// The SPA can't make the server answer 404, so the page tells search engines
-// not to index it instead. Also what a signed-in visitor who isn't the admin
+// The server answers 404 for an address that matches no route (routes.json);
+// a route's own "not found" still answers 200, so the page tells search
+// engines not to index it too. Also what a signed-in visitor who isn't the admin
 // sees at /admin: nothing says there is an admin.
 export function NotFoundPage() {
   usePageMeta({ title: "Page introuvable", noindex: true });

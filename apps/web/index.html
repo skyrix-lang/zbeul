@@ -18,6 +18,12 @@
       content="Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes."
     />
     <link rel="canonical" href="%PUBLIC_URL%/" />
+    <!--
+      Icons: the SVG for browsers, favicon.ico (48, 32 and 16 px) for those
+      that ask for it and for search results, and a 180 px square for phones'
+      home screens. Regenerate them from icon.svg when the brand changes.
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0b0b12" />
@@ -57,14 +63,31 @@
     <meta name="twitter:image:alt" content="The Zbeul logo" />
     <!-- Google Analytics' measurement id, filled by the BFF: empty means off. -->
     <meta name="ga-measurement-id" content="%GA_MEASUREMENT_ID%" />
+    <!--
+      Structured data: the site, and the organisation behind it, whose logo
+      search results may show (a square image of at least 112 px).
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Zbeul",
-        "url": "%PUBLIC_URL%/",
-        "inLanguage": "fr",
-        "description": "Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes."
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "%PUBLIC_URL%/#website",
+            "name": "Zbeul",
+            "url": "%PUBLIC_URL%/",
+            "inLanguage": "fr",
+            "description": "Zbeul, the game for afterparties : le jeu de soirée entre potes sur un seul téléphone, de l'apéro tranquille au très limite. Gratuit, sans compte, jouable sans connexion. Réservé aux adultes.",
+            "publisher": { "@id": "%PUBLIC_URL%/#organization" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "%PUBLIC_URL%/#organization",
+            "name": "Zbeul",
+            "url": "%PUBLIC_URL%/",
+            "logo": "%PUBLIC_URL%/apple-touch-icon.png"
+          }
+        ]
       }
     </script>
     <!-- Before anything is drawn: the saved theme (public/theme.js). -->
