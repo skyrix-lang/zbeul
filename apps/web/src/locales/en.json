@@ -2,7 +2,6 @@
   "nav": {
     "main": "Main",
     "home": "Home",
-    "bookings": "Bookings",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -46,26 +45,6 @@
       "Unavailable": "The sign-in service isn't reachable right now. Try again later.",
       "default": "Something went wrong signing you in. Please try again."
     }
-  },
-  "home": {
-    "headline": "Book with <em>confidence</em>",
-    "text": "The simplest way to manage your bookings. Schedule, track, and organize all your appointments in one place.",
-    "cta": "View Bookings",
-    "scheduling": {
-      "title": "Easy Scheduling",
-      "text": "Book appointments in just a few clicks with our intuitive calendar interface."
-    },
-    "availability": {
-      "title": "Real-time Availability",
-      "text": "See available time slots instantly and never double-book again."
-    },
-    "confirmation": {
-      "title": "Instant Confirmation",
-      "text": "Get immediate booking confirmations and reminders for your appointments."
-    }
-  },
-  "bookings": {
-    "title": "Bookings"
   },
   "toast": {
     "region": "Notifications",

@@ -1,14 +1,13 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { LANGUAGES, type Language } from "@zbeul/core";
-import { messages as bookings } from "@zbeul/feature-bookings";
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
 import { usePreferences } from "./preferences";
 
 // Every text on screen comes from a messages file, one per language and
 // namespace: the app's in src/locales (`app`, the default namespace), each
-// feature's in its package (`bookings`). Components call
+// feature's in its package. Components call
 // `useTranslation(namespace)` and `t("key")`; keys are type-checked against
 // the English files. A missing translation falls back to the default
 // language. To translate a file, https://translate.i18next.com takes the
@@ -19,16 +18,13 @@ import { usePreferences } from "./preferences";
 const app = { en, fr } satisfies Record<Language | "en", unknown>;
 
 export const resources = Object.fromEntries(
-  LANGUAGES.map((language) => [
-    language,
-    { app: app[language], bookings: bookings[language] },
-  ]),
+  LANGUAGES.map((language) => [language, { app: app[language] }]),
 );
 
 declare module "i18next" {
   interface CustomTypeOptions {
     defaultNS: "app";
-    resources: { app: typeof en; bookings: typeof bookings.en };
+    resources: { app: typeof en };
   }
 }
 
@@ -61,7 +57,7 @@ export function startI18n() {
     fallbackLng: LANGUAGES[0],
     supportedLngs: LANGUAGES,
     defaultNS: "app",
-    ns: ["app", "bookings"],
+    ns: ["app"],
     // React escapes what it renders.
     interpolation: { escapeValue: false },
     // The messages are bundled: ready before the first render.

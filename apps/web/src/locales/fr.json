@@ -2,7 +2,6 @@
   "nav": {
     "main": "Navigation principale",
     "home": "Accueil",
-    "bookings": "Réservations",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu"
   },
@@ -46,26 +45,6 @@
       "Unavailable": "Le service de connexion est indisponible pour le moment. Réessayez plus tard.",
       "default": "La connexion a échoué. Veuillez réessayer."
     }
-  },
-  "home": {
-    "headline": "Réservez en toute <em>confiance</em>",
-    "text": "La façon la plus simple de gérer vos réservations. Planifiez, suivez et organisez tous vos rendez-vous au même endroit.",
-    "cta": "Voir les réservations",
-    "scheduling": {
-      "title": "Planification facile",
-      "text": "Réservez vos rendez-vous en quelques clics grâce à un calendrier intuitif."
-    },
-    "availability": {
-      "title": "Disponibilités en temps réel",
-      "text": "Voyez les créneaux libres instantanément et évitez les doubles réservations."
-    },
-    "confirmation": {
-      "title": "Confirmation immédiate",
-      "text": "Recevez aussitôt la confirmation et des rappels de vos rendez-vous."
-    }
-  },
-  "bookings": {
-    "title": "Réservations"
   },
   "toast": {
     "region": "Notifications",

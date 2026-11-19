@@ -476,46 +476,6 @@ export interface PackInput {
   published?: boolean;
 }
 
-export type BookingStatus = typeof BookingStatus[keyof typeof BookingStatus];
-
-
-export const BookingStatus = {
-  pending: 'pending',
-  confirmed: 'confirmed',
-  cancelled: 'cancelled',
-} as const;
-
-export interface Booking {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  duration: number;
-  status: BookingStatus;
-}
-
-export interface CreateBooking {
-  /**
-     * @minLength 1
-     * @maxLength 200
-     */
-  title: string;
-  /** @maxLength 2000 */
-  description?: string;
-  date: string;
-  time: string;
-  /**
-     * @maximum 1440
-     * @exclusiveMinimum 0
-     */
-  duration: number;
-}
-
-export interface UpdateBooking {
-  status: BookingStatus;
-}
-
 export type GetHealth200Status = typeof GetHealth200Status[keyof typeof GetHealth200Status];
 
 
@@ -545,9 +505,5 @@ export type ListReportsParams = {
 export type ListCardChangesParams = {
   /** @maxLength 30 */
   cardId?: string;
-};
-
-export type ListBookingsParams = {
-  status?: BookingStatus;
 };
 

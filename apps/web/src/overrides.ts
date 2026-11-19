@@ -7,8 +7,8 @@ type Page<Props> = (props: Props) => ReactNode;
  * A customer's replacements for a package's pages, by route. Checked at build
  * time: a route that doesn't exist is a type error. Empty in the default app.
  *
- *   import { MyBookingsPage } from "./pages/my-bookings";
- *   export const pageOverrides: PageOverrides = { "/bookings": MyBookingsPage };
+ *   import { MySignInPage } from "./pages/my-sign-in";
+ *   export const pageOverrides: PageOverrides = { "/sign-in": MySignInPage };
  *
  * A replacement takes the same props as the page it replaces.
  */

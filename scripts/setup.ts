@@ -89,8 +89,7 @@ async function main() {
   console.log(`
 Ready. Next:
   yarn dev                 ${process.env.PUBLIC_URL}
-  sign in as ada / ada     (Keycloak, http://localhost:8180)
-  yarn db:seed <email>     demo bookings for that user`);
+  sign in as ada / ada     (Keycloak, http://localhost:8180)`);
 }
 
 main().catch((error) => {

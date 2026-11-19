@@ -79,29 +79,10 @@ describe("the request log", () => {
 });
 
 describe("the API", () => {
-  for (const [method, path] of [
-    ["GET", "/api/bookings"],
-    ["POST", "/api/bookings"],
-    ["PATCH", "/api/bookings/00000000-0000-4000-8000-000000000000"],
-  ] as const) {
-    it(`refuses ${method} ${path} without a session`, async () => {
-      const response = await app.request(path, {
-        method,
-        headers: { "content-type": "application/json" },
-        body: method === "GET" ? undefined : "{}",
-      });
-      expect(response.status).toBe(401);
-    });
-  }
-
   it("serves its OpenAPI document", async () => {
     const { openApiDocument } = await import("./routes/api");
     expect(Object.keys(openApiDocument().paths ?? {})).toEqual(
-      expect.arrayContaining([
-        "/api/bookings",
-        "/api/bookings/{id}",
-        "/api/me",
-      ]),
+      expect.arrayContaining(["/api/me"]),
     );
   });
 });
@@ -142,6 +123,5 @@ describe("SEO files", () => {
 
     const sitemap = await (await app.request("/sitemap.xml")).text();
     expect(sitemap).toContain("<loc>https://bookings.example.com/</loc>");
-    expect(sitemap).not.toContain("/bookings<");
   });
 });

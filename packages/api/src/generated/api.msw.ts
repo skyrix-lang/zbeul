@@ -19,7 +19,6 @@ import type {
 } from 'msw';
 
 import {
-  BookingStatus,
   ReportStatus
 } from './api.schemas';
 import type {
@@ -27,12 +26,10 @@ import type {
   AdminLogin,
   AdminSetup,
   AdminStatus,
-  Booking,
   BulkCards,
   BulkCardsResult,
   CardChange,
   CardInput,
-  CreateBooking,
   CreateReport,
   Deck,
   GetHealth200,
@@ -41,7 +38,6 @@ import type {
   Pack,
   PackInput,
   Report,
-  UpdateBooking,
   UpdateReport
 } from './api.schemas';
 
@@ -77,12 +73,6 @@ export const getListPacksResponseMock = (): Pack[] => (Array.from({ length: fake
 export const getCreatePackResponseMock = (overrideResponse: Partial<Extract<Pack, object>> = {}): Pack => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), published: faker.datatype.boolean(), publishedCards: faker.number.int(), cards: faker.number.int(), ...overrideResponse})
 
 export const getUpdatePackResponseMock = (overrideResponse: Partial<Extract<Pack, object>> = {}): Pack => ({id: faker.string.alpha({length: {min: 10, max: 20}}), name: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), published: faker.datatype.boolean(), publishedCards: faker.number.int(), cards: faker.number.int(), ...overrideResponse})
-
-export const getListBookingsResponseMock = (): Booking[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.uuid(), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), date: faker.date.past().toISOString().slice(0, 10), time: faker.string.alpha({length: {min: 10, max: 20}}), duration: faker.number.int(), status: faker.helpers.arrayElement(Object.values(BookingStatus))})))
-
-export const getCreateBookingResponseMock = (overrideResponse: Partial<Extract<Booking, object>> = {}): Booking => ({id: faker.string.uuid(), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), date: faker.date.past().toISOString().slice(0, 10), time: faker.string.alpha({length: {min: 10, max: 20}}), duration: faker.number.int(), status: faker.helpers.arrayElement(Object.values(BookingStatus)), ...overrideResponse})
-
-export const getUpdateBookingResponseMock = (overrideResponse: Partial<Extract<Booking, object>> = {}): Booking => ({id: faker.string.uuid(), title: faker.string.alpha({length: {min: 10, max: 20}}), description: faker.string.alpha({length: {min: 10, max: 20}}), date: faker.date.past().toISOString().slice(0, 10), time: faker.string.alpha({length: {min: 10, max: 20}}), duration: faker.number.int(), status: faker.helpers.arrayElement(Object.values(BookingStatus)), ...overrideResponse})
 
 
 export const getGetHealthMockHandler = (overrideResponse?: GetHealth200 | ((info: Parameters<HttpResponseResolver>[0]) => Promise<GetHealth200> | GetHealth200), options?: RequestHandlerOptions) => {
@@ -292,42 +282,6 @@ export const getUpdatePackMockHandler = (overrideResponse?: Pack | ((info: Param
       })
   }, options)
 }
-
-export const getListBookingsMockHandler = (overrideResponse?: Booking[] | ((info: Parameters<HttpResponseResolver>[0]) => Promise<Booking[]> | Booking[]), options?: RequestHandlerOptions) => {
-  return http.get('*/api/bookings', async (info: Parameters<HttpResponseResolver>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getListBookingsResponseMock(),
-      { status: 200
-      })
-  }, options)
-}
-
-export const getCreateBookingMockHandler = (overrideResponse?: Booking | ((info: Parameters<HttpResponseResolver<PathParams, CreateBooking>>[0]) => Promise<Booking> | Booking), options?: RequestHandlerOptions) => {
-  return http.post<PathParams, CreateBooking>('*/api/bookings', async (info: Parameters<HttpResponseResolver<PathParams, CreateBooking>>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getCreateBookingResponseMock(),
-      { status: 201
-      })
-  }, options)
-}
-
-export const getUpdateBookingMockHandler = (overrideResponse?: Booking | ((info: Parameters<HttpResponseResolver<{ id: string }, UpdateBooking>>[0]) => Promise<Booking> | Booking), options?: RequestHandlerOptions) => {
-  return http.patch<{ id: string }, UpdateBooking>('*/api/bookings/:id', async (info: Parameters<HttpResponseResolver<{ id: string }, UpdateBooking>>[0]) => {
-
-
-    return HttpResponse.json(overrideResponse !== undefined
-    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
-    : getUpdateBookingResponseMock(),
-      { status: 200
-      })
-  }, options)
-}
 export const getZbeulAPIMock = () => [
   getGetHealthMockHandler(),
   getGetMeMockHandler(),
@@ -346,8 +300,5 @@ export const getZbeulAPIMock = () => [
   getListCardChangesMockHandler(),
   getListPacksMockHandler(),
   getCreatePackMockHandler(),
-  getUpdatePackMockHandler(),
-  getListBookingsMockHandler(),
-  getCreateBookingMockHandler(),
-  getUpdateBookingMockHandler()
+  getUpdatePackMockHandler()
 ]

@@ -7,10 +7,7 @@ import { cn } from "@zbeul/ui";
 import { LanguagePicker } from "./preferences-controls";
 import { UserMenu } from "./user-menu";
 
-const navLinks = [
-  { label: "nav.home", to: "/" },
-  { label: "nav.bookings", to: "/bookings" },
-] as const;
+const navLinks = [{ label: "nav.home", to: "/" }] as const;
 
 const linkClass = (block = false) =>
   cn(

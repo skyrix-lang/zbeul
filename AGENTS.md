@@ -7,8 +7,8 @@ thin app per customer**: a client-only React 19 SPA (Vite,
 TanStack Router and Query, shadcn/ui on Base UI, Tailwind v4, React Hook Form,
 Zod 4) and a small Hono backend-for-frontend (BFF) that owns sign-in (OpenID
 Connect), sessions, the JSON API and Postgres (Drizzle). One Docker image.
-See `README.md` for setup. The bookings feature is the reference
-implementation: copy its patterns.
+See `README.md` for setup. The card admin is the reference implementation
+(`docs/specs/admin-cards.md`): copy its patterns.
 
 ```
 apps/web                 thin customer app: routes, theme, page overrides
@@ -20,7 +20,6 @@ packages/ui              UI kit on theme tokens
 packages/theme-default   the brand: one CSS-variable file
 packages/feature-game    the game: engine, deck, every player screen
 packages/feature-admin   the hidden admin at /admin
-packages/feature-*       other feature screens (bookings, the starter's example)
 ```
 
 Each package has a short `AGENTS.md` with its own rules: read it before
@@ -64,7 +63,7 @@ databases.
 - `yarn test e2e/<file>.spec.ts` runs one file, `yarn test:unit` the Vitest
   suites, `yarn test:watch` watches them.
 - `yarn api:generate` after changing an API route. `yarn setup`, `yarn dev`,
-  `yarn db:generate`, `yarn db:migrate`, `yarn db:seed <email>`,
+  `yarn db:generate`, `yarn db:migrate`,
   `yarn dev:session` (sign in locally).
 - `yarn sync-from-starter` (in a project made from the starter) merges in
   the starter's changes since `.starter.json`; Renovate updates versions. Run
@@ -98,7 +97,7 @@ databases.
   numbers in `i18n.language`. Add each key to every language:
   `apps/web/src/i18n.test.ts` fails otherwise. Languages are `LANGUAGES` in
   `packages/core/src/site.ts`.
-- Feedback on something that just happened ("Booking saved") is a `toast()`
+- Feedback on something that just happened ("Carte enregistrée") is a `toast()`
   from `@zbeul/ui`; errors the visitor must act on stay in the page.
 - Forms: React Hook Form + `zodResolver` with the schema from `@zbeul/core`,
   and the `Field` components from `@zbeul/ui`.
@@ -123,9 +122,10 @@ databases.
 - Every API route is declared with `createRoute` and Zod schemas, so it is
   validated and appears in `/api/openapi.json`. Bad input is 400, someone else's
   or a missing record is 404. Run `yarn api:generate` after a change.
-- Routes on `userApi` check the session (401). A route outside it is public: say
-  why in a comment. Data is per user: pass `c.var.user.id` to every data
-  function, which filters by it, as `apps/bff/src/bookings.ts` does.
+- Routes on `adminApi` check the admin's session (404 for anyone else). A
+  route outside it is public: say why in a comment. Nothing is per user yet;
+  data that is gets a `user_id`, routes that check the session (401), and
+  `c.var.user.id` passed to every data function, which filters by it.
 - Log with `log` from `apps/bff/src/log.ts`, never `console`: one line per
   event, with the request's id added for you. Never log a secret, a token, a
   cookie or a query string.
@@ -158,7 +158,7 @@ Third-party scripts, images or APIs need their origins added to the CSP in
 - New behaviour gets a Playwright test in `e2e/`. Import `test` and `expect`
   from `e2e/support.ts`, so console errors and axe violations fail the test.
 - Tests run in parallel on one database. Tests that change data create their own
-  rows through a helper with a unique value, and never change seed data. Sign in
+  rows through a helper with a unique value, and never change shared data. Sign in
   as a new user with `signInAsNewUser`; `auth.spec.ts` covers the real Keycloak
   flow.
 - Prefer role-based locators, with `data-testid` for repeated cards.

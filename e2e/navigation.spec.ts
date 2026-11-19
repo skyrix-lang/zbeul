@@ -1,4 +1,4 @@
-import { asReturningPlayer, expect, test } from "./support";
+import { asReturningPlayer, expect, signedOut, test } from "./support";
 
 test.describe("home page", () => {
   test("offers to play, install, and little else: no menu anywhere", async ({
@@ -136,40 +136,33 @@ test.describe("home page", () => {
 });
 
 test.describe("the signed-in pages' header", () => {
+  // The sign-in page is the one page with the header today.
+  test.use(signedOut);
+
   test("desktop navigation", async ({ page, isMobile }) => {
     test.skip(isMobile, "the desktop navigation is hidden on mobile");
-    await page.goto("/bookings");
-    const menuButton = page.getByRole("button", { name: "Ouvrir le menu" });
-    await expect(menuButton).toBeHidden();
+    await page.goto("/sign-in");
+    await expect(
+      page.getByRole("button", { name: "Ouvrir le menu" }),
+    ).toBeHidden();
 
     await expect(
-      page.getByRole("banner").getByRole("link", { name: "Réservations" }),
-    ).toHaveAttribute("aria-current", "page");
+      page.getByRole("banner").getByRole("link", { name: "Accueil" }),
+    ).toBeVisible();
   });
 
   test("mobile menu", async ({ page, isMobile }) => {
     test.skip(!isMobile, "the mobile menu is hidden on desktop");
-    await page.goto("/bookings");
+    await page.goto("/sign-in");
     const header = page.getByRole("banner");
-    await expect(
-      header.getByRole("link", { name: "Réservations" }),
-    ).toBeHidden();
+    await expect(header.getByRole("link", { name: "Accueil" })).toBeHidden();
 
     await header.getByRole("button", { name: "Ouvrir le menu" }).click();
 
     await expect(
       header.getByRole("button", { name: "Fermer le menu" }),
     ).toHaveAttribute("aria-expanded", "true");
-
-    await header.getByRole("link", { name: "Réservations" }).click();
-
-    await expect(page).toHaveURL("/bookings");
-    await expect(
-      header.getByRole("link", { name: "Réservations" }),
-    ).toBeHidden();
-    await expect(
-      header.getByRole("button", { name: "Ouvrir le menu" }),
-    ).toBeVisible();
+    await expect(header.getByRole("link", { name: "Accueil" })).toBeVisible();
   });
 });
 

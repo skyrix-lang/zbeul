@@ -10,10 +10,10 @@ product questions, write a spec in `docs/specs/` first and get the open question
 answered.
 
 Work from the database up, and include only the layers the feature needs. The
-bookings feature shows every layer: `packages/db/src/schema.ts`,
-`packages/core/src/booking-schema.ts`, `apps/bff/src/bookings.ts`,
-`apps/bff/src/routes/api.ts`, `packages/feature-bookings/` and
-`apps/web/src/routes/bookings.tsx`.
+card admin shows every layer: `packages/db/src/schema.ts`,
+`packages/core/src/card-schema.ts`, `apps/bff/src/cards.ts`,
+`apps/bff/src/routes/api.ts`, `packages/feature-admin/` and
+`apps/web/src/routes/admin/`.
 
 ## 1. Database (`packages/db`)
 
@@ -36,14 +36,14 @@ them next to the file with Vitest.
 
 Small async functions using `getDb()`, no HTTP code. For per-user data, give
 the table a `user_id` and make each function take the user's id and filter by
-it, as `apps/bff/src/bookings.ts` does: another user's row then behaves as if
-it doesn't exist. Return only public columns, not the owner.
+it: another user's row then behaves as if it doesn't exist. Return only public columns, not the owner.
 
 ## 4. API routes (`apps/bff/src/routes/api.ts`)
 
 Declare each route with `createRoute` (method, path, `operationId`, request
-schemas, every response status), and register it on `userApi`, which checks
-the session (401). Bad input gets 400 from the default hook; an unknown or
+schemas, every response status). An admin route goes on `adminApi`, which
+checks the admin's session (404 for anyone else); a per-user route checks the
+session (401); a public one says why in a comment. Bad input gets 400 from the default hook; an unknown or
 someone else's record is 404. Limit anything that sends email or costs money
 with `hit()` from `apps/bff/src/rate-limit.ts`.
 
@@ -69,7 +69,7 @@ the result; `yarn verify` fails if it's stale. Never write API types by hand.
   `apps/web/src/preferences.ts` when it must survive a reload.
 - Texts go in `src/locales/<language>.json` (one file per language in
   `LANGUAGES`), exported from `src/messages.ts` with the package's namespace
-  and registered in `apps/web/src/i18n.ts`, as `feature-bookings` does.
+  and registered in `apps/web/src/i18n.ts`.
   Components use `useTranslation(NAMESPACE)`.
 - Confirm a finished action with `toast()` from `@zbeul/ui`.
 - Use the `new-page` skill to add the route in `apps/web`.
@@ -82,7 +82,6 @@ the result; `yarn verify` fails if it's stale. Never write API types by hand.
 - Browser tests for the user flow, the pending state and the failure path.
   They also run axe: fix any violation.
 - A `createX` helper in `e2e/support.ts` that produces unique values.
-- Update `packages/db/src/seed.ts` if demo data helps.
 
 ## 8. Finish
 

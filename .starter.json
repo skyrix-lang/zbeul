@@ -2,5 +2,13 @@
   "slug": "zbeul",
   "title": "Zbeul",
   "commit": "62ed32b1f06590fa668069d205a37de97af130e3",
-  "ignore": []
+  "ignore": [
+    "packages/feature-bookings/**",
+    "apps/web/src/routes/bookings.tsx",
+    "apps/bff/src/bookings.ts",
+    "packages/core/src/booking-schema*.ts",
+    "packages/db/src/seed.ts",
+    "scripts/seed.ts",
+    "e2e/bookings.spec.ts"
+  ]
 }

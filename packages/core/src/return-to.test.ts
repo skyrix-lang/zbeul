@@ -3,8 +3,8 @@ import { safeReturnTo } from "./return-to";
 
 describe("safeReturnTo", () => {
   it("keeps a path on this site", () => {
-    expect(safeReturnTo("/bookings?status=pending")).toBe(
-      "/bookings?status=pending",
+    expect(safeReturnTo("/admin/cartes?statut=brouillon")).toBe(
+      "/admin/cartes?statut=brouillon",
     );
   });
 
@@ -20,7 +20,7 @@ describe("safeReturnTo", () => {
   };
   for (const [name, value] of Object.entries(unsafe)) {
     it(`falls back for ${name}`, () => {
-      expect(safeReturnTo(value)).toBe("/bookings");
+      expect(safeReturnTo(value)).toBe("/");
     });
   }
 });

@@ -91,15 +91,6 @@ test("the legal pages can be indexed", async ({ page }) => {
   await expect(page.locator("h1")).toHaveCount(1);
 });
 
-test("the bookings page isn't indexed", async ({ page }) => {
-  await page.goto("/bookings");
-
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    "noindex",
-  );
-});
-
 test.describe("signed out", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -133,7 +124,6 @@ test("the sitemap lists public pages only", async ({ request, baseURL }) => {
   const sitemap = await response.text();
   expect(sitemap).toContain(`<loc>${baseURL}/</loc>`);
   expect(sitemap).toContain(`<loc>${baseURL}/mentions-legales</loc>`);
-  expect(sitemap).not.toContain("/bookings");
   expect(sitemap).not.toContain("/sign-in");
   expect(sitemap).not.toContain("/jouer");
   // Nothing public says there is an admin.
@@ -183,20 +173,20 @@ test("a page sets its own title and link preview once loaded", async ({
   page,
   baseURL,
 }) => {
-  await page.goto("/bookings");
+  await page.goto("/charte");
 
-  await expect(page).toHaveTitle("Bookings | Zbeul");
+  await expect(page).toHaveTitle("Charte de contenu | Zbeul");
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     "content",
-    "Bookings | Zbeul",
+    "Charte de contenu | Zbeul",
   );
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
     "content",
-    `${baseURL}/bookings`,
+    `${baseURL}/charte`,
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
-    `${baseURL}/bookings`,
+    `${baseURL}/charte`,
   );
 });
 
