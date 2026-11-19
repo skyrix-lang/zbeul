@@ -7,8 +7,9 @@ import {
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "@zbeul/feature-game";
-import { Button } from "@zbeul/ui";
+import { Button, Toaster } from "@zbeul/ui";
 import { ConsentBanner } from "../components/consent-banner";
 import { Message, NotFoundPage } from "../components/not-found";
 import { usePageMeta } from "../page-meta";
@@ -25,11 +26,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 // signed-in pages add their own layout (_starter.tsx).
 function RootLayout() {
   useTheme();
+  const { t } = useTranslation();
   return (
-    <>
+    <Toaster label={t("toast.region")} closeLabel={t("toast.close")}>
       <Outlet />
       <ConsentBanner />
-    </>
+    </Toaster>
   );
 }
 

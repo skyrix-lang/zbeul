@@ -88,10 +88,22 @@ databases.
   `@zbeul/api`. Pass `throwOnError: throwUnexpected(...)` so unexpected errors
   reach the route's error page; invalidate query keys after a mutation.
 - URL state (filters, tabs) lives in validated search params. Client-only state
-  goes in Zustand (not installed yet: ask when the first feature needs it).
+  goes in Zustand; what must survive a reload uses its `persist` middleware
+  with a `version` and Zod-checked values, as `apps/web/src/preferences.ts`
+  does. Never keep personal data or secrets in `localStorage`.
+- Every text on screen comes from a messages file (react-i18next): the app's
+  in `apps/web/src/locales/<language>.json`, a feature's in its package's
+  `src/locales/`. Use `useTranslation(namespace)` and `t("key")` (keys are
+  type-checked), `Trans` for markup inside a sentence, `Intl` for dates and
+  numbers in `i18n.language`. Add each key to every language:
+  `apps/web/src/i18n.test.ts` fails otherwise. Languages are `LANGUAGES` in
+  `packages/core/src/site.ts`.
+- Feedback on something that just happened ("Booking saved") is a `toast()`
+  from `@zbeul/ui`; errors the visitor must act on stay in the page.
 - Forms: React Hook Form + `zodResolver` with the schema from `@zbeul/core`,
   and the `Field` components from `@zbeul/ui`.
-- Style with theme tokens only. A link styled as a button uses
+- Style with theme tokens only, so every game theme works (the theme's
+  `data-theme` blocks, `packages/feature-game`). A link styled as a button uses
   `buttonVariants()`: never put a `<button>` inside a link.
 - Accessibility is a requirement (WCAG 2.2 AA, European Accessibility Act):
   labelled controls, one `h1`, no skipped heading levels, visible focus. Every

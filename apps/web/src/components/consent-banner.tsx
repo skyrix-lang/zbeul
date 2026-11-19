@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@zbeul/ui";
 import {
   chooseAnalytics,
@@ -24,6 +25,7 @@ export function ConsentBanner() {
   const { enabled, choice, settingsOpen } = useConsent();
   const visible = enabled && (choice === null || settingsOpen);
   const region = useRef<HTMLElement>(null);
+  const { t } = useTranslation();
 
   // When "Cookie settings" opens it, it takes focus, so keyboard and screen
   // reader users land on it.
@@ -79,23 +81,20 @@ export function ConsentBanner() {
         className="pointer-events-auto mx-auto max-w-2xl rounded-lg border bg-card p-5 text-card-foreground shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <p id="consent-title" className="font-semibold">
-          Cookies
+          {t("consent.title")}
         </p>
         <p
           id="consent-description"
           className="mt-1 text-sm text-muted-foreground"
         >
-          On peut mesurer comment l'appli est utilisée, avec Google Analytics ?
-          Ça dépose des cookies et envoie ta visite à Google. Rien n'est mesuré
-          sans ton accord, et tu peux changer d'avis quand tu veux dans
-          Réglages, « Gérer les cookies ».
+          {t("consent.description")}
         </p>
         <div className="mt-4 flex flex-wrap justify-end gap-3">
           <Button variant="secondary" onClick={() => choose("denied")}>
-            Refuser
+            {t("consent.decline")}
           </Button>
           <Button variant="secondary" onClick={() => choose("granted")}>
-            Accepter
+            {t("consent.accept")}
           </Button>
         </div>
       </section>

@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { captureInstallPrompt } from "@zbeul/feature-game";
 import { startAnalytics } from "./analytics";
+import { startI18n } from "./i18n";
 import { createQueryClient } from "./query-client";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
@@ -32,6 +33,7 @@ const router = createRouter({
 
 // Before the first render, so the banner knows whether to ask.
 startAnalytics();
+startI18n();
 
 declare module "@tanstack/react-router" {
   interface Register {
