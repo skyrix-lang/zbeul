@@ -2,7 +2,7 @@
 # Puts back what the last deploy replaced, on the server:
 #   - the database, from the backup taken just before that deploy's
 #     migrations, but only if a migration ran since (otherwise the data is
-#     already right, and restoring would only lose what players wrote);
+#     already right, and restoring would only lose what people wrote);
 #   - the app: zbeul-app:previous becomes zbeul-app:current again, without
 #     building anything.
 # scripts/deploy-remote.sh runs it when the migration or the new version's

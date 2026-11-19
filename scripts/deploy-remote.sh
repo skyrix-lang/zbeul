@@ -41,10 +41,10 @@ done
 
 # Both images, by name: `migrate` has a profile, so a plain `build` skips it
 # and the next release would run the previous release's migrations. Built
-# while the old version still serves players.
+# while the old version still serves people.
 compose build app migrate
 
-# From here until the new version answers, players see the proxy's error
+# From here until the new version answers, people see the proxy's error
 # page: at 2:00, for about a minute.
 compose stop app
 if ! BACKUP_COMPARE_ROWS=1 sh scripts/backup-remote.sh; then
