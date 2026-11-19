@@ -255,10 +255,6 @@ test("shows what players ticked, and how often a card was liked or reported", as
   await expect(feedback).toContainText("2 j'aime1 signalement");
   await expect(feedback).toContainText("chances ×1,19");
   // The most liked first: this one is ahead of a card nobody liked.
-  await page.route("**/api/admin/cards", async (route) => {
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // TEMP repro
-    await route.continue();
-  });
   await page.goto("/admin/cartes?sort=likes");
   await expect(page.getByLabel("Ordre")).toHaveValue("likes");
   // allTextContents() doesn't wait: read the list only once both rows are
