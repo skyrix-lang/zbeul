@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { messages as bookingMessages } from "@zbeul/feature-bookings";
 import { browserLanguage, i18n } from "./i18n";
 import appEn from "./locales/en.json";
 import appFr from "./locales/fr.json";
@@ -21,7 +20,6 @@ const unique = (list: string[]) => [...new Set(list)].sort();
 // sync without conflicts and English can come back by adding it to LANGUAGES.
 const files = {
   app: { en: appEn, fr: appFr },
-  bookings: bookingMessages,
 };
 
 describe.each(Object.entries(files))("the %s messages", (_, { en, fr }) => {

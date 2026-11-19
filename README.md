@@ -17,8 +17,8 @@ a connection. For adults only.
   fallback before that (`docs/specs/admin-cards.md`).
 
 It is built from a full-stack starter, organized as **versioned packages plus
-a thin app** and shipped as one Docker image. The starter's bookings feature
-is still there, out of sight, as the reference for a full-stack feature.
+a thin app** and shipped as one Docker image. The starter's bookings demo has
+been removed: the card admin is the reference for a full-stack feature.
 
 - **Web:** React 19 single-page app with strict TypeScript and Vite. TanStack
   Router for typed routes and TanStack Query for server data. shadcn/ui-style
@@ -39,7 +39,7 @@ is still there, out of sight, as the reference for a full-stack feature.
 apps/
   web/                      the customer app (thin)
     index.html              HTML shell: metadata crawlers read first
-    src/routes/             TanStack Router file routes (/, /bookings, /sign-in)
+    src/routes/             TanStack Router file routes (/, /jouer, /admin, /sign-in…)
     src/overrides.ts        typed page overrides for a customer
     src/styles.css          Tailwind + UI kit + the customer's theme
   bff/                      Hono server
@@ -51,11 +51,12 @@ apps/
     src/mail.ts             mail over SMTP (logged when unconfigured)
 packages/
   core/                     Zod schemas and types shared by web and BFF
-  db/                       Drizzle schema, migrations (drizzle/), seed data
+  db/                       Drizzle schema, migrations (drizzle/)
   api/                      openapi.json + generated client, hooks and MSW mocks
   ui/                       UI kit on theme tokens
   theme-default/            the brand: one CSS-variable file
-  feature-bookings/         the bookings screens (reference feature)
+  feature-game/             the game: engine, deck, every player screen
+  feature-admin/            the hidden admin at /admin
 e2e/                        Playwright tests
 scripts/                    setup, dev, session, API generation, boundary check
 docker/                     Dockerfile, Keycloak development realm
@@ -113,8 +114,7 @@ yarn setup        # .env, Postgres, Keycloak, database and migrations
 yarn dev          # http://localhost:3000
 ```
 
-Sign in as `ada` / `ada` or `grace` / `grace` on the local Keycloak. Then run
-`yarn db:seed ada@example.test` to give that user demo bookings. Keycloak's
+Sign in as `ada` / `ada` or `grace` / `grace` on the local Keycloak. Keycloak's
 admin console is at http://localhost:8180 (admin / admin).
 
 `yarn dev` runs the BFF (port 3001, restarts on change) and Vite (port 3000).
@@ -134,9 +134,8 @@ origin, as in production.
 | `yarn setup`                                      | prepare a checkout or worktree                                            |
 | `yarn rename <name> ["Display Name"]`             | once, in a new project: replace the starter's name everywhere             |
 | `yarn sync-from-starter [--dry-run]`              | in a project: merge in what changed in the starter since the last sync    |
-| `yarn dev:session [email] [--seed]`               | sign in locally without Keycloak, print the cookie                        |
+| `yarn dev:session [email]`                        | sign in locally without Keycloak, print the cookie                        |
 | `yarn db:generate --name=<x>` / `yarn db:migrate` | new migration / apply migrations                                          |
-| `yarn db:seed <email>`                            | demo bookings for a user who has signed in                                |
 | `yarn db:up` / `yarn keycloak:up`                 | start the local containers                                                |
 | `yarn docker:build`                               | build the image                                                           |
 | `yarn docker:up` / `yarn docker:down`             | the image with Postgres, migrations and Keycloak (Docker Compose)         |
@@ -187,8 +186,8 @@ links to `/admin`, it is never indexed, and the service worker never serves it
 offline.
 
 **An identity provider is optional**, and production runs without one. The
-starter's signed-in pages (the bookings) use it, as do the e2e tests, with the
-local Keycloak.
+starter's sign-in (`/sign-in`) uses it, though no page of the game needs it
+yet, as do the e2e tests, with the local Keycloak.
 
 Any OpenID Connect provider works: Keycloak, Entra ID, Auth0, Google and
 others. Create a **confidential** client with:
@@ -242,9 +241,9 @@ Anything that sends mail because of a request must be rate limited with
 The JSON API lives under `/api`. Its OpenAPI document is at
 `/api/openapi.json`, and `packages/api/openapi.json` is the committed copy.
 
-- Every route except `/api/health`, `/api/me` and the document checks the
-  session and returns 401 without one.
-- Data is per user. Another user's booking behaves as if it doesn't exist (404).
+- The admin's routes (`/api/admin/*`) check the admin's session; anyone else
+  gets 404. The others (deck, reports, likes, health, me, the document) are
+  public, each saying why.
 - Bad input gets 400 with `{ error, issues }`.
 
 To change the API, edit `apps/bff/src/routes/api.ts`, run `yarn api:generate`

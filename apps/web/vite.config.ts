@@ -193,7 +193,6 @@ function pwa() {
         /^\/api\//,
         /^\/auth\//,
         /^\/admin/,
-        /^\/bookings/,
         /^\/sign-in/,
         /\.[a-z0-9]+$/,
       ],

@@ -11,15 +11,10 @@ import {
   deckSchema,
   packInputSchema,
   packSchema,
-  bookingIdSchema,
-  bookingSchema,
-  bookingStatusSchema,
-  createBookingSchema,
   createReportSchema,
   likeCardsSchema,
   reportSchema,
   reportStatusSchema,
-  updateBookingSchema,
   updateReportSchema,
 } from "@zbeul/core";
 import {
@@ -30,7 +25,6 @@ import {
   setReportStatus,
   setUpAdmin,
 } from "../admin";
-import { createBooking, getBookings, updateBookingStatus } from "../bookings";
 import {
   createCard,
   createPack,
@@ -74,8 +68,6 @@ const json = <T extends z.ZodType>(schema: T, description: string) => ({
   content: { "application/json": { schema } },
 });
 
-const unauthorized = errorResponse("Not signed in");
-
 const meSchema = z
   .object({
     user: z
@@ -88,55 +80,6 @@ const meSchema = z
       .nullable(),
   })
   .meta({ id: "Me" });
-
-const listBookings = createRoute({
-  method: "get",
-  path: "/bookings",
-  operationId: "listBookings",
-  request: { query: z.object({ status: bookingStatusSchema.optional() }) },
-  responses: {
-    200: json(z.array(bookingSchema), "The user's bookings, in date order"),
-    400: errorResponse("Invalid request"),
-    401: unauthorized,
-  },
-});
-
-const createBookingRoute = createRoute({
-  method: "post",
-  path: "/bookings",
-  operationId: "createBooking",
-  request: {
-    body: {
-      required: true,
-      content: { "application/json": { schema: createBookingSchema } },
-    },
-  },
-  responses: {
-    201: json(bookingSchema, "The new booking, always pending"),
-    400: errorResponse("Invalid request"),
-    401: unauthorized,
-  },
-});
-
-const updateBookingRoute = createRoute({
-  method: "patch",
-  path: "/bookings/{id}",
-  operationId: "updateBooking",
-  request: {
-    // Any string: an id that isn't a UUID is a booking that doesn't exist (404).
-    params: z.object({ id: z.string() }),
-    body: {
-      required: true,
-      content: { "application/json": { schema: updateBookingSchema } },
-    },
-  },
-  responses: {
-    200: json(bookingSchema, "The updated booking"),
-    400: errorResponse("Invalid request"),
-    401: unauthorized,
-    404: errorResponse("No such booking for this user"),
-  },
-});
 
 const meRoute = createRoute({
   method: "get",
@@ -585,55 +528,9 @@ adminApi
     return c.json(pack, 200);
   });
 
-const userApi = new OpenAPIHono<ApiEnv>({
-  // A request that fails its schema gets this API's error shape.
-  defaultHook: (result, c) => {
-    if (!result.success) {
-      return c.json(
-        { error: "Invalid request", issues: result.error.issues },
-        400,
-      );
-    }
-  },
-});
-
-// Each route checks the session: every one of them is a public endpoint.
-// On the user's paths only: an unknown path is a 404 for everyone, not a 401
-// that depends on being signed in.
-const requireUser: MiddlewareHandler<ApiEnv> = async (c, next) => {
-  const user = await getSessionUser(c);
-  if (!user) return c.json({ error: "Unauthorized" }, 401);
-  c.set("user", user);
-  c.header("Cache-Control", "no-store");
-  await next();
-};
-userApi.use("/bookings", requireUser).use("/bookings/*", requireUser);
-
-userApi
-  .openapi(listBookings, async (c) => {
-    const { status } = c.req.valid("query");
-    return c.json(await getBookings(c.var.user.id, status), 200);
-  })
-  .openapi(createBookingRoute, async (c) => {
-    const booking = await createBooking(c.var.user.id, c.req.valid("json"));
-    return c.json(booking, 201);
-  })
-  .openapi(updateBookingRoute, async (c) => {
-    const { id } = c.req.valid("param");
-    const { status } = c.req.valid("json");
-    const bookingId = bookingIdSchema.safeParse(id);
-    const booking = bookingId.success
-      ? await updateBookingStatus(c.var.user.id, bookingId.data, status)
-      : undefined;
-    if (!booking) return c.json({ error: "Booking not found" }, 404);
-    return c.json(booking, 200);
-  });
-
 export const api = new OpenAPIHono();
 api.route("/", publicApi);
-// Before userApi, whose session check would answer 401 on the admin's paths.
 api.route("/", adminApi);
-api.route("/", userApi);
 
 /** The OpenAPI document for this API, with paths under /api. */
 export function openApiDocument() {

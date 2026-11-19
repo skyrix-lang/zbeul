@@ -18,7 +18,6 @@
     "@zbeul/api": "workspace:^",
     "@zbeul/core": "workspace:^",
     "@zbeul/feature-admin": "workspace:^",
-    "@zbeul/feature-bookings": "workspace:^",
     "@zbeul/feature-game": "workspace:^",
     "@zbeul/theme-default": "workspace:^",
     "@zbeul/ui": "workspace:^",

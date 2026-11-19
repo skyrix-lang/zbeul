@@ -17,8 +17,8 @@ rules you check against.
 
 ## Check, in this order
 
-1. **Access.** Every new API route is on `userApi` (session checked, 401) unless
-   it's deliberately public, and says why. Per-user data: every data function in
+1. **Access.** Every new API route checks a session (`adminApi` for the admin,
+   404; a user's session, 401) unless it's deliberately public, and says why. Per-user data: every data function in
    `apps/bff` takes the user's id and filters by it, including updates and
    deletes, and nothing returns the owner column. Try to reach another user's
    row through each new path. App routes in `apps/web` call `requireUser`, but
@@ -42,7 +42,7 @@ rules you check against.
    components have Vitest tests with MSW handlers, and new pure logic has a unit
    test. Tests that change data create their own rows. No test-only code in the
    app. Ask: would these tests fail if the feature broke?
-7. **Fit.** It follows the bookings feature rather than inventing a new
+7. **Fit.** It follows the card admin rather than inventing a new
    pattern, adds no dependency the rules say to ask about, and doesn't reverse a
    recorded decision. README updated for new commands, variables or concepts.
 

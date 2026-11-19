@@ -10,7 +10,6 @@ import {
 } from "@playwright/test";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
-import type { Booking } from "@zbeul/core";
 import { createLocalSession, storageState } from "../scripts/local-session";
 
 /**
@@ -103,39 +102,6 @@ function randomIp() {
   return `198.${18 + (a % 2)}.${b}.${c}`;
 }
 
-/**
- * Tests run in parallel against one database, so a test that changes data
- * creates its own booking, with a unique title, and leaves the seed data alone.
- */
-export async function createBooking(
-  request: APIRequestContext,
-  overrides: Partial<Booking> = {},
-): Promise<Booking> {
-  const response = await request.post("/api/bookings", {
-    data: {
-      title: `E2E ${randomUUID()}`,
-      description: "Created by a test",
-      date: "2030-01-15",
-      time: "10:30",
-      duration: 30,
-      ...overrides,
-    },
-  });
-  expect(response.status()).toBe(201);
-  return response.json();
-}
-
-export async function setBookingStatus(
-  request: APIRequestContext,
-  id: string,
-  status: Booking["status"],
-) {
-  const response = await request.patch(`/api/bookings/${id}`, {
-    data: { status },
-  });
-  expect(response.ok()).toBe(true);
-}
-
 async function withDatabase<T>(run: (db: Client) => Promise<T>) {
   const db = new Client({ connectionString: process.env.DATABASE_URL });
   await db.connect();
@@ -144,13 +110,6 @@ async function withDatabase<T>(run: (db: Client) => Promise<T>) {
   } finally {
     await db.end();
   }
-}
-
-/** Removes a row directly: the app has no delete, and this mimics another user. */
-export async function deleteBookingFromDatabase(id: string) {
-  await withDatabase((db) =>
-    db.query("DELETE FROM bookings WHERE id = $1", [id]),
-  );
 }
 
 /** Ends a user's sessions directly in the database, as if they had expired. */
@@ -195,12 +154,6 @@ export async function gotoHydrated(page: Page, url: string) {
   await expect(page.getByRole("banner")).toBeVisible();
 }
 
-export function bookingCard(page: Page, title: string) {
-  return page
-    .getByTestId("booking-card")
-    .filter({ has: page.getByRole("heading", { name: title, exact: true }) });
-}
-
 export function uniqueEmail(domain = "example.test") {
   return `e2e-${randomUUID()}@${domain}`;
 }
@@ -222,18 +175,32 @@ export const KEYCLOAK_USERS = {
   },
 } as const;
 
-/** A user created ahead of their first sign-in: an email, no identity, one booking. */
-export async function createUserWithBooking(email: string, title: string) {
-  await withDatabase(async (db) => {
+/** A user created ahead of their first sign-in: an email, no identity. Their id. */
+export async function createUserAhead(email: string) {
+  return withDatabase(async (db) => {
     const { rows } = await db.query<{ id: string }>(
       "INSERT INTO users (email) VALUES ($1) RETURNING id",
       [email],
     );
-    await db.query(
-      "INSERT INTO bookings (user_id, title, date, time, duration) VALUES ($1, $2, '2030-05-01', '10:00', 30)",
-      [rows[0]!.id, title],
-    );
+    return rows[0]!.id;
   });
+}
+
+/** The provider identity linked to a user, or null. */
+export async function identityOf(userId: string) {
+  return withDatabase(async (db) => {
+    const { rows } = await db.query<{ oidc_subject: string | null }>(
+      "SELECT oidc_subject FROM users WHERE id = $1",
+      [userId],
+    );
+    return rows[0]?.oidc_subject ?? null;
+  });
+}
+
+/** The email of whoever this page's session belongs to, or null. */
+export async function signedInEmail(page: Page): Promise<string | null> {
+  const { user } = await (await page.request.get("/api/me")).json();
+  return user?.email ?? null;
 }
 
 /** Fills in Keycloak's login form, which must be open. */

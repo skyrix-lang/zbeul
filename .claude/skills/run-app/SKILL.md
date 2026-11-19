@@ -21,13 +21,13 @@ finish with `yarn verify` and `yarn test`.
 
 ## 2. Sign in
 
-`yarn dev:session [email] [--seed]` creates a session directly in the local
-database and prints the cookie. The default user is `agent@example.test`;
-`--seed` gives it the demo bookings. It refuses non-local databases.
+`yarn dev:session [email]` creates a session directly in the local
+database and prints the cookie. The default user is `agent@example.test`.
+It refuses non-local databases.
 
 ```bash
-yarn dev:session --seed
-curl -H 'Cookie: session=<token>' http://localhost:3000/api/bookings
+yarn dev:session
+curl -H 'Cookie: session=<token>' http://localhost:3000/api/me
 ```
 
 For a browser, use `storageState: "e2e/.auth/dev-session.json"` in a Playwright

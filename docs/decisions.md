@@ -443,6 +443,19 @@ English files means the starter's changes to them sync without conflicts.
 **Revisit when:** the game is translated: add `"en"` to `LANGUAGES`, with
 the game's texts in messages files.
 
+## The starter's bookings demo is removed
+
+The bookings screens, routes, table and seed are gone (migration
+`0006_drop_bookings`, which drops the `bookings` table and its enum). The
+card admin is the reference feature. Sign-in through OpenID Connect stays,
+though no page needs it yet.
+**Why:** the game never showed them; they were only a pattern to copy, and
+the admin now shows every layer of a feature.
+Their starter paths are in `.starter.json`'s `ignore`, so a sync doesn't
+bring them back.
+**Revisit when:** a sync still brings bookings code in (a new file elsewhere):
+delete it in the sync PR, and add its path to `ignore`.
+
 ## Client state in Zustand, persisted with a version
 
 What the visitor sets in this browser (language; the game keeps its own settings in its store) is a Zustand store

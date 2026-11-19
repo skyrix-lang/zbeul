@@ -4059,27 +4059,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zbeul/feature-bookings@workspace:^, @zbeul/feature-bookings@workspace:packages/feature-bookings":
-  version: 0.0.0-use.local
-  resolution: "@zbeul/feature-bookings@workspace:packages/feature-bookings"
-  dependencies:
-    "@hookform/resolvers": "npm:^7.0.2"
-    "@tanstack/react-query": "npm:^5.105.3"
-    "@tanstack/react-router": "npm:^1.170.46"
-    "@types/react": "npm:^19.3.0"
-    "@zbeul/api": "workspace:^"
-    "@zbeul/core": "workspace:^"
-    "@zbeul/ui": "workspace:^"
-    i18next: "npm:^27.1.1"
-    lucide-react: "npm:^1.67.0"
-    msw: "npm:^3.0.3"
-    react: "npm:^19.3.1"
-    react-hook-form: "npm:^7.91.0"
-    react-i18next: "npm:^18.0.1"
-    zod: "npm:^4.6.7"
-  languageName: unknown
-  linkType: soft
-
 "@zbeul/feature-game@workspace:^, @zbeul/feature-game@workspace:packages/feature-game":
   version: 0.0.0-use.local
   resolution: "@zbeul/feature-game@workspace:packages/feature-game"
@@ -4138,7 +4117,6 @@ __metadata:
     "@zbeul/api": "workspace:^"
     "@zbeul/core": "workspace:^"
     "@zbeul/feature-admin": "workspace:^"
-    "@zbeul/feature-bookings": "workspace:^"
     "@zbeul/feature-game": "workspace:^"
     "@zbeul/theme-default": "workspace:^"
     "@zbeul/ui": "workspace:^"
