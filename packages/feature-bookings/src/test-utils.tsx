@@ -12,7 +12,7 @@ import { Toaster } from "@zbeul/ui";
 
 /**
  * Renders `ui` with what a page needs: a router (for links), a query client
- * and the toasts. Texts are English: vitest.setup-dom.ts sets up i18next.
+ * and the toasts. Texts are French, the site's one language: vitest.setup-dom.ts sets up i18next.
  */
 export async function renderPage(ui: ReactNode, url = "/bookings") {
   const queryClient = new QueryClient({

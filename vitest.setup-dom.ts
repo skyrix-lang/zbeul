@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll } from "vitest";
 import { server } from "@zbeul/api/test-server";
-// Components read their texts from i18next: English, as the tests expect.
+// Components read their texts from i18next: French, the site's one language.
 import { startI18n } from "./apps/web/src/i18n";
 
 // jsdom has no scrolling; the router restores scroll positions.

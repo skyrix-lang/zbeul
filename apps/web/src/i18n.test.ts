@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it } from "vitest";
-import { LANGUAGES } from "@zbeul/core";
-import { browserLanguage, i18n, resources } from "./i18n";
-import { usePreferences } from "./preferences";
+import { describe, expect, it } from "vitest";
+import { messages as bookingMessages } from "@zbeul/feature-bookings";
+import { browserLanguage, i18n } from "./i18n";
+import appEn from "./locales/en.json";
+import appFr from "./locales/fr.json";
 
 /**
  * Every key of a messages file, as "a.b.c", plural forms ("x_one", "x_few")
@@ -15,42 +16,29 @@ const keys = (messages: object, prefix = ""): string[] =>
   );
 const unique = (list: string[]) => [...new Set(list)].sort();
 
-afterEach(() => usePreferences.setState({ language: null }));
+// Zbeul is French only (docs/decisions.md): LANGUAGES is ["fr"]. The English
+// files stay, in step with the French ones, so the starter's changes to them
+// sync without conflicts and English can come back by adding it to LANGUAGES.
+const files = {
+  app: { en: appEn, fr: appFr },
+  bookings: bookingMessages,
+};
 
-describe.each(LANGUAGES.slice(1))("the %s messages", (language) => {
-  const english = resources[LANGUAGES[0]]!;
-  it.each(Object.keys(english))("have every key of %s", (namespace) => {
-    const translated = resources[language]![namespace as keyof typeof english];
-    expect(unique(keys(translated))).toEqual(
-      unique(keys(english[namespace as keyof typeof english])),
-    );
+describe.each(Object.entries(files))("the %s messages", (_, { en, fr }) => {
+  it("have the same keys in French and English", () => {
+    expect(unique(keys(fr))).toEqual(unique(keys(en)));
   });
 });
 
-describe("browserLanguage", () => {
-  it("takes the first language the site offers", () => {
-    expect(browserLanguage(["de-DE", "fr-CA", "en"])).toBe("fr");
+describe("the language", () => {
+  it("is French, whatever the browser asks for", () => {
+    expect(browserLanguage(["en-US", "de"])).toBe("fr");
+    expect(browserLanguage([])).toBe("fr");
   });
 
-  it("falls back to the default", () => {
-    expect(browserLanguage(["de", "ja"])).toBe(LANGUAGES[0]);
-    expect(browserLanguage([])).toBe(LANGUAGES[0]);
-  });
-});
-
-describe("the chosen language", () => {
-  it("switches the texts and <html lang>", async () => {
-    usePreferences.getState().setLanguage("fr");
-    await waitForLanguage("fr");
+  it("is French on the page", () => {
+    expect(i18n.language).toBe("fr");
     expect(i18n.t("user.signIn")).toBe("Se connecter");
     expect(document.documentElement.lang).toBe("fr");
-
-    usePreferences.getState().setLanguage(null);
-    await waitForLanguage("en");
-    expect(document.documentElement.lang).toBe("en");
   });
 });
-
-async function waitForLanguage(language: string) {
-  await expect.poll(() => i18n.language).toBe(language);
-}

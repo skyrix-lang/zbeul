@@ -23,16 +23,22 @@ test.describe("signed out", () => {
     await expect(page).toHaveURL(
       "/sign-in?returnTo=%2Fbookings%3Fstatus%3Dconfirmed",
     );
-    await expect(page.getByRole("heading", { name: "Sign in" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Se connecter" }),
+    ).toBeVisible();
 
-    await page.getByRole("link", { name: "Continue to sign in" }).click();
+    await page
+      .getByRole("link", { name: "Continuer vers la connexion" })
+      .click();
     await logInOnKeycloak(page, KEYCLOAK_USERS.ada);
 
     await expect(page).toHaveURL("/bookings?status=confirmed");
-    await expect(page.getByRole("heading", { name: "Bookings" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Réservations" }),
+    ).toBeVisible();
     const header = page.getByRole("banner");
     await expect(
-      header.getByRole("button", { name: "Sign out" }),
+      header.getByRole("button", { name: "Se déconnecter" }),
     ).toBeVisible();
     if (!isMobile) {
       await expect(header.getByText(KEYCLOAK_USERS.ada.email)).toBeVisible();
@@ -50,7 +56,9 @@ test.describe("signed out", () => {
 
   test("ignores a return address on another site", async ({ page }) => {
     await page.goto("/sign-in?returnTo=https%3A%2F%2Fevil.example");
-    await page.getByRole("link", { name: "Continue to sign in" }).click();
+    await page
+      .getByRole("link", { name: "Continuer vers la connexion" })
+      .click();
     await logInOnKeycloak(page, KEYCLOAK_USERS.grace);
 
     await expect(page).toHaveURL("/bookings");
@@ -104,7 +112,7 @@ test.describe("when the session ends", () => {
 
     await deleteSessionsFromDatabase(email);
     await bookingCard(page, title)
-      .getByRole("button", { name: "Confirm" })
+      .getByRole("button", { name: "Confirmer" })
       .click();
 
     await expect(page).toHaveURL("/sign-in?returnTo=%2Fbookings");
@@ -119,11 +127,13 @@ test.describe("own session", () => {
   test("signing out ends the Keycloak session too", async ({ page }) => {
     await page.goto("/auth/login?returnTo=/bookings");
     await logInOnKeycloak(page, KEYCLOAK_USERS.grace);
-    await expect(page.getByRole("heading", { name: "Bookings" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Réservations" }),
+    ).toBeVisible();
 
     await page
       .getByRole("banner")
-      .getByRole("button", { name: "Sign out" })
+      .getByRole("button", { name: "Se déconnecter" })
       .click();
 
     await expect(page).toHaveURL("/");

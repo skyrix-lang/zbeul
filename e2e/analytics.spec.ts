@@ -83,9 +83,6 @@ const test = base.extend<
   },
 });
 
-// Zbeul is played in French: the game's screens have no other language.
-test.use({ locale: "fr-FR" });
-
 const banner = (page: Page) => page.getByRole("region", { name: "Cookies" });
 // Zbeul's screens have no header to wait for: a returning player (past the
 // age gate) sees the screen's heading once the app has rendered.
