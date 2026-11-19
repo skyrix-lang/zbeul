@@ -1,6 +1,6 @@
 # Customizing for a customer
 
-What to change to make the starter a customer's site: brand, languages, icons, pages and features.
+What makes this the game's site: brand and themes, languages, icons, pages and features.
 
 - **Branding:** copy `packages/theme-default` into a new theme package, change
   the CSS variables, and import it in `apps/web/src/styles.css`. Components use
@@ -8,10 +8,10 @@ What to change to make the starter a customer's site: brand, languages, icons, p
   when a text colour drops below 4.5:1 on its background, or an input border,
   the focus ring or a button below 3:1, in every `theme-*` package and in each
   mode it defines (light, and dark if it has one).
-- **Dark mode:** the theme's `.dark` block. The header's button switches it,
-  following the system until used; the choice is kept in this browser and
-  applied before the first paint (`apps/web/public/theme.js`). A theme
-  without a `.dark` block stays light: remove the button from the header too.
+- **Themes:** the game's five themes are `data-theme` blocks in the theme
+  package; the player's choice is kept in this browser and applied before the
+  first paint (`apps/web/public/theme.js`). There is no `.dark` block or
+  dark-mode button: the starter's is not used here.
 - **Languages:** `LANGUAGES` in `packages/core/src/site.ts`, default first.
   Visitors get the first one their browser asks for and can switch in the
   header (shown when there are two or more). Texts are JSON files per

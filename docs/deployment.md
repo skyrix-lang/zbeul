@@ -11,7 +11,7 @@ docker build --target migrate -t zbeul-migrate -f docker/Dockerfile .
 docker run --rm -e DATABASE_URL=... zbeul-migrate
 docker run -p 3000:3000 -e PUBLIC_URL=https://zbeul.example.com \
   -e DATABASE_URL=... -e SESSION_SECRET=... \
-  -e OIDC_ISSUER=... -e OIDC_CLIENT_ID=... -e OIDC_CLIENT_SECRET=... \
+  -e ADMIN_EMAIL=... -e ADMIN_SETUP_CODE=... \
   zbeul:1.0.0
 ```
 
@@ -29,87 +29,161 @@ Firefox do; Safari needs a line in `/etc/hosts`).
 
 ## Deploying
 
-Off until a project turns it on: the starter ships the scripts, and nothing
-deploys anywhere until you run `yarn deploy` or set the Deploy workflow's
-`DEPLOY_SSH` variable. [auto-deploy.md](auto-deploy.md) is the
-step-by-step setup (Claude can follow it).
+`docker/compose.production.yaml` runs the image behind an
+[nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) with its Let's
+Encrypt companion, which route by `VIRTUAL_HOST` and renew the certificate
+themselves. The app must be served over https: a service worker, and so the
+install and the offline play, need it.
 
-`docker/compose.production.yaml` runs the image on a server (a VPS with
-Docker) behind an [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy)
-with its Let's Encrypt companion, on the proxy's `nginx-proxy` network, which
-also reaches a shared Postgres as `postgres`. The app must be served over
-https.
+One-time setup on the server, in the directory `yarn deploy` uses
+(`apps/zbeul` in the user's home by default; `DEPLOY_DIR` changes it):
 
-One-time setup on the server, in the deploy folder (`apps/zbeul`
-in the deploy user's home by default; `DEPLOY_DIR` changes it):
-
-1. Create a database and its user in Postgres. The user must **own** the
-   database: a restore drops and creates the `public` schema.
-2. `.env.production`, readable by its owner only, with the production values
-   of `.env.example` (its "Production" section lists the extra ones):
+1. Create a database and its user in Postgres.
+2. Write `.env.production` there, readable by its owner only:
 
    ```bash
-   mkdir -p ~/apps/zbeul && install -m 600 /dev/null ~/apps/zbeul/.env.production && nano ~/apps/zbeul/.env.production
+   VIRTUAL_HOST=zbeul.example.com
+   VIRTUAL_PORT=3000
+   LETSENCRYPT_HOST=zbeul.example.com
+   LETSENCRYPT_EMAIL=you@example.com
+   PUBLIC_URL=https://zbeul.example.com
+   DATABASE_URL=postgres://zbeul_user:<password>@postgres:5432/zbeul_db
+   SESSION_SECRET=<openssl rand -base64 33>
+   ADMIN_EMAIL=you@example.com
+   ADMIN_SETUP_CODE=<openssl rand -hex 24>
    ```
-
-3. `backup.env`, for the backups (see [Backups](#backups)): no deploy runs
-   without it.
 
 Then, for each release, from a checkout of the commit to ship:
 
 ```bash
-DEPLOY_SSH=<user>@<server> DEPLOY_PORT=<port> yarn deploy
+DEPLOY_SSH=user@host DEPLOY_PORT=22 yarn deploy
 ```
 
-`scripts/deploy.sh` copies the commit to the server (no git there), then
-`scripts/deploy-remote.sh`:
+It copies the commit to the server (no git access is needed there), then
+`scripts/deploy-remote.sh`, on the server:
 
-1. builds the new image while the old version still serves people, keeping
+1. builds the new image while the old version still serves players, keeping
    the running one as `zbeul-app:previous`;
-2. stops the app, so nothing is written from the backup on;
-3. backs the database up and proves the backup (see "Backups"). If that
+2. stops the app, so nothing is written from the backup on (players see the
+   proxy's error page for about a minute);
+3. backs the database up and proves the backup (see "Backups"). If the backup
    fails, the old version starts again and nothing is migrated;
 4. applies the migrations, then starts the new version and waits for its
    health check.
 
 Then `yarn deploy` checks the public address (the server's `PUBLIC_URL`, or
-`DEPLOY_URL`): `/api/health` and `/` must answer over https within about a
-minute.
+`DEPLOY_URL` if set): `/api/health` and `/` must answer over https within
+about a minute.
 
 **Rollback.** When step 4 fails, or the public address doesn't answer,
-`scripts/rollback-remote.sh` puts back both halves and the deploy fails:
+`scripts/rollback-remote.sh` puts back both halves and the deploy fails,
+saying so:
 
 - **the database**, from the backup of step 3, if a migration ran since (it
   compares how many migrations the database has applied with the count
-  before the deploy). The app was stopped since the backup, so nothing is
-  lost;
+  before the deploy). If none ran, the data stays as it is. The app was
+  stopped since the backup, so the restore loses nothing players wrote;
 - **the app**: `zbeul-app:previous` starts again.
 
-By hand, right after a failed deploy:
-`ssh -p <port> <user>@<server> 'cd apps/zbeul/src && sh scripts/rollback-remote.sh'`.
+To roll back by hand, right after a failed deploy:
+`ssh <user>@<server> 'cd apps/zbeul/src && sh scripts/rollback-remote.sh'`.
+Once a deploy has succeeded, rolling back only swaps the image back and
+leaves the data alone. To restore the data anyway, see "Backups".
 
-## Backups
+A server whose Docker has no BuildKit
+still builds, more slowly: `sudo apt install docker-buildx` fixes that. The
+proxy sets `x-forwarded-for`, which the rate limits read. The app sets its own
+cache headers: the proxy needs no rule for the service worker.
 
-`scripts/backup-remote.sh` dumps the database (`pg_dump` with the server's
-own Postgres version), restores the dump into a throwaway Postgres and
-compares its tables (and, before a deploy, every table's row count), uploads
-it to a Cloudflare R2 bucket and checks R2 holds all of it. It runs before
-every deploy, and every night once automatic deploys are on. The last 7 also
-stay on the server, in `apps/zbeul/backups`.
+## Deploying automatically
+
+`.github/workflows/deploy.yml` runs every night at 02:00, Paris time, when
+nobody plays:
+
+- `main` has a commit the server doesn't run yet, and CI passed on it:
+  `yarn deploy` ships it (backup first, see "Deploying");
+- otherwise the database is backed up anyway: one backup a night, at least.
+
+When something fails (the backup, a migration, the health check, the public
+address), the previous version and its data stay or are put back (see
+"Rollback" above) and the run fails, so you get GitHub's failure
+notification. **Run workflow** in the Actions tab deploys `main` now, whatever
+the hour. It does nothing until `DEPLOY_SSH` is set, and deploys need
+"Backups" set up first.
 
 One-time setup:
 
-1. **Cloudflare dashboard:** R2 → **Create bucket** (`zbeul-backups`,
-   location automatic). In its Settings → **Object lifecycle rules**, delete
-   objects after 30 days. Then R2 → **Manage API tokens** → **Create API
-   token**: **Object Read & Write**, on that bucket only. Keep the Access Key
-   ID, the Secret Access Key and your Account ID (R2's overview page, or the
-   part before `.r2.cloudflarestorage.com` in the S3 endpoint).
-2. **On the server**, next to `.env.production`, from the template
-   `docker/backup.env.example`:
+1. **A key for GitHub only**, on your machine. No passphrase, since nobody
+   types it; it never leaves this machine except into the secret below:
 
    ```bash
-   install -m 600 /dev/null ~/apps/zbeul/backup.env && nano ~/apps/zbeul/backup.env
+   ssh-keygen -t ed25519 -N "" -C "zbeul deploy from GitHub" -f ~/.ssh/zbeul_deploy
+   ```
+
+   Add `~/.ssh/zbeul_deploy.pub` to `~/.ssh/authorized_keys` of the server
+   user that runs `yarn deploy` today (it needs Docker access and the deploy
+   directory, nothing more). `ssh-copy-id -i ~/.ssh/zbeul_deploy.pub -p 22 user@host`
+   does it.
+
+2. **The environment:** Settings → Environments → **New environment**,
+   `production`. Under "Deployment branches and tags", choose "Selected
+   branches" and add `main`. Tick "Required reviewers" only if you want to
+   approve each deploy.
+3. **Its secrets and variables**, from a terminal (each `secret set` reads the
+   value from the file or command, so it never shows on screen):
+
+   ```bash
+   gh secret set DEPLOY_SSH_KEY --env production -R skyrix-lang/zbeul < ~/.ssh/zbeul_deploy
+   ```
+
+   ```bash
+   ssh-keyscan -p 22 host | gh secret set DEPLOY_KNOWN_HOSTS --env production -R skyrix-lang/zbeul
+   ```
+
+   ```bash
+   gh variable set DEPLOY_SSH -R skyrix-lang/zbeul --body "user@host"
+   ```
+
+   The secrets belong to the environment, so only a job deploying `main` can
+   read them; `DEPLOY_SSH` is a repository variable, since the workflow reads it
+   to decide whether to run at all. Compare the host key `ssh-keyscan` printed with the one your own
+   `~/.ssh/known_hosts` has for the server (`ssh-keygen -F host`): the secret
+   pins it, so the workflow refuses a server that answers with another key.
+   Set `DEPLOY_PORT` (default 22) and `DEPLOY_DIR` (default `apps/zbeul`) the
+   same way if yours differ.
+
+4. **Try it:** Actions → Deploy → **Run workflow**.
+
+To stop automatic deploys, delete the `DEPLOY_SSH` variable. If the key is
+ever exposed, remove its line from the server's `authorized_keys`.
+
+## Backups
+
+`scripts/backup-remote.sh` dumps the database (`pg_dump`, custom format, with
+the server's own Postgres version), restores the dump into a throwaway
+Postgres and compares its tables (and, before a deploy, every table's row
+count) with the database, uploads it to a Cloudflare R2 bucket and checks R2
+holds all of it. Only then does a deploy go on. The last 7 backups also stay
+on the server, in `apps/zbeul/backups`. It runs every night (see "Deploying
+automatically") and before every deploy.
+
+One-time setup:
+
+1. **The bucket**, in the Cloudflare dashboard: R2 → **Create bucket**,
+   named `zbeul-backups` for example, location automatic. In its Settings →
+   **Object lifecycle rules**, add a rule that deletes objects after 30 days
+   (or how long you want to keep them). Optionally, **Bucket lock rules**
+   keep each backup from being deleted or replaced for a few days, even with
+   the key.
+2. **A key for it:** R2 → **Manage API tokens** → **Create API token**,
+   permission **Object Read & Write**, applied to that bucket only. Keep the
+   Access Key ID, the Secret Access Key, and your account ID (in the S3
+   endpoint, `https://<account id>.r2.cloudflarestorage.com`).
+3. **On the server**, next to `.env.production`, `backup.env` readable by its
+   owner only, from the template `docker/backup.env.example`:
+
+   ```bash
+   install -m 600 /dev/null apps/zbeul/backup.env && nano apps/zbeul/backup.env
    ```
 
    ```bash
@@ -119,35 +193,24 @@ One-time setup:
    AWS_SECRET_ACCESS_KEY=<secret access key>
    ```
 
-3. **Try it**, once a deploy has copied the scripts there:
+4. **Try it**, after the next deploy has copied the scripts there:
+   `ssh <user>@<server> 'cd apps/zbeul/src && sh scripts/backup-remote.sh'`.
+   The backup appears in the bucket under `zbeul/`.
 
-   ```bash
-   ssh -p <port> <user>@<server> 'cd apps/zbeul/src && sh scripts/backup-remote.sh'
-   ```
+The database user must own its database: a restore drops and creates the
+`public` schema.
 
-   It ends with `Backup OK: … tables restored and checked, in R2.`
-
-**Restoring by hand**, with the latest backup or one you name (download an
-older one from R2 into `apps/zbeul/backups` first). The app is
-stopped and left stopped; the restore is one transaction, so a failed one
-changes nothing:
+**Restoring by hand.** On the server, with the latest backup or the one you
+name (download an older one from R2 into `apps/zbeul/backups` first):
 
 ```bash
-ssh -p <port> <user>@<server> 'cd apps/zbeul/src && sh scripts/restore-remote.sh ../backups/zbeul-<date>.dump'
+cd apps/zbeul/src && sh scripts/restore-remote.sh ../backups/zbeul-<date>.dump
 ```
 
-Then start the version that matches the data:
-`docker compose -f docker/compose.production.yaml up -d --no-build app`.
-
-## Deploying automatically
-
-`.github/workflows/deploy.yml` runs every night at 02:00, Paris time: it
-deploys `main` if the server doesn't run that commit yet and CI passed on it,
-and otherwise backs the database up. **Run workflow** in the Actions tab
-deploys `main` at once. It does nothing, in the starter and in any project,
-until the `DEPLOY_SSH` repository variable is set. Turning it on (a deploy
-key, the `production` environment, two secrets and a variable):
-[auto-deploy.md](auto-deploy.md).
+It stops the app and restores in one transaction, so a failed restore leaves
+the database as it was. Then start the version that matches the data:
+`docker compose -f docker/compose.production.yaml up -d --no-build app` (or
+`sh scripts/rollback-remote.sh` for the previous one).
 
 ## Logs
 

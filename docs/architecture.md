@@ -29,7 +29,8 @@ packages/
 e2e/                        Playwright tests
 scripts/                    setup, dev, session, API generation, boundary check
 docker/                     Dockerfile, Keycloak development realm
-docs/                       guides (this folder), decisions.md, specs/
+docs/decisions.md           decisions and their reasons
+docs/specs/                 feature specs
 ```
 
 Each package has a short `AGENTS.md` with its rules.
@@ -39,10 +40,9 @@ Each package has a short `AGENTS.md` with its rules.
 The JSON API lives under `/api`. Its OpenAPI document is at
 `/api/openapi.json`, and `packages/api/openapi.json` is the committed copy.
 
-- Every route except `/api/health`, `/api/me` and the document checks the
-  session and returns 401 without one.
 - The admin's routes (`/api/admin/*`) check the admin's session; anyone else
-  gets 404. Nothing is per user yet.
+  gets 404. The others (deck, reports, likes, health, me, the document) are
+  public, each saying why.
 - Bad input gets 400 with `{ error, issues }`.
 
 To change the API, edit `apps/bff/src/routes/api.ts`, run `yarn api:generate`

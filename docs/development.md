@@ -32,7 +32,7 @@ origin, as in production.
 | `yarn setup`                                      | prepare a checkout or worktree                                            |
 | `yarn rename <name> ["Display Name"]`             | once, in a new project: replace the starter's name everywhere             |
 | `yarn sync-from-starter [--dry-run]`              | in a project: merge in what changed in the starter since the last sync    |
-| `yarn dev:session [email] [--seed]`               | sign in locally without Keycloak, print the cookie                        |
+| `yarn dev:session [email]`                        | sign in locally without Keycloak, print the cookie                        |
 | `yarn db:generate --name=<x>` / `yarn db:migrate` | new migration / apply migrations                                          |
 | `yarn db:up` / `yarn keycloak:up`                 | start the local containers                                                |
 | `yarn docker:build`                               | build the image                                                           |

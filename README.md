@@ -43,10 +43,15 @@ yarn setup        # .env, Postgres, Keycloak, database and migrations
 yarn dev          # http://localhost:3000
 ```
 
-Sign in as `ada` / `ada` on the local Keycloak. `yarn verify` checks
-everything in seconds (format, types, lint, boundaries, API contract, unit
-tests); `yarn test` runs the end-to-end tests. Every command:
-[docs/development.md](docs/development.md#scripts).
+Sign in as `ada` / `ada` on the local Keycloak. `yarn verify` checks everything in seconds (format, types, lint,
+boundaries, API contract, unit tests); `yarn test` runs the end-to-end tests.
+Every command: [docs/development.md](docs/development.md#scripts).
+
+## Keeping up to date with the starter
+
+Renovate updates versions, and a workflow brings in the starter's changes as
+pull requests (`yarn sync-from-starter` does the same by hand), merged with
+this project's own: [docs/starter-sync.md](docs/starter-sync.md).
 
 ## Documentation
 
@@ -55,27 +60,14 @@ tests); `yarn test` runs the end-to-end tests. Every command:
 | [Architecture](docs/architecture.md)                        | the folders and packages, the JSON API                                    |
 | [Development](docs/development.md)                          | running it locally, every command, the tests                              |
 | [Configuration](docs/configuration.md)                      | the server's variables, sign-in (OpenID Connect), mail                    |
-| [Customizing for a customer](docs/customizing.md)           | brand and dark mode, languages, icons, pages, features                    |
+| [Customizing](docs/customizing.md)                          | brand and dark mode, languages, icons, pages, features                    |
 | [SEO, analytics and compression](docs/seo-and-analytics.md) | metadata, sitemap, 404s, link previews, Google Analytics, gzip and brotli |
 | [Security](docs/security.md)                                | sessions, headers and CSP, CSRF, rate limits, supply chain                |
 | [Deployment](docs/deployment.md)                            | the Docker image, deploying, rollback, backups, logs                      |
 | [New project](docs/new-project.md)                          | from a clone to a GitHub repository with CI and auto-merge                |
 | [Automatic deploys](docs/auto-deploy.md)                    | deploying `main` every night, backup first                                |
-| [Starter sync](docs/starter-sync.md)                        | keeping a project up to date with the starter                             |
+| [Starter sync](docs/starter-sync.md)                        | keeping this project up to date with the starter                          |
 | [Decisions](docs/decisions.md)                              | what was decided, and why                                                 |
-
-## Starting a project from this starter
-
-```bash
-yarn install
-yarn rename acme-portal "Acme Portal"
-```
-
-`yarn rename` replaces the starter's name wherever it's an identifier and
-writes `.starter.json`, where `yarn sync-from-starter` starts from. The rest,
-step by step: [docs/new-project.md](docs/new-project.md). Afterwards,
-Renovate keeps versions current and a workflow brings in the starter's
-changes as pull requests: [docs/starter-sync.md](docs/starter-sync.md).
 
 ## Working with AI agents
 
