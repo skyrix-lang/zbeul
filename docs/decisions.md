@@ -293,22 +293,29 @@ move a card so far.
 With more players, raise `NEUTRAL_VOTES` (3 to 5) so a card needs more votes
 to move.
 
-## Main deploys itself
+## Main deploys itself, at night, after a proven backup
 
-Once CI passes on `main`, `.github/workflows/deploy.yml` runs `yarn deploy`
-from GitHub with a key used for nothing else, against a pinned host key; the
-secrets live in a `production` environment limited to `main`. Since auto-merge,
-anything merged into `main` (Renovate's updates and the starter's clean syncs
-included) reaches players minutes later.
-**Why:** one person maintains it; `main` is already guarded by required CI,
-and the deploy stops with the old version running when a migration fails,
-and starts the previous image again (kept as `zbeul-app:previous`) when the
-new one fails its health check or the public https address doesn't answer.
-Migrations aren't rolled back, so each one only adds, and removes in a later
-release. Building on the server keeps the existing script and
-needs no registry access there.
-**Revisit when:** a bad release reaches players despite CI: add a staging
-server, or require an approval on the `production` environment.
+Every night at 02:00 (Paris), `.github/workflows/deploy.yml` deploys `main`
+if the server doesn't run it yet and CI passed on it, from GitHub with a key
+used for nothing else, against a pinned host key; the secrets live in a
+`production` environment limited to `main`. Since auto-merge, anything merged
+into `main` (Renovate's updates and the starter's clean syncs included)
+reaches players the next night. Each deploy stops the app, backs the database
+up to Cloudflare R2 and proves the backup restores before migrating; a failed
+backup means no deploy. When the migration, the health check or the public
+https address fails, the database is restored from that backup (only if a
+migration ran) and the previous image (`zbeul-app:previous`) starts again.
+Nights without a deploy back up all the same.
+**Why:** one person maintains it, and a release that broke the database
+would otherwise need them awake. At 02:00 nobody plays, so stopping the app
+for a minute costs nothing and makes the backup exact: nothing written
+between backup and rollback is lost. Restoring only when a migration ran
+keeps a failed release that didn't touch the schema from losing data. R2 has
+no egress fees and an S3 API; building on the server needs no registry.
+**Revisit when:** the game is played at 02:00 (or the database takes more
+than a few minutes to back up): migrate without stopping, with migrations
+that only add, and point-in-time recovery instead of a dump; or when a bad
+release reaches players despite CI: add a staging server.
 
 ## Projects follow the starter
 

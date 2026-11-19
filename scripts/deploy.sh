@@ -6,10 +6,11 @@
 # On the server, DEPLOY_DIR (default: apps/zbeul; relative to the user's home,
 # or absolute, without a tilde) holds
 # .env.production, which this never touches, and `src`, the deployed commit.
-# The image is built on the server, the migrations run, then the app restarts:
-# the order that keeps a failed migration from reaching users. Then the public
-# address (PUBLIC_URL, or DEPLOY_URL) must answer over https, or the previous
-# version is started again (scripts/rollback-remote.sh).
+# On the server (scripts/deploy-remote.sh): build, stop the app, back up the
+# database and prove the backup (no backup, no deploy), migrate, start the new
+# version. Then the public address (PUBLIC_URL, or DEPLOY_URL) must answer over
+# https, or the database and the previous version are put back
+# (scripts/rollback-remote.sh).
 # Needs git, ssh, tar and curl. See "Deploying" in the README.
 set -eu
 
@@ -79,4 +80,7 @@ until answers; do
   sleep 10
 done
 
+# Done: nothing left for a rollback to undo in the database, and the commit
+# the server runs, which the nightly Deploy workflow compares with main.
+remote "rm -f '$dir/deploy-state'; echo '$(git rev-parse HEAD)' >'$dir/deployed'"
 echo "Deployed $commit: $url answers."
