@@ -32,9 +32,7 @@ describe("without a measurement id", () => {
     await renderPage("");
 
     expect(banner()).toBeNull();
-    expect(
-      screen.queryByRole("button", { name: "Manage cookies" }),
-    ).toBeNull();
+    expect(screen.queryByRole("button", { name: "Manage cookies" })).toBeNull();
   });
 });
 
