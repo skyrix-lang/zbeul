@@ -12,6 +12,7 @@
 @import "@fontsource-variable/bricolage-grotesque/wdth.css";
 
 :root {
+  color-scheme: light;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display:
     "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
