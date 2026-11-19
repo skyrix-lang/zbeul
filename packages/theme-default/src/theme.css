@@ -4,8 +4,10 @@
  * nothing else. "Nuit" is the default; the others apply when <html> carries
  * data-theme (set before the first paint by apps/web/public/theme.js).
  *
- * Keep text colours at WCAG 2.2 AA contrast (4.5:1) against their background:
- * scripts/theme-contrast.test.ts checks every pair in every theme.
+ * Keep text at WCAG 2.2 AA contrast (4.5:1) against its background, and input
+ * borders, the focus ring and buttons at 3:1 against the page:
+ * scripts/theme-contrast.test.ts checks every pair in every theme, and lists
+ * the pairs it checks.
  */
 @import "@fontsource-variable/bricolage-grotesque/wdth.css";
 
@@ -171,6 +173,7 @@
   --muted: #f0eef2;
   --muted-foreground: #5b5870;
   --border: #e4e1ea;
+  /* An input's border is what shows it's a field: 3:1 against the page. */
   --input: #8e8aa0;
   --ring: #d6186a;
 

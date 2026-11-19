@@ -1,102 +1,118 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import {
+  contrast,
+  failingPairs,
+  SHAPE_PAIRS,
+  TEXT_PAIRS as STARTER_TEXT_PAIRS,
+  themes,
+} from "./theme-contrast";
 
-// Every theme must keep its text readable (WCAG 2.2 AA): the e2e axe checks
-// only see the default theme, so the others are checked here.
-
-const css = readFileSync("packages/theme-default/src/theme.css", "utf8");
-
-function themes() {
-  const blocks = [
-    ...css.matchAll(/:root(?:\[data-theme="(\w+)"\])?\s*\{([^}]*)\}/g),
-  ];
-  const read = (body: string) =>
-    Object.fromEntries(
-      [...body.matchAll(/--([\w-]+):\s*(#[0-9a-f]{6})\s*;/g)].map((match) => [
-        match[1]!,
-        match[2]!,
-      ]),
-    );
-  const base = read(blocks.find((block) => !block[1])![2]!);
-  return blocks.map((block) => ({
-    name: block[1] ?? "nuit",
-    tokens: { ...base, ...read(block[2]!) },
-  }));
-}
-
-function luminance(hex: string) {
-  const [r, g, b] = [1, 3, 5].map((start) => {
-    const channel = parseInt(hex.slice(start, start + 2), 16) / 255;
-    return channel <= 0.04045
-      ? channel / 12.92
-      : ((channel + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-}
-
-export function contrast(a: string, b: string) {
-  const [light, dark] = [luminance(a), luminance(b)].sort((x, y) => y - x);
-  return (light! + 0.05) / (dark! + 0.05);
-}
-
-/** Text colour, then each background it is used on. */
-const TEXT_PAIRS: [string, string[]][] = [
-  ["foreground", ["background", "card", "muted"]],
-  ["card-foreground", ["card"]],
-  ["muted-foreground", ["background", "card", "muted"]],
-  ["primary-foreground", ["primary", "primary-hover", "destructive"]],
-  ["primary-soft-foreground", ["primary-soft", "background", "card"]],
-  ["secondary-foreground", ["secondary", "muted"]],
-  ["success-soft-foreground", ["success-soft"]],
-  ["warning-soft-foreground", ["warning-soft"]],
-  ["destructive-soft-foreground", ["destructive-soft", "background", "card"]],
-  ...[1, 2, 3, 4, 5].flatMap((level): [string, string[]][] => [
+// The game's level colours: text on each, and a highlighted name, the card
+// inverted.
+const TEXT_PAIRS: typeof STARTER_TEXT_PAIRS = [
+  ...STARTER_TEXT_PAIRS,
+  ...[1, 2, 3, 4, 5].flatMap((level): typeof STARTER_TEXT_PAIRS => [
     [`level-${level}-foreground`, [`level-${level}`]],
-    // A highlighted name is the card inverted.
     [`level-${level}`, [`level-${level}-foreground`]],
   ]),
 ];
 
-/** Shapes that must stand out from what surrounds them (3:1). */
-const SHAPE_PAIRS: [string, string[]][] = [
-  ["input", ["background", "card"]],
-  ["ring", ["background", "card"]],
-  ["primary", ["background", "card"]],
-];
+// Every theme package keeps its colours at WCAG 2.2 AA in every mode it
+// defines (light, and dark when it has one). The e2e axe checks only see the
+// screens and states the tests reach, with the theme the app imports; this
+// checks every token pair, in every theme package, without a browser.
 
-describe.each(themes())("the $name theme", ({ tokens }) => {
-  it("defines every token", () => {
-    expect(Object.keys(tokens).sort()).toEqual(
-      Object.keys(themes()[0]!.tokens).sort(),
-    );
+const themePackages = readdirSync("packages").filter((name) =>
+  name.startsWith("theme-"),
+);
+
+it("finds the theme packages", () => {
+  expect(themePackages).not.toEqual([]);
+});
+
+describe.each(themePackages)("packages/%s", (name) => {
+  const css = readFileSync(join("packages", name, "src", "theme.css"), "utf8");
+  const modes = themes(css);
+
+  it("has a light mode", () => {
+    expect(modes[0]?.name).toBe("light");
   });
 
-  /** The pairs below `minimum`, as "text on background": empty when all pass. */
-  const failing = (pairs: [string, string[]][], minimum: number) =>
-    pairs.flatMap(([color, backgrounds]) =>
-      backgrounds
-        .filter(
-          (background) =>
-            contrast(tokens[color]!, tokens[background]!) < minimum,
-        )
-        .map((background) => `${color} on ${background}`),
-    );
+  describe.each(modes)("in $name mode", ({ tokens }) => {
+    // Colours are read as hex (#rgb or #rrggbb) only: write theme colours so.
+    it("defines every colour a pair uses, in hex", () => {
+      const used = [...TEXT_PAIRS, ...SHAPE_PAIRS].flatMap(([color, on]) => [
+        color,
+        ...on,
+      ]);
+      expect(used.filter((token) => !tokens[token])).toEqual([]);
+    });
 
-  it("keeps every text readable (4.5:1)", () => {
-    expect(failing(TEXT_PAIRS, 4.5)).toEqual([]);
-  });
+    it("keeps text readable (4.5:1)", () => {
+      expect(failingPairs(tokens, TEXT_PAIRS, 4.5)).toEqual([]);
+    });
 
-  it("keeps inputs, focus rings and accents visible (3:1)", () => {
-    expect(failing(SHAPE_PAIRS, 3)).toEqual([]);
+    it("keeps input borders, focus rings and buttons visible (3:1)", () => {
+      expect(failingPairs(tokens, SHAPE_PAIRS, 3)).toEqual([]);
+    });
   });
 });
 
-it("has the five themes", () => {
-  expect(themes().map((theme) => theme.name)).toEqual([
-    "nuit",
-    "tokyo",
-    "retro",
-    "clair",
-    "creme",
-  ]);
+describe("contrast", () => {
+  it("matches WCAG's formula", () => {
+    expect(contrast("#000000", "#ffffff")).toBeCloseTo(21);
+    expect(contrast("#ffffff", "#ffffff")).toBe(1);
+    // A pair just below AA, as WebAIM's checker gives it.
+    expect(contrast("#777777", "#ffffff")).toBeCloseTo(4.48, 2);
+  });
+
+  it("accepts short hex colours", () => {
+    expect(contrast("#fff", "#000")).toBeCloseTo(21);
+  });
+});
+
+describe("themes", () => {
+  const css = `
+    :root { --a: #ffffff; --b: #000000; --radius: 0.5rem; }
+    @media (prefers-color-scheme: dark) {
+      :root { --a: #111111; }
+    }
+    .dark { --b: #eeeeee; }
+  `;
+
+  it("reads the light mode, then each dark mode on top of it", () => {
+    expect(themes(css)).toEqual([
+      { name: "light", tokens: { a: "#ffffff", b: "#000000" } },
+      { name: "dark", tokens: { a: "#111111", b: "#000000" } },
+      { name: ".dark", tokens: { a: "#ffffff", b: "#eeeeee" } },
+    ]);
+  });
+
+  it("skips top-level statements such as @import", () => {
+    expect(themes('@import "x.css";\n:root { --a: #ffffff; }')).toEqual([
+      { name: "light", tokens: { a: "#ffffff" } },
+    ]);
+  });
+
+  it("names the pairs below the minimum", () => {
+    const tokens = { text: "#777777", page: "#ffffff", other: "#000000" };
+    expect(failingPairs(tokens, [["text", ["page", "other"]]], 4.5)).toEqual([
+      "text on page (4.48:1)",
+    ]);
+  });
+});
+
+describe("the game's theme package", () => {
+  it("has the five themes", () => {
+    const css = readFileSync("packages/theme-default/src/theme.css", "utf8");
+    expect(themes(css).map((mode) => mode.name)).toEqual([
+      "light",
+      ':root[data-theme="tokyo"]',
+      ':root[data-theme="retro"]',
+      ':root[data-theme="clair"]',
+      ':root[data-theme="creme"]',
+    ]);
+  });
 });
