@@ -23,22 +23,24 @@ test("lists the bookings and sets the title", async ({ page }) => {
 test.describe("filters", () => {
   test("filter links update the list and the URL", async ({ page }) => {
     await page.goto("/bookings");
-    const filters = page.getByRole("navigation", { name: "Filter bookings" });
-    await expect(filters.getByRole("link", { name: "All" })).toHaveAttribute(
+    const filters = page.getByRole("navigation", {
+      name: "Filtrer les réservations",
+    });
+    await expect(filters.getByRole("link", { name: "Toutes" })).toHaveAttribute(
       "aria-current",
       "page",
     );
 
-    await filters.getByRole("link", { name: "Confirmed" }).click();
+    await filters.getByRole("link", { name: "Confirmées" }).click();
 
     await expect(page).toHaveURL("/bookings?status=confirmed");
     await expect(
-      filters.getByRole("link", { name: "Confirmed" }),
+      filters.getByRole("link", { name: "Confirmées" }),
     ).toHaveAttribute("aria-current", "page");
     await expect(bookingCard(page, "Team Sync")).toBeVisible();
     await expect(bookingCard(page, "Project Review")).toBeHidden();
 
-    await filters.getByRole("link", { name: "All" }).click();
+    await filters.getByRole("link", { name: "Toutes" }).click();
 
     await expect(page).toHaveURL("/bookings");
     await expect(bookingCard(page, "Project Review")).toBeVisible();
@@ -51,8 +53,8 @@ test.describe("filters", () => {
     await expect(bookingCard(page, "Project Review")).toBeVisible();
     await expect(
       page
-        .getByRole("navigation", { name: "Filter bookings" })
-        .getByRole("link", { name: "All" }),
+        .getByRole("navigation", { name: "Filtrer les réservations" })
+        .getByRole("link", { name: "Toutes" }),
     ).toHaveAttribute("aria-current", "page");
   });
 });
@@ -62,17 +64,17 @@ test.describe("actions", () => {
     const { title } = await createBooking(request);
     await page.goto("/bookings");
     const card = bookingCard(page, title);
-    await expect(card.getByText("pending", { exact: true })).toBeVisible();
+    await expect(card.getByText("en attente", { exact: true })).toBeVisible();
 
-    await card.getByRole("button", { name: "Confirm" }).click();
+    await card.getByRole("button", { name: "Confirmer" }).click();
 
-    await expect(card.getByText("confirmed", { exact: true })).toBeVisible();
-    await expect(card.getByRole("button", { name: "Confirm" })).toBeHidden();
-    await expect(card.getByRole("button", { name: "Cancel" })).toBeVisible();
+    await expect(card.getByText("confirmée", { exact: true })).toBeVisible();
+    await expect(card.getByRole("button", { name: "Confirmer" })).toBeHidden();
+    await expect(card.getByRole("button", { name: "Annuler" })).toBeVisible();
 
     await page.reload();
 
-    await expect(card.getByText("confirmed", { exact: true })).toBeVisible();
+    await expect(card.getByText("confirmée", { exact: true })).toBeVisible();
   });
 
   test("cancelling a booking", async ({ page, request }) => {
@@ -80,11 +82,11 @@ test.describe("actions", () => {
     await page.goto("/bookings");
     const card = bookingCard(page, title);
 
-    await card.getByRole("button", { name: "Cancel" }).click();
+    await card.getByRole("button", { name: "Annuler" }).click();
 
-    await expect(card.getByText("cancelled", { exact: true })).toBeVisible();
-    await expect(card.getByRole("button", { name: "Cancel" })).toBeHidden();
-    await expect(card.getByRole("button", { name: "Confirm" })).toBeVisible();
+    await expect(card.getByText("annulée", { exact: true })).toBeVisible();
+    await expect(card.getByRole("button", { name: "Annuler" })).toBeHidden();
+    await expect(card.getByRole("button", { name: "Confirmer" })).toBeVisible();
   });
 
   test("disables the buttons while the change is saved", async ({
@@ -100,14 +102,14 @@ test.describe("actions", () => {
     });
     await gotoHydrated(page, "/bookings");
     const card = bookingCard(page, title);
-    const confirm = card.getByRole("button", { name: "Confirm" });
+    const confirm = card.getByRole("button", { name: "Confirmer" });
 
     await confirm.click();
 
     await expect(confirm).toBeDisabled();
-    await expect(card.getByRole("button", { name: "Cancel" })).toBeDisabled();
+    await expect(card.getByRole("button", { name: "Annuler" })).toBeDisabled();
     release();
-    await expect(card.getByText("confirmed", { exact: true })).toBeVisible();
+    await expect(card.getByText("confirmée", { exact: true })).toBeVisible();
   });
 });
 
@@ -116,23 +118,23 @@ test.describe("new booking", () => {
     const title = `Form ${Date.now()}`;
     await gotoHydrated(page, "/bookings");
 
-    await page.getByRole("button", { name: "New booking" }).click();
-    await page.getByLabel("Title").fill(title);
+    await page.getByRole("button", { name: "Nouvelle réservation" }).click();
+    await page.getByLabel("Titre").fill(title);
     await page.getByLabel("Description").fill("From the form");
     await page.getByLabel("Date").fill("2030-04-01");
-    await page.getByLabel("Time").fill("08:15");
-    await page.getByLabel("Duration (minutes)").fill("45");
-    await page.getByRole("button", { name: "Save booking" }).click();
+    await page.getByLabel("Heure").fill("08:15");
+    await page.getByLabel("Durée (minutes)").fill("45");
+    await page.getByRole("button", { name: "Enregistrer" }).click();
 
     const card = bookingCard(page, title);
     await expect(card).toBeVisible();
-    await expect(card.getByText("Apr 1, 2030 at 08:15")).toBeVisible();
-    await expect(card.getByText("pending", { exact: true })).toBeVisible();
+    await expect(card.getByText("1 avr. 2030 à 08:15")).toBeVisible();
+    await expect(card.getByText("en attente", { exact: true })).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Save booking" }),
+      page.getByRole("button", { name: "Enregistrer" }),
     ).toBeHidden();
     await expect(
-      page.getByRole("dialog", { name: "Booking saved" }),
+      page.getByRole("dialog", { name: "Réservation enregistrée" }),
     ).toBeVisible();
   });
 
@@ -143,12 +145,12 @@ test.describe("new booking", () => {
       await route.continue();
     });
     await gotoHydrated(page, "/bookings");
-    await page.getByRole("button", { name: "New booking" }).click();
+    await page.getByRole("button", { name: "Nouvelle réservation" }).click();
 
-    await page.getByRole("button", { name: "Save booking" }).click();
+    await page.getByRole("button", { name: "Enregistrer" }).click();
 
-    await expect(page.getByText("Enter a title.")).toBeVisible();
-    await expect(page.getByLabel("Title")).toHaveAttribute(
+    await expect(page.getByText("Saisissez un titre.")).toBeVisible();
+    await expect(page.getByLabel("Titre")).toHaveAttribute(
       "aria-invalid",
       "true",
     );
@@ -188,8 +190,8 @@ test.describe("page and API share the same data", () => {
     await page.goto("/bookings");
     const card = bookingCard(page, title);
 
-    await card.getByRole("button", { name: "Confirm" }).click();
-    await expect(card.getByText("confirmed", { exact: true })).toBeVisible();
+    await card.getByRole("button", { name: "Confirmer" }).click();
+    await expect(card.getByText("confirmée", { exact: true })).toBeVisible();
 
     const bookings = await (
       await request.get("/api/bookings?status=confirmed")
@@ -207,7 +209,9 @@ test("shows a skeleton while the bookings load", async ({ page }) => {
   });
   await page.goto("/bookings");
 
-  const skeleton = page.getByRole("status", { name: "Loading bookings" });
+  const skeleton = page.getByRole("status", {
+    name: "Chargement des réservations",
+  });
   await expect(skeleton).toBeVisible();
   release();
   await expect(bookingCard(page, "Team Sync")).toBeVisible();
@@ -225,10 +229,12 @@ test.describe("a booking removed by someone else", () => {
     await expect(card).toBeVisible();
 
     await deleteBookingFromDatabase(id);
-    await card.getByRole("button", { name: "Confirm" }).click();
+    await card.getByRole("button", { name: "Confirmer" }).click();
 
     await expect(card).toBeHidden();
-    await expect(page.getByRole("heading", { name: "Bookings" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Réservations" }),
+    ).toBeVisible();
   });
 });
 
@@ -251,7 +257,7 @@ test.describe("when a change fails", () => {
     await gotoHydrated(page, "/bookings");
 
     await bookingCard(page, title)
-      .getByRole("button", { name: "Confirm" })
+      .getByRole("button", { name: "Confirmer" })
       .click();
 
     await expect(
@@ -282,8 +288,10 @@ test.describe("another user", () => {
     await signInAsNewUser(context, baseURL!);
     await page.goto("/bookings");
 
-    await expect(page.getByRole("heading", { name: "Bookings" })).toBeVisible();
-    await expect(page.getByText("No bookings found.")).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Réservations" }),
+    ).toBeVisible();
+    await expect(page.getByText("Aucune réservation.")).toBeVisible();
     await expect(bookingCard(page, title)).toBeHidden();
     expect(await (await page.request.get("/api/bookings")).json()).toEqual([]);
 

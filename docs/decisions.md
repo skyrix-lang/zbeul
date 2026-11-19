@@ -430,6 +430,19 @@ plurals and interpolation are more than a homemade lookup would give for long.
 address per language (`/fr/…`) and `hreflang`, which the language-in-storage
 choice doesn't give.
 
+## Zbeul is French only
+
+`LANGUAGES` (`packages/core/src/site.ts`) is `["fr"]`: every visitor gets
+French, whatever their browser asks for, and the header shows no language
+picker. The English messages files stay, with the same keys as the French
+ones (`apps/web/src/i18n.test.ts`), and the starter's tests expect French.
+**Why:** the game's screens (`packages/feature-game`) are written in French
+and aren't translated, so offering English, as the starter does, put an
+English cookie banner and starter screens around a French game. Keeping the
+English files means the starter's changes to them sync without conflicts.
+**Revisit when:** the game is translated: add `"en"` to `LANGUAGES`, with
+the game's texts in messages files.
+
 ## Client state in Zustand, persisted with a version
 
 What the visitor sets in this browser (language; the game keeps its own settings in its store) is a Zustand store

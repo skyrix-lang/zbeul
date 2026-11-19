@@ -40,7 +40,7 @@ test("an unverified email doesn't take over someone's account", async ({
   await page.goto("/auth/login?returnTo=/bookings");
   await logInOnKeycloak(page, KEYCLOAK_USERS.mallory);
 
-  await expect(page.getByText("No bookings found.")).toBeVisible();
+  await expect(page.getByText("Aucune réservation.")).toBeVisible();
   await expect(bookingCard(page, title)).toBeHidden();
   // Nor does the unverified address show as theirs.
   await expect(page.getByRole("banner")).not.toContainText(

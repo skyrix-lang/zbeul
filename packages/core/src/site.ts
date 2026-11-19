@@ -13,7 +13,8 @@ export const site = {
  * messages in every package's `locales/` folder; drop one here to stop
  * offering it. Keep `lang` in apps/web/index.html on the default.
  */
-export const LANGUAGES = ["fr", "en"] as const;
+// Zbeul: French only, as the game isn't translated (docs/decisions.md).
+export const LANGUAGES = ["fr"] as const;
 export type Language = (typeof LANGUAGES)[number];
 
 /** Pages that should rank: listed in the sitemap. App pages aren't. */

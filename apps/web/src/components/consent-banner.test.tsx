@@ -32,7 +32,9 @@ describe("without a measurement id", () => {
     await renderPage("");
 
     expect(banner()).toBeNull();
-    expect(screen.queryByRole("button", { name: "Manage cookies" })).toBeNull();
+    expect(
+      screen.queryByRole("button", { name: "Gérer les cookies" }),
+    ).toBeNull();
   });
 });
 
@@ -49,11 +51,11 @@ describe("with a measurement id", () => {
     await renderPage("G-TEST123");
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("button", { name: "Decline" }));
+    await user.click(screen.getByRole("button", { name: "Refuser" }));
 
     expect(banner()).toBeNull();
     expect(
-      screen.getByRole("button", { name: "Manage cookies" }),
+      screen.getByRole("button", { name: "Gérer les cookies" }),
     ).toHaveFocus();
   });
 
@@ -74,7 +76,7 @@ describe("with a measurement id", () => {
     );
     await renderPage("G-TEST123");
     const user = userEvent.setup();
-    const settings = screen.getByRole("button", { name: "Manage cookies" });
+    const settings = screen.getByRole("button", { name: "Gérer les cookies" });
 
     await user.click(settings);
     expect(banner()).toHaveFocus();
@@ -102,8 +104,8 @@ describe("with a measurement id", () => {
     await renderPage("G-TEST123");
     const user = userEvent.setup();
 
-    await user.click(screen.getByRole("button", { name: "Manage cookies" }));
-    await user.click(screen.getByRole("button", { name: "Accept" }));
+    await user.click(screen.getByRole("button", { name: "Gérer les cookies" }));
+    await user.click(screen.getByRole("button", { name: "Accepter" }));
 
     expect(banner()).toBeNull();
     expect(

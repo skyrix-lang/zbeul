@@ -58,9 +58,11 @@ describe("BookingsPage", () => {
 
     await screen.findByRole("heading", { name: "Team Sync" });
     expect(requested).toBe("confirmed");
-    const filters = screen.getByRole("navigation", { name: "Filter bookings" });
+    const filters = screen.getByRole("navigation", {
+      name: "Filtrer les réservations",
+    });
     expect(
-      within(filters).getByRole("link", { name: "Confirmed" }),
+      within(filters).getByRole("link", { name: "Confirmées" }),
     ).toHaveAttribute("aria-current", "page");
   });
 
@@ -68,7 +70,7 @@ describe("BookingsPage", () => {
     server.use(getListBookingsMockHandler([]));
     await renderPage(<BookingsPage />);
 
-    expect(await screen.findByText("No bookings found.")).toBeVisible();
+    expect(await screen.findByText("Aucune réservation.")).toBeVisible();
   });
 
   it("confirms a booking, then shows the refreshed list", async () => {
@@ -87,22 +89,22 @@ describe("BookingsPage", () => {
     await screen.findByRole("heading", { name: "Team Sync" });
 
     await userEvent.click(
-      within(card("Team Sync")).getByRole("button", { name: "Confirm" }),
+      within(card("Team Sync")).getByRole("button", { name: "Confirmer" }),
     );
 
     await waitFor(() =>
-      expect(within(card("Team Sync")).getByText("confirmed")).toBeVisible(),
+      expect(within(card("Team Sync")).getByText("confirmée")).toBeVisible(),
     );
     expect(
-      within(card("Team Sync")).queryByRole("button", { name: "Confirm" }),
+      within(card("Team Sync")).queryByRole("button", { name: "Confirmer" }),
     ).toBeNull();
-    expect(await screen.findByText("Booking confirmed")).toBeVisible();
+    expect(await screen.findByText("Réservation confirmée")).toBeVisible();
   });
 
   it("shows dates in the reader's format", async () => {
     server.use(getListBookingsMockHandler([booking()]));
     await renderPage(<BookingsPage />);
-    expect(await screen.findByText("Mar 10, 2030 at 09:00")).toBeVisible();
+    expect(await screen.findByText("10 mars 2030 à 09:00")).toBeVisible();
   });
 
   it("drops a booking that was removed meanwhile", async () => {
@@ -120,9 +122,9 @@ describe("BookingsPage", () => {
     await renderPage(<BookingsPage />);
     await screen.findByRole("heading", { name: "Team Sync" });
 
-    await userEvent.click(screen.getByRole("button", { name: "Confirm" }));
+    await userEvent.click(screen.getByRole("button", { name: "Confirmer" }));
 
-    expect(await screen.findByText("No bookings found.")).toBeVisible();
+    expect(await screen.findByText("Aucune réservation.")).toBeVisible();
   });
 
   describe("new booking form", () => {
@@ -130,16 +132,16 @@ describe("BookingsPage", () => {
       server.use(getListBookingsMockHandler([]));
       await renderPage(<BookingsPage />);
       await userEvent.click(
-        await screen.findByRole("button", { name: "New booking" }),
+        await screen.findByRole("button", { name: "Nouvelle réservation" }),
       );
 
       await userEvent.click(
-        screen.getByRole("button", { name: "Save booking" }),
+        screen.getByRole("button", { name: "Enregistrer" }),
       );
 
-      expect(await screen.findByText("Enter a title.")).toBeVisible();
-      expect(screen.getByText("Enter a valid date.")).toBeVisible();
-      expect(screen.getByLabelText("Title")).toHaveAttribute(
+      expect(await screen.findByText("Saisissez un titre.")).toBeVisible();
+      expect(screen.getByText("Saisissez une date valide.")).toBeVisible();
+      expect(screen.getByLabelText("Titre")).toHaveAttribute(
         "aria-invalid",
         "true",
       );
@@ -158,15 +160,15 @@ describe("BookingsPage", () => {
       );
       await renderPage(<BookingsPage />);
       await userEvent.click(
-        await screen.findByRole("button", { name: "New booking" }),
+        await screen.findByRole("button", { name: "Nouvelle réservation" }),
       );
 
-      await userEvent.type(screen.getByLabelText("Title"), "  Dentist ");
+      await userEvent.type(screen.getByLabelText("Titre"), "  Dentist ");
       await userEvent.type(screen.getByLabelText("Date"), "2030-02-01");
-      await userEvent.type(screen.getByLabelText("Time"), "16:45");
-      await userEvent.type(screen.getByLabelText("Duration (minutes)"), "20");
+      await userEvent.type(screen.getByLabelText("Heure"), "16:45");
+      await userEvent.type(screen.getByLabelText("Durée (minutes)"), "20");
       await userEvent.click(
-        screen.getByRole("button", { name: "Save booking" }),
+        screen.getByRole("button", { name: "Enregistrer" }),
       );
 
       expect(
@@ -179,16 +181,16 @@ describe("BookingsPage", () => {
         time: "16:45",
         duration: 20,
       });
-      expect(screen.queryByRole("button", { name: "Save booking" })).toBeNull();
+      expect(screen.queryByRole("button", { name: "Enregistrer" })).toBeNull();
       // Announced politely, and closable.
       const saved = await screen.findByRole("dialog", {
-        name: "Booking saved",
+        name: "Réservation enregistrée",
       });
       // Base UI hides the close button from screen readers until the toasts
       // are hovered or focused (F6 moves focus there).
       await userEvent.click(within(saved).getByLabelText("Close notification"));
       await waitFor(() =>
-        expect(screen.queryByText("Booking saved")).toBeNull(),
+        expect(screen.queryByText("Réservation enregistrée")).toBeNull(),
       );
     });
   });

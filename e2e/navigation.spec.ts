@@ -139,11 +139,11 @@ test.describe("the signed-in pages' header", () => {
   test("desktop navigation", async ({ page, isMobile }) => {
     test.skip(isMobile, "the desktop navigation is hidden on mobile");
     await page.goto("/bookings");
-    const menuButton = page.getByRole("button", { name: "Open menu" });
+    const menuButton = page.getByRole("button", { name: "Ouvrir le menu" });
     await expect(menuButton).toBeHidden();
 
     await expect(
-      page.getByRole("banner").getByRole("link", { name: "Bookings" }),
+      page.getByRole("banner").getByRole("link", { name: "Réservations" }),
     ).toHaveAttribute("aria-current", "page");
   });
 
@@ -151,20 +151,24 @@ test.describe("the signed-in pages' header", () => {
     test.skip(!isMobile, "the mobile menu is hidden on desktop");
     await page.goto("/bookings");
     const header = page.getByRole("banner");
-    await expect(header.getByRole("link", { name: "Bookings" })).toBeHidden();
+    await expect(
+      header.getByRole("link", { name: "Réservations" }),
+    ).toBeHidden();
 
-    await header.getByRole("button", { name: "Open menu" }).click();
+    await header.getByRole("button", { name: "Ouvrir le menu" }).click();
 
     await expect(
-      header.getByRole("button", { name: "Close menu" }),
+      header.getByRole("button", { name: "Fermer le menu" }),
     ).toHaveAttribute("aria-expanded", "true");
 
-    await header.getByRole("link", { name: "Bookings" }).click();
+    await header.getByRole("link", { name: "Réservations" }).click();
 
     await expect(page).toHaveURL("/bookings");
-    await expect(header.getByRole("link", { name: "Bookings" })).toBeHidden();
     await expect(
-      header.getByRole("button", { name: "Open menu" }),
+      header.getByRole("link", { name: "Réservations" }),
+    ).toBeHidden();
+    await expect(
+      header.getByRole("button", { name: "Ouvrir le menu" }),
     ).toBeVisible();
   });
 });

@@ -15,7 +15,8 @@ import { usePreferences } from "./preferences";
 // English JSON and returns another language's; i18n.test.ts checks every
 // language has the same keys.
 
-const app = { en, fr } satisfies Record<Language, unknown>;
+// English is kept in step but not offered: LANGUAGES is French only.
+const app = { en, fr } satisfies Record<Language | "en", unknown>;
 
 export const resources = Object.fromEntries(
   LANGUAGES.map((language) => [
