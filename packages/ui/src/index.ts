@@ -17,4 +17,5 @@ export {
   Textarea,
 } from "./components/field";
 export { Switch } from "./components/switch";
+export { toast, Toaster, type ToastOptions } from "./components/toast";
 export { cn } from "./lib/utils";

@@ -36,7 +36,17 @@ export function useTheme() {
 const SAMPLE_CARD = "MOB-001";
 
 /** Everything secondary lives here: theme, data, reports, legal pages. */
-export function SettingsPage({ version }: { version: string }) {
+export function SettingsPage({
+  version,
+  cookieSettings,
+}: {
+  version: string;
+  /**
+   * Reopens the cookie banner, when the app measures its audience: the
+   * visitor can change their answer here. Its id receives focus back.
+   */
+  cookieSettings?: { id: string; open: () => void };
+}) {
   const navigate = useNavigate();
   const theme = usePrefs((prefs) => prefs.theme);
   const setTheme = usePrefs((prefs) => prefs.setTheme);
@@ -134,6 +144,22 @@ export function SettingsPage({ version }: { version: string }) {
               </Link>
             </li>
           ))}
+          {cookieSettings && (
+            <li>
+              <button
+                type="button"
+                id={cookieSettings.id}
+                onClick={cookieSettings.open}
+                className="focus-visible:ring-ring flex min-h-13 w-full cursor-pointer items-center justify-between gap-3 px-4 text-left font-semibold focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset"
+              >
+                Gérer les cookies
+                <ChevronRight
+                  aria-hidden="true"
+                  className="text-muted-foreground size-5"
+                />
+              </button>
+            </li>
+          )}
         </ul>
       </Section>
 
