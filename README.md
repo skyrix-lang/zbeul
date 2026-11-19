@@ -140,6 +140,7 @@ origin, as in production.
 | `yarn db:up` / `yarn keycloak:up`                 | start the local containers                                                |
 | `yarn docker:build`                               | build the image                                                           |
 | `yarn docker:up` / `yarn docker:down`             | the image with Postgres, migrations and Keycloak (Docker Compose)         |
+| `yarn deploy`                                     | ship the current commit to a server, backup first ("Deploying")           |
 
 ## Configuration
 
@@ -449,7 +450,7 @@ One-time setup:
    Access Key ID, the Secret Access Key, and your account ID (in the S3
    endpoint, `https://<account id>.r2.cloudflarestorage.com`).
 3. **On the server**, next to `.env.production`, `backup.env` readable by its
-   owner only:
+   owner only, from the template `docker/backup.env.example`:
 
    ```bash
    install -m 600 /dev/null apps/zbeul/backup.env && nano apps/zbeul/backup.env
