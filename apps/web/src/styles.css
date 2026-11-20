@@ -15,6 +15,21 @@ html {
   text-size-adjust: 100%;
 }
 
+/*
+ * iOS 26, app opened from the home screen: with viewport-fit=cover and the
+ * black-translucent status bar (index.html), the viewport comes out a status
+ * bar short, and iOS draws nothing below it, not even fixed layers: a bare
+ * strip at the bottom until the first touch (WebKit bug 301108). A page at
+ * least as tall as the screen gets the whole screen, so the page is made a
+ * status bar taller. The cap keeps it from scrolling where the viewport is
+ * already right: after that first touch, on Android, on older iOS.
+ */
+@media (display-mode: standalone) {
+  html {
+    min-height: min(100lvh, calc(100% + env(safe-area-inset-top)));
+  }
+}
+
 body {
   /* No pull-to-refresh in the middle of a game. */
   overscroll-behavior-y: none;
