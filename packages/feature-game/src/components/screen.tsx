@@ -141,17 +141,27 @@ export function Wordmark({ className }: { className?: string }) {
 
 /**
  * Soft moving lights behind the home and the age gate. Decoration only. The
- * parent needs `relative isolate`, so the lights stay behind its content.
+ * parent needs `isolate`, so the lights stay behind its content.
+ *
+ * Fixed, and 6rem taller than the screen: when iOS cold-launches the app from
+ * the home screen, it sizes the viewport (and `100dvh`) about a status bar
+ * short until the first touch. Sized by its parent, the lights stopped there
+ * and left a bare strip at the bottom. A fixed layer adds no scrolling; when
+ * the content is taller than the screen, it scrolls over the lights. No
+ * ancestor may have a transform or filter: the layer would be fixed against
+ * it instead of the screen, and the strip would come back.
  */
 export function Glow() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+      className="pointer-events-none fixed inset-x-0 top-0 -bottom-24 -z-10 mx-auto max-w-md overflow-hidden"
     >
       <div className="bg-primary/25 animate-drift absolute -top-24 -left-24 size-80 rounded-full blur-3xl motion-reduce:animate-none" />
       <div className="bg-level-5-glow/20 animate-drift absolute top-1/3 -right-32 size-96 rounded-full blur-3xl [animation-delay:-6s] motion-reduce:animate-none" />
-      <div className="bg-level-3/15 animate-drift absolute -bottom-32 left-1/4 size-80 rounded-full blur-3xl [animation-delay:-11s] motion-reduce:animate-none" />
+      {/* 2rem past the layer, which reaches 6rem past the screen: 8rem below
+          its edge, as before. */}
+      <div className="bg-level-3/15 animate-drift absolute -bottom-8 left-1/4 size-80 rounded-full blur-3xl [animation-delay:-11s] motion-reduce:animate-none" />
     </div>
   );
 }
