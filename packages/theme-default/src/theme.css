@@ -4,6 +4,8 @@
  * nothing else. "Nuit" is the default; the others apply when <html> carries
  * data-theme (set before the first paint by apps/web/public/theme.js).
  *
+ * Typography and layout are tokens too (packages/theme-default/AGENTS.md lists
+ * them all); a brand font is self-hosted, as the display font is here.
  * Keep text at WCAG 2.2 AA contrast (4.5:1) against its background, and input
  * borders, the focus ring and buttons at 3:1 against the page:
  * scripts/theme-contrast.test.ts checks every pair in every theme, and lists
@@ -18,6 +20,16 @@
     "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
   --radius: 0.875rem;
   color-scheme: dark;
+
+  /* Typography: headings use text-display, text-h1, text-h2, text-h3. */
+  --font-heading: var(--font-display);
+  --heading-weight: 800;
+  --heading-tracking: -0.025em;
+
+  /* Layout: page-container, page-section, prose-width. */
+  --content-width: 80rem;
+  --prose-width: 65ch;
+  --section-space: 4rem;
 
   /* Nuit: almost black, vivid accents. */
   --background: #0b0b12;

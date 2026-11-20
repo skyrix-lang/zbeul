@@ -58,7 +58,7 @@ export function EndPage() {
     >
       <main className="flex flex-1 flex-col gap-6 pt-4">
         <div>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight">
+          <h1 className="heading-screen">
             {settings.sips
               ? "C'est fini"
               : settings.format === "teams"

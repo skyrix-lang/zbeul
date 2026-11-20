@@ -26,7 +26,7 @@ export function AgeGate({ children }: { children: ReactNode }) {
         <p>
           <Wordmark className="text-6xl" />
         </p>
-        <h1 className="font-display text-3xl font-extrabold text-balance">
+        <h1 className="heading-screen-sm text-balance">
           Ce site est réservé aux personnes majeures
         </h1>
         <p className="text-muted-foreground text-balance">

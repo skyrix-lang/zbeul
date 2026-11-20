@@ -91,24 +91,26 @@ export function AdminSection({
   title,
   intro,
   action,
+  className,
   children,
 }: {
   title: string;
   intro?: ReactNode;
   action?: ReactNode;
+  className?: string;
   children: ReactNode;
 }) {
   return (
-    <>
+    <section className={cn("flex flex-col gap-6", className)}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-extrabold">{title}</h1>
+          <h1 className="text-h2">{title}</h1>
           {intro && <p className="text-muted-foreground text-sm">{intro}</p>}
         </div>
         {action}
       </div>
       {children}
-    </>
+    </section>
   );
 }
 

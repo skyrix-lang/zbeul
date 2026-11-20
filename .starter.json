@@ -1,7 +1,7 @@
 {
   "slug": "zbeul",
   "title": "Zbeul",
-  "commit": "783f52f3c08a707377e45b73a64a65e69f4eac76",
+  "commit": "8bc0780721d61623a1fadf47dd63814eb37f4598",
   "ignore": [
     "packages/feature-bookings/**",
     "apps/web/src/routes/bookings.tsx",

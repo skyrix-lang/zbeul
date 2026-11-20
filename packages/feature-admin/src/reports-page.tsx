@@ -59,7 +59,7 @@ export function ReportsPage({
   const byId = new Map(cards.data?.map((card) => [card.id, card]));
 
   return (
-    <AdminSection title="Signalements">
+    <AdminSection className="page-section py-0" title="Signalements">
       <nav aria-label="Filtrer les signalements" className="flex gap-2">
         {REPORT_STATUSES.map((option) => (
           <Link
