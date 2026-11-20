@@ -9,7 +9,8 @@ copy of this package with other values. Keep text at WCAG 2.2 AA contrast
 ## Tokens
 
 `packages/ui/src/styles.css` turns them into Tailwind utilities. Typography
-and layout tokens live in `:root` only; colours also in `.dark`.
+and layout tokens live in `:root` only; colours also in each
+`:root[data-theme="…"]` block.
 
 A brand usually changes:
 

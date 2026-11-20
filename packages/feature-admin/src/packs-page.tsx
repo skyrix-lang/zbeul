@@ -25,7 +25,7 @@ export function PacksPage() {
   });
   return (
     <AdminSection
-      className="page-section pt-0"
+      className="page-section py-0"
       title="Packs"
       intro="Un pack publié qui a des cartes publiées est proposé aux joueurs. Tous sont gratuits."
     >

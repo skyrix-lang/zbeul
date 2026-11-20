@@ -57,7 +57,7 @@ export function Screen({
         </Link>
       </header>
       <main className="flex flex-1 flex-col pt-2">
-        <h1 className="text-h1">{title}</h1>
+        <h1 className="heading-screen">{title}</h1>
         {intro && <p className="text-muted-foreground mt-2">{intro}</p>}
         <div
           className={cn(

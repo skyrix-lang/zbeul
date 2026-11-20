@@ -136,7 +136,7 @@ export function CardsPage({ filters }: { filters: CardFilters }) {
 
   return (
     <AdminSection
-      className="page-section pt-0"
+      className="page-section py-0"
       title="Cartes"
       intro={
         cards.data

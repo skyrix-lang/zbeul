@@ -560,3 +560,18 @@ re-derives the brand from CSS. Mockups are agreed before code, but the result li
 and the real pages, not in mockup files. **Revisit when:** projects keep
 design records elsewhere (a design tool), or several brands share one
 repository.
+
+## Game screen titles keep one size at every width
+
+The game's screen titles use `heading-screen` (36 px) and `heading-screen-sm`
+(30 px, the age gate), defined in `apps/web/src/styles.css`, rather than the
+starter's `text-h1`/`text-h2`. They take the theme's heading font, weight and
+tracking like the others. The admin and the starter's sign-in use the scale
+(`text-h2`). **Why:** the game is a phone-width column (`max-w-md`) even on a
+large screen, and the scale's sizes grow from `sm` (640 px, which a phone held
+sideways reaches): `text-h1` would make a title 48 px in a 28rem column, and
+30 px instead of 36 px on a phone. The starter's decision asks for a utility
+rather than a raw size when the scale lacks one. Their names stay outside
+`text-*`, so `cn()` needs no change in `packages/ui` (a starter file).
+**Revisit when:** the game gets a layout that uses a wide screen, or the
+starter's scale gains a fixed size.

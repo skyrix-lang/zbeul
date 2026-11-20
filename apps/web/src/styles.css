@@ -37,3 +37,21 @@ textarea,
     scroll-behavior: smooth;
   }
 }
+
+/*
+ * The game's screen titles: one fixed size at every width, since the game is a
+ * phone-width column even on a large screen (the scale's text-h1 grows from
+ * `sm`). The heading font, weight and tracking still come from the theme.
+ * heading-screen: a screen's h1 (Screen, the end screen, errors);
+ * heading-screen-sm: a longer title, the age gate's.
+ */
+@utility heading-screen {
+  @apply font-heading text-4xl;
+  font-weight: var(--heading-weight, 700);
+  letter-spacing: var(--heading-tracking, -0.025em);
+}
+@utility heading-screen-sm {
+  @apply font-heading text-3xl;
+  font-weight: var(--heading-weight, 700);
+  letter-spacing: var(--heading-tracking, -0.025em);
+}

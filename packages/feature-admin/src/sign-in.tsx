@@ -63,7 +63,7 @@ function Shell({
     <main className="mx-auto flex min-h-dvh max-w-sm flex-col justify-center p-5">
       <Card className="flex flex-col gap-5">
         <div>
-          <h1 className="text-h1">{title}</h1>
+          <h1 className="text-h2">{title}</h1>
           <p className="text-muted-foreground mt-1 text-sm">{intro}</p>
         </div>
         {children}
