@@ -18,7 +18,7 @@ export function HomePage() {
   return (
     <div
       className={cn(
-        "isolate mx-auto flex min-h-dvh w-full max-w-md flex-col justify-between gap-8",
+        "relative isolate mx-auto flex min-h-dvh w-full max-w-md flex-col justify-between gap-8",
         SAFE_AREA,
       )}
     >
