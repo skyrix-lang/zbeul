@@ -47,7 +47,7 @@ export function AdminGate({
 
   return (
     // The admin works at a desk: its text can be selected and copied.
-    <div className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-6 p-5 select-text">
+    <div className="page-container flex min-h-dvh flex-col gap-6 py-5 select-text">
       <header className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -91,24 +91,26 @@ export function AdminSection({
   title,
   intro,
   action,
+  className,
   children,
 }: {
   title: string;
   intro?: ReactNode;
   action?: ReactNode;
+  className?: string;
   children: ReactNode;
 }) {
   return (
-    <>
+    <div className={cn("flex flex-col gap-4", className)}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="font-display text-2xl font-extrabold">{title}</h1>
+          <h1 className="text-h2">{title}</h1>
           {intro && <p className="text-muted-foreground text-sm">{intro}</p>}
         </div>
         {action}
       </div>
       {children}
-    </>
+    </div>
   );
 }
 

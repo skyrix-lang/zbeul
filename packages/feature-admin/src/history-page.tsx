@@ -10,6 +10,7 @@ export function HistoryPage() {
   });
   return (
     <AdminSection
+      className="page-section pt-0"
       title="Historique"
       intro="Les 200 dernières modifications de cartes."
     >
